@@ -34,6 +34,7 @@
   width: 100%;
   height: 10em;
   object-fit: cover;
+  border-radius: 0.6em;
 }
 .destinations-name {
   font-weight: 700;
@@ -56,8 +57,20 @@
   margin-bottom: 2em;
   height: 5em;
 }
+.destinations-start-date {
+  border-top: 1px solid #0000004e;
+  padding-top: 0.5em;
+}
+.destinations-end-date {
+  border-bottom: 1px solid #0000004e;
+  padding-bottom: 0.5em;
+}
 .date {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   opacity: 0.7;
   padding-left: 1.2em;
+  font-style: italic;
+}
+.destinations-price {
+  font-weight: bold;
 }

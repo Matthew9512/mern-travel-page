@@ -5,6 +5,7 @@ import { InputRange } from '../InputRange/InputRange';
 import { Buttons } from '../Buttons/Buttons';
 import { GlobalContext } from '../../context/GlobalContext';
 import { DatePicker } from 'antd';
+
 const { RangePicker } = DatePicker;
 
 export const UserInputs = () => {
@@ -16,27 +17,26 @@ export const UserInputs = () => {
 
   //   fetch data based on users input
   const usersInput = async () => {
+    // obj with input info for request
     const values = {
       city: cityRef.current.value.toLowerCase().trim(),
       price: +priceRef.current.value,
       startDate: !userDates ? '' : userDates?.[0].format('YYYY-MM-DD'),
       endDate: !userDates ? '' : userDates?.[1].format('YYYY-MM-DD'),
-
-      // startDate: 'dd/MM/yyyy' ? '' : dateRef.current.target.innerText.slice(0, 10),
-      // endDate: 'dd/MM/yyyy' ? '' : dateRef.current.target.innerText.slice(13, 23),
     };
-    console.log(values);
 
     try {
       const res = await fetch(
         `http://localhost:8000/q?price=${values.price}&startDate=${values.startDate}&endDate=${values.endDate}&city=${values.city}`
       );
       const data = await res.json();
-      console.log(data);
-      if (!data.length) throw new Error(`Sorry we couldn't find anything that matches your question ;( `);
+
+      // throw error when theres no data in res
+      if (res.status !== 200) throw new Error(data.message);
       setState(data);
     } catch (error) {
       console.error(error.message);
+      setState(error);
     }
   };
 

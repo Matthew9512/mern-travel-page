@@ -4,7 +4,7 @@ import './Navbar.css';
 export const Navbar = () => {
   return (
     <nav className='navbar'>
-      <i className='fa-brands fa-joomla navbar__logo'></i>
+      <i className='fa-solid fa-earth-americas navbar__logo'></i>
       <input id='menu-toggle' type='checkbox' />
       <label className='navbar__menu-button-container' htmlFor='menu-toggle'>
         <div className='navbar__menu-button'></div>

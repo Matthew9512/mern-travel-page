@@ -5,21 +5,18 @@ import { Home } from './pages/Home';
 import { SingleItem } from './pages/SingleItem';
 import { Error } from './pages/Error';
 import { SpinnerContextProvider } from './context/SpinnerContext';
-import ErrorBoundary from './ErrorBoundary';
 
 export const App = () => {
   return (
     <GlobalContextProvider>
       <SpinnerContextProvider>
-        <ErrorBoundary>
-          <BrowserRouter fallback='errorasddc'>
-            <Routes>
-              <Route path={'/'} element={<Home />}></Route>
-              <Route path={'/search/:id'} element={<SingleItem />}></Route>
-              <Route path={'*'} element={<Error />}></Route>
-            </Routes>
-          </BrowserRouter>
-        </ErrorBoundary>
+        <BrowserRouter>
+          <Routes>
+            <Route path={'/'} element={<Home />}></Route>
+            <Route path={'/search/:id'} element={<SingleItem />}></Route>
+            <Route path={'*'} element={<Error />}></Route>
+          </Routes>
+        </BrowserRouter>
       </SpinnerContextProvider>
     </GlobalContextProvider>
   );

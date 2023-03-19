@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import './RenderPlacesList.css';
-import { ErrorMessage } from '../ErrorMessage/ErrorMessage';
+import { ErrorFallback } from '../ErrorFallback/ErrorFallback';
 import { PlacesList } from '../PlacesList/PlacesList';
 import { GlobalContext } from '../../context/GlobalContext';
 
@@ -9,9 +9,17 @@ export const RenderPlacesList = () => {
 
   return (
     <>
-      {!state?.length ? <ErrorMessage /> : <PlacesList />}
-      {/* <h2 className='destinations__header'>Most popular places:</h2>
-      <article className='destinations'>{!state?.length ? <ErrorMessage /> : <PlacesList />}</article> */}
+      {/* <div className='skeleton__container'>
+        <SkeletonLoader />
+        <SkeletonLoader />
+        <SkeletonLoader />
+        <SkeletonLoader />
+        <SkeletonLoader />
+        <SkeletonLoader />
+        <SkeletonLoader />
+      </div> */}
+      {!state?.length ? <ErrorFallback error={state} /> : <PlacesList />}
     </>
   );
+  // return <>{!state?.length ? <ErrorFallback error={state} /> : <PlacesList />}</>;
 };

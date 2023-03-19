@@ -1,20 +1,14 @@
 import React, { useContext } from 'react';
 import { GlobalContext } from '../../context/GlobalContext';
 import { Link } from 'react-router-dom';
-import { Spinner } from '../Spinner/Spinner';
 
 export const PlacesList = () => {
   const { state } = useContext(GlobalContext);
-  {
-    /* <h2 className='destinations__header'>Most popular places:</h2>
-    <article className='destinations'> */
-  }
 
   return (
     <>
       <h2 className='destinations__header'>Most popular places:</h2>
       <article className='destinations'>
-        <Spinner />
         {state.map((value) => {
           return (
             <div key={value._id} className='destinations__wrapper'>

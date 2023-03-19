@@ -48,7 +48,8 @@ router.get('/q', async (req, res) => {
       price: { $lte: reqPrice },
       city: reqCity,
     });
-    if (!respond.length) throw new Error(`Looks like we can't find anything that matches your criteria ;(`);
+    if (!respond.length)
+      throw new Error(`Looks like we can't find places that you are looking for, please change your criteria or see our full offer ;)`);
     res.status(200).json(respond);
   } catch (error) {
     console.error(error);

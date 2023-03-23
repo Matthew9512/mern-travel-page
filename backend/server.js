@@ -2,47 +2,66 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+// const corsOptions = require('./config/corsOptions');
 const travelRouter = require('./routes/travelRouter');
-const travelDataModel = require('./models/travelDataModel');
+const userRouter = require('./routes/userRouter');
+
+const login = require('./controllers/login');
+const signIn = require('./controllers/signIn');
+const bodyParser = require('body-parser');
 
 const PORT = 8000;
 const app = express();
 
-// setting cors options
-const whitelist = ['https://mysite.com', 'http://127.0.0.1:5173', 'http://localhost:8000'];
-const corsOptions = {
-  origin: (origin, callback) => {
-    if (whitelist.indexOf(origin) !== -1) callback(null, true);
-    else callback(new Error('Not allowed by CORS'));
-  },
-  optionsSuccessState: 200,
-};
+// // setting cors options
+// const whitelist = ['https://mysite.com', 'http://127.0.0.1:5173', 'http://localhost:8000'];
+// const corsOptions = {
+//    origin: (origin, callback) => {
+//       if (whitelist.indexOf(origin) !== -1) callback(null, true);
+//       else callback(new Error('Not allowed by CORS'));
+//    },
+//    optionsSuccessState: 200,
+// };
 
 // app.use(cors(corsOptions));
 app.use(cors());
+
 app.use(express.json());
+
 app.use(express.urlencoded({ extended: false }));
 
 // routes
-app.use('/', travelRouter);
-app.use('/search', travelRouter);
-app.use('/search/:id', travelRouter);
-app.use('/q', travelRouter);
+// ======================================
+app.use('/', require('./routes/travelRouter'));
+
+app.use('/users', require('./routes/userRouter'));
+
+app.use('/search/', require('./routes/postsRouter'));
+// ======================================
+
+// routes
+// app.use('/', require('./routes/travelRouter'));
+
+// app.use('/search', require('./routes/travelRouter'));
+
+// app.use('/search/:id', require('./routes/travelRouter'));
+
+// app.use('/q', require('./routes/travelRouter'));
 
 app.get('*', (req, res) => {
-  res.send('erorr');
+   res.send('erorr');
 });
 
 // connect to DB and start server
 const connectDB = async function () {
-  try {
-    await mongoose.connect(`${process.env.MONGODB_URL}`);
-    app.listen(PORT, () => console.log(`server started`));
-  } catch (error) {
-    console.log(error.message);
-    // mongoose.connection.close;
-    //      SEND STATUS CODE AND MESSAGE
-  }
+   try {
+      await mongoose.connect(`${process.env.MONGODB_URL}`);
+      app.listen(PORT, () => console.log(`server started`));
+   } catch (error) {
+      console.log(error.message);
+      // mongoose.connection.close;
+      //      SEND STATUS CODE AND MESSAGE
+   }
 };
 connectDB();
 

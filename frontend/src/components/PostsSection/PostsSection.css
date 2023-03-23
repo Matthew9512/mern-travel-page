@@ -1,0 +1,72 @@
+.comment__section {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+   margin-inline: auto;
+   max-width: 46em;
+   padding: 1em;
+}
+.posts__wrapper {
+   /* display: flex;
+   justify-content: center;
+   align-items: center;
+   gap: 1em;
+   flex-wrap: wrap; */
+   display: grid;
+   grid-auto-flow: dense;
+   gap: 1em;
+}
+.post {
+   display: flex;
+}
+.user__info {
+   display: flex;
+   align-items: center;
+   margin-bottom: 1em;
+}
+.user__name {
+   margin-inline: 1em;
+}
+.evaluate {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   padding: 0.4em;
+   margin-right: 1em;
+}
+.create__comment {
+   display: flex;
+   padding-block: 3em;
+}
+.user-comment {
+   resize: none;
+   margin-inline: 1em;
+   width: 30em;
+   height: 6em;
+   border-radius: 0.6em;
+   padding: 0.4em;
+   outline: none;
+}
+.user-img {
+   width: 3em;
+   height: 3em;
+   border-radius: 50%;
+   background-color: rgb(187, 187, 187);
+}
+.btn-send {
+   height: min-content;
+   padding: 0.4em 1em;
+}
+
+@media screen and (max-width: 700px) {
+   .create__comment {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+   }
+   .user-comment {
+      width: 25em;
+   }
+}

@@ -1,9 +1,0 @@
-.error__wrapper {
-  height: 50vh;
-  background-color: rgb(0, 255, 208);
-  margin-inline: auto;
-  /* padding: 3em; */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}

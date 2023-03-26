@@ -1,7 +1,20 @@
 import React, { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext';
 import './Navbar.css';
 
 export const Navbar = () => {
+   const { auth, setAuth } = useContext(AuthContext);
+   const navigate = useNavigate();
+
+   const handleAuth = (e) => {
+      console.log(e.target.textContent);
+      if (e.target.textContent !== 'Log in') {
+         localStorage.removeItem('travel__user');
+         setAuth('Log in');
+      } else navigate('/auth');
+   };
+
    return (
       <nav className='navbar'>
          <i className='fa-solid fa-earth-americas navbar__logo'></i>
@@ -26,10 +39,15 @@ export const Navbar = () => {
                </a>
             </li>
             <li>
-               <a href='/auth'>
-                  <button className='navbar__btn'>Login</button>
-               </a>
+               <button onClick={handleAuth} className='navbar__btn'>
+                  {auth}
+               </button>
             </li>
+            {/* <li>
+               <a href='/auth'>
+                  <button className='navbar__btn'>Sign in</button>
+               </a>
+            </li> */}
          </ul>
       </nav>
    );

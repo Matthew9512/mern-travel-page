@@ -4,31 +4,31 @@ import { PostsSection } from '../PostsSection/PostsSection';
 import './PlacesItem.css';
 
 export const PlacesItem = ({ data }) => {
-   const state = data.at(0);
-
    return (
       <section className='single'>
          <div className='single__wrapper'>
-            <img src={state.image} alt='vacation picture' className='single__img' />
+            <img src={data?.image} alt='vacation picture' className='single__img' />
             <div className='single__info'>
                <div className='single__details'>
                   <div>
-                     <p className='destinations-name'>{state.city}</p>
+                     <p className='destinations-name'>{data?.city}</p>
                      <p className='destinations-country'>
-                        <i className='fa-solid fa-location-dot'></i> {state.country}
+                        <i className='fa-solid fa-location-dot'></i> {data?.country}
                      </p>
-                     <p className='date destinations-start-date'>begin: {state.startDate}</p>
-                     <p className='date destinations-end-date'>end: {state.endDate}</p>
+                     <p className='date destinations-start-date'>begin: {data?.startDate}</p>
+                     <p className='date destinations-end-date'>end: {data?.endDate}</p>
                   </div>
                   <div className='destinations__item-details'>
-                     <p className='destinations-category'>{state.type}</p>
-                     <p className='destinations-price'>{state.price}$</p>
+                     <p className='destinations-category'>{data?.type}</p>
+                     <p className='destinations-price'>{data?.price}$</p>
                   </div>
                   <Link to={'/'} className='single__btn btn'>
                      Go Back
                   </Link>
                </div>
-               <p className='single-description'>{state.description}</p>
+               <p className='single-description'>
+                  <span>About travel:</span> {data?.description}
+               </p>
             </div>
          </div>
          <PostsSection />

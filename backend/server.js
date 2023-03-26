@@ -3,13 +3,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 // const corsOptions = require('./config/corsOptions');
-const travelRouter = require('./routes/travelRouter');
-const userRouter = require('./routes/userRouter');
-
-const login = require('./controllers/login');
-const signIn = require('./controllers/signIn');
-const bodyParser = require('body-parser');
-
 const PORT = 8000;
 const app = express();
 
@@ -28,25 +21,12 @@ app.use(cors());
 
 app.use(express.json());
 
-app.use(express.urlencoded({ extended: false }));
-
 // routes
-// ======================================
 app.use('/', require('./routes/travelRouter'));
 
 app.use('/users', require('./routes/userRouter'));
 
 app.use('/search/', require('./routes/postsRouter'));
-// ======================================
-
-// routes
-// app.use('/', require('./routes/travelRouter'));
-
-// app.use('/search', require('./routes/travelRouter'));
-
-// app.use('/search/:id', require('./routes/travelRouter'));
-
-// app.use('/q', require('./routes/travelRouter'));
 
 app.get('*', (req, res) => {
    res.send('erorr');

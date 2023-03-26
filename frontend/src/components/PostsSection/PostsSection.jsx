@@ -26,6 +26,7 @@ export const PostsSection = () => {
             throw new Error(`Wrong id, redirecting to home page`);
          } else {
             const data = await res.json();
+            console.log(data);
             setPost(data);
          }
       } catch (error) {
@@ -35,7 +36,9 @@ export const PostsSection = () => {
 
    return (
       <section className='comment__section'>
-         <DisplayPosts post={post} />
+         <h2 className='comment__section-header'>Users comments:</h2>
+         <DisplayPosts post={post} setUpdatePage={setUpdatePage} />
+         <h3 className='add-comment-header'>Add your comment:</h3>
          <CreatePost update={() => setUpdatePage((prev) => !prev)} />
       </section>
    );

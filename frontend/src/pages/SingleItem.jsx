@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { PlacesItem } from '../components/PlacesItem/PlacesItem';
-import { ErrorFallback } from '../components/ErrorFallback/ErrorFallback';
-import { SkeletonLoader } from '../components/SkeletonLoader/SkeletonLoader';
 
 export const SingleItem = () => {
    const { id } = useParams();
-   const [state, setState] = useState([]);
+   const [state, setState] = useState(null);
    const navigate = useNavigate();
 
    const controller = new AbortController();
@@ -21,22 +19,16 @@ export const SingleItem = () => {
    const fetchData = async () => {
       try {
          const res = await fetch(`http://localhost:8000/search/${id}`, signal);
-         if (res.status !== 200) {
-            throw new Error(`Wrong id, redirecting to home page`);
-         } else {
+         if (res.status !== 200) navigate('*');
+         else {
             const data = await res.json();
-            setState([data]);
+            setState(data);
          }
       } catch (error) {
          console.error(error.message);
-         alert(error.message);
-         setTimeout(() => {
-            navigate('/');
-         }, 1000);
       }
    };
 
-   // return <>{<SkeletonLoader /> || <PlacesItem data={state} />}</>;
-   return <>{!state.length ? <SkeletonLoader /> : <PlacesItem data={state} />}</>;
-   // return <>{!state.length ? <ErrorFallback error={state} /> : <PlacesItem data={state} />}</>;
+   return <>{<p>Loading</p> && <PlacesItem data={state} />}</>;
+   // return <>{!state.length ? <SkeletonLoader /> : <PlacesItem data={state} />}</>;
 };

@@ -10,7 +10,7 @@ const getPosts = async function (req, res) {
    const posts = await postModel.find({ id: id });
 
    const sendPosts = posts.map((value) => {
-      return { createdAt: value.createdAt, updatedAt: value.updatedAt, post: value.post, username: value.username };
+      return { createdAt: value.createdAt, updatedAt: value.updatedAt, post: value.post, username: value.username, id: value._id };
    });
 
    if (posts) res.status(200).json({ data: sendPosts });

@@ -2,13 +2,20 @@
    display: flex;
    justify-content: center;
    align-items: center;
-   min-height: 100vh;
+   height: 100vh;
+   position: relative;
 }
 .login {
+   position: absolute;
+   background: rgba(255, 255, 255, 0.3);
+   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+   backdrop-filter: blur(9px);
+   -webkit-backdrop-filter: blur(9px);
+   border-radius: 10px;
    text-align: center;
    width: 20em;
-   height: 25em;
-   padding: 1em;
+   height: 27em;
+   padding: 2em;
    border-radius: 0.6em;
    margin-inline: auto;
 }

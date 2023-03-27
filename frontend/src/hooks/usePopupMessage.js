@@ -21,6 +21,15 @@ export const usePopupMessage = () => {
          })
          .then(() => message.error(`${value}`, 2.5));
    };
+   const info = () => {
+      messageApi
+         .open({
+            type: 'loading',
+            content: 'Action in progress..',
+            duration: 1,
+         })
+         .then(() => message.info(`You have to be logged in to rate comments`, 2.5));
+   };
 
-   return { contextHolder, success, error };
+   return { contextHolder, success, error, info };
 };

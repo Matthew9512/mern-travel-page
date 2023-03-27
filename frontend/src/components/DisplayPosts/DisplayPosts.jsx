@@ -17,8 +17,8 @@ export const DisplayPosts = ({ post, setUpdatePage }) => {
                // format dates of submiting post
                const formatedDate = dateFormat(value.createdAt);
                return (
-                  <div key={index} data-user={value.username} className='post'>
-                     <EvaluatePost />
+                  <div key={index} data-user={value.username} id={value.id} className='post'>
+                     <EvaluatePost post={value} />
                      <div className=''>
                         <div className='details__wrapper'>
                            <div className='user__info'>
@@ -27,7 +27,7 @@ export const DisplayPosts = ({ post, setUpdatePage }) => {
                               <p className='date'>{formatedDate}</p>
                            </div>
                            {/* display buttons only for user that is logged in */}
-                           {value.username === auth ? <PostButtons setUpdatePage={setUpdatePage} id={value.id} /> : ''}
+                           {value.username === auth ? <PostButtons setUpdatePage={setUpdatePage} /> : ''}
                         </div>
                         <div className='user__post'>
                            <textarea disabled={true} className='text' defaultValue={value.post}></textarea>

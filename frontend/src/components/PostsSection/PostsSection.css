@@ -102,6 +102,10 @@
    border-radius: 0.6em;
    padding: 0.4em;
 }
+.disabled {
+   opacity: 0.4;
+   cursor: not-allowed;
+}
 
 @media screen and (max-width: 700px) {
    .create__comment {

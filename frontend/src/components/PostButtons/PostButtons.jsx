@@ -7,7 +7,9 @@ export const PostButtons = ({ id, setUpdatePage }) => {
    const { contextHolder, success, error } = usePopupMessage();
 
    const editPost = async (e) => {
-      const textField = e.target.closest('.post').querySelector('.text');
+      const parent = e.target.closest('.post');
+      const id = parent.id;
+      const textField = parent.querySelector('.text');
 
       if (!edit) {
          setEdit((prev) => !prev);
@@ -19,11 +21,13 @@ export const PostButtons = ({ id, setUpdatePage }) => {
          setEdit((prev) => !prev);
          textField.disabled = true;
          textField.classList.remove('active');
-         updatePost(textField.value, e.target.id);
+         updatePost(textField.value, id);
       }
    };
 
    const deletePost = async (e) => {
+      const parent = e.target.closest('.post');
+      const id = parent.id;
       try {
          const res = await fetch(`http://localhost:8000/search/delete`, {
             method: 'DELETE',
@@ -31,7 +35,7 @@ export const PostButtons = ({ id, setUpdatePage }) => {
                Accept: 'application/json',
                'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ id: e.target.id }),
+            body: JSON.stringify({ id: id }),
          });
 
          const data = await res.json();

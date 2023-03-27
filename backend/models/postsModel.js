@@ -6,6 +6,10 @@ const postsModel = new Schema(
       id: String,
       username: String,
       post: String,
+      likes: {
+         type: Number,
+         default: 0,
+      },
    },
    {
       timestamps: true,

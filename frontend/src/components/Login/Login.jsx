@@ -40,8 +40,8 @@ export const Login = () => {
          console.log(data);
          if (res.status === 200) {
             success(data.message);
+            setAuth(usernameRef.current.value);
             setTimeout(() => {
-               setAuth(usernameRef.current.value);
                navigate('/');
             }, 1000);
          } else throw new Error(data.message);
@@ -69,7 +69,7 @@ export const Login = () => {
             <input ref={usernameRef} type='text' id='username' defaultValue={setting.inputUsername} />
             <label htmlFor='password'>Password:</label>
             <input ref={passwordRef} type='password' id='password' defaultValue={setting.inputPassword} />
-            <button onClick={loginIn} className='auth-btn'>
+            <button onClick={loginIn} className='btn auth-btn'>
                {setting.btn}
             </button>
          </div>

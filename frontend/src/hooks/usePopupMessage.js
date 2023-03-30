@@ -10,7 +10,7 @@ export const usePopupMessage = () => {
             content: 'Action in progress..',
             duration: 1,
          })
-         .then(() => message.success(`${value}`, 2.5));
+         .then(() => message.success(value, 2.5));
    };
    const error = (value) => {
       messageApi
@@ -19,16 +19,16 @@ export const usePopupMessage = () => {
             content: 'Action in progress..',
             duration: 1,
          })
-         .then(() => message.error(`${value}`, 2.5));
+         .then(() => message.error(value, 2.5));
    };
-   const info = () => {
+   const info = (value) => {
       messageApi
          .open({
             type: 'loading',
             content: 'Action in progress..',
             duration: 1,
          })
-         .then(() => message.info(`You have to be logged in to rate comments`, 2.5));
+         .then(() => message.info(value, 2.5));
    };
 
    return { contextHolder, success, error, info };

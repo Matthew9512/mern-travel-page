@@ -10,4 +10,3 @@ export const RenderPlacesList = () => {
 
    return <>{<p>Loading...</p> && <PlacesList />}</>;
 };
-// return <>{!state?.length ? <ErrorFallback error={state} /> : <PlacesList />}</>;

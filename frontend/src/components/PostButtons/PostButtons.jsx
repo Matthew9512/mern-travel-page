@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { usePopupMessage } from '../../hooks/usePopupMessage';
+import { postBtnsController } from '../../hooks/useFetchConfig';
 
 export const PostButtons = ({ id, setUpdatePage }) => {
    const [edit, setEdit] = useState(false);
-
-   const { contextHolder, success, error } = usePopupMessage();
+   const { deletePost, updatePost, contextHolder } = postBtnsController();
 
    const editPost = async (e) => {
       const parent = e.target.closest('.post');
@@ -25,65 +24,14 @@ export const PostButtons = ({ id, setUpdatePage }) => {
       }
    };
 
-   const deletePost = async (e) => {
-      const parent = e.target.closest('.post');
-      const id = parent.id;
-      try {
-         const res = await fetch(`http://localhost:8000/search/delete`, {
-            method: 'DELETE',
-            headers: {
-               Accept: 'application/json',
-               'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ id: id }),
-         });
-
-         const data = await res.json();
-         if (res.status === 200) {
-            success(data.message);
-            setTimeout(() => {
-               setUpdatePage((prev) => !prev);
-            }, 1000);
-
-            console.log(data);
-         }
-      } catch (err) {
-         console.log(err.message);
-         error(err.message);
-      }
-   };
-
-   const updatePost = async (post, id) => {
-      console.log(post);
-      try {
-         const res = await fetch(`http://localhost:8000/search/:id/comments`, {
-            method: 'PATCH',
-            headers: {
-               Accept: 'application/json',
-               'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ post, id }),
-         });
-
-         const data = await res.json();
-         if (res.status === 200) {
-            success(data.message);
-            console.log(data);
-         }
-      } catch (err) {
-         console.log(err.message);
-         error(err.message);
-      }
-   };
-
    return (
       <>
          <div className='post__btns'>
             {contextHolder}
-            <button onClick={editPost} id={id} className='btn btn-edit'>
+            <button onClick={editPost} className='btn btn-edit'>
                {!edit ? 'Edit' : 'Save'}
             </button>
-            <button onClick={deletePost} id={id} className='btn btn-delete'>
+            <button onClick={(e) => deletePost(e, setUpdatePage)} className='btn btn-delete'>
                Delete
             </button>
          </div>

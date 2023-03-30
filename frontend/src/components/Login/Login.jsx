@@ -1,58 +1,12 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import './Login.css';
-import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../context/AuthContext';
-import { usePopupMessage } from '../../hooks/usePopupMessage';
+import { authUser } from '../../hooks/useFetchConfig';
 
 export const Login = () => {
-   const { setAuth } = useContext(AuthContext);
-
-   const [login, setLogin] = useState(true);
-
    const usernameRef = useRef();
    const passwordRef = useRef();
-   const navigate = useNavigate();
 
-   const { contextHolder, success, error } = usePopupMessage();
-
-   const setting = {
-      header: login ? 'Log in to' : 'Sign up',
-      btn: login ? 'Log in' : 'Sign up',
-      footer: login ? `Don't have an account? ` : `Have an account? `,
-      footerBtn: login ? 'Sign Up' : 'Log in',
-   };
-
-   const loginIn = async () => {
-      try {
-         const endpoint = login ? 'login' : 'signin';
-         const res = await fetch(`http://localhost:8000/users/${endpoint}`, {
-            method: 'POST',
-            headers: {
-               Accept: 'application/json',
-               'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-               username: usernameRef.current.value,
-               password: passwordRef.current.value,
-            }),
-         });
-         const data = await res.json();
-         console.log(data);
-         if (res.status === 200) {
-            success(data.message);
-            setAuth(usernameRef.current.value);
-            setTimeout(() => {
-               navigate('/');
-            }, 1000);
-         } else throw new Error(data.message);
-      } catch (err) {
-         console.log(err.message);
-         error(err.message);
-      }
-
-      usernameRef.current.value = '';
-      passwordRef.current.value = '';
-   };
+   const { logIn, setting, setLogin, contextHolder } = authUser(usernameRef, passwordRef);
 
    return (
       <div className='login'>
@@ -64,15 +18,15 @@ export const Login = () => {
             Travello
          </p>
          <p>{setting.header} your account</p>
-         <div className='login__wrapper'>
+         <form className='login__wrapper'>
             <label htmlFor='username'>Username:</label>
-            <input ref={usernameRef} type='text' id='username' defaultValue={setting.inputUsername} />
+            <input ref={usernameRef} type='text' id='username' />
             <label htmlFor='password'>Password:</label>
-            <input ref={passwordRef} type='password' id='password' defaultValue={setting.inputPassword} />
-            <button onClick={loginIn} className='btn auth-btn'>
+            <input ref={passwordRef} type='password' id='password' />
+            <button onClick={(e) => logIn(e)} className='btn auth-btn'>
                {setting.btn}
             </button>
-         </div>
+         </form>
          <p>
             {setting.footer}
             <span onClick={() => setLogin((prev) => !prev)} className='signin-span'>

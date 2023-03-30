@@ -13,16 +13,19 @@ export const DisplayPosts = ({ post, setUpdatePage }) => {
    return (
       <>
          <article className='posts__wrapper'>
-            {post.data.map((value, index) => {
+            {post.data.map((value) => {
                // format dates of submiting post
                const formatedDate = dateFormat(value.createdAt);
                return (
-                  <div key={index} data-user={value.username} id={value.id} className='post'>
+                  <div key={value.postID} data-user={value.username} id={value.postID} className='post'>
                      <EvaluatePost post={value} />
                      <div className=''>
                         <div className='details__wrapper'>
                            <div className='user__info'>
-                              <img className='user-img' src='../../avatar.png' alt='user img' />
+                              <div className='user-avatar'>
+                                 <i className='fa-solid fa-user user-img'></i>
+                              </div>
+                              {/* <img className='user-img' src='../../avatar.png' alt='user img' /> */}
                               <p className='username'>{value.username}</p>
                               <p className='date'>{formatedDate}</p>
                            </div>

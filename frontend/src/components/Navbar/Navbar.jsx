@@ -8,7 +8,6 @@ export const Navbar = () => {
    const navigate = useNavigate();
 
    const handleAuth = (e) => {
-      console.log(e.target.textContent);
       if (e.target.textContent !== 'Log in') {
          localStorage.removeItem('travel__user');
          setAuth('Log in');
@@ -43,11 +42,6 @@ export const Navbar = () => {
                   {auth}
                </button>
             </li>
-            {/* <li>
-               <a href='/auth'>
-                  <button className='navbar__btn'>Sign in</button>
-               </a>
-            </li> */}
          </ul>
       </nav>
    );

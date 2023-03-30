@@ -1,14 +1,16 @@
 import React, { useContext, useEffect } from 'react';
 import { GlobalContext } from '../../context/GlobalContext';
+import { useGetFetch } from '../../hooks/useFetchConfig';
 
-export const Buttons = ({ usersInput }) => {
+export const Buttons = ({ takeInputData }) => {
    const { state, setState } = useContext(GlobalContext);
 
-   const controller = new AbortController();
-   const signal = controller.signal;
+   const fetchData = useGetFetch();
 
    // load data from LS or fetch data
    useEffect(() => {
+      const controller = new AbortController();
+
       const lsItems = localStorage.getItem('travel__list') ? JSON.parse(localStorage.getItem('travel__list')) : [];
       lsItems.length === 0 ? fetchData() : setState(lsItems);
 
@@ -20,23 +22,9 @@ export const Buttons = ({ usersInput }) => {
       localStorage.setItem('travel__list', JSON.stringify(state));
    }, [state]);
 
-   // fetch most popular cat
-   const fetchData = async (value) => {
-      const fetchOpt = value ? '/search' : '';
-      console.log(`fetch`);
-      try {
-         const res = await fetch(`http://localhost:8000${fetchOpt}`, signal);
-
-         const data = await res.json();
-         setState(data);
-      } catch (error) {
-         console.error(error);
-      }
-   };
-
    return (
       <div className='btns'>
-         <button onClick={usersInput} className='btn btn-save'>
+         <button onClick={takeInputData} className='btn btn-save'>
             Search
          </button>
          <p>or</p>

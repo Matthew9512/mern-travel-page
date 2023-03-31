@@ -1,5 +1,9 @@
 const travelModel = require('../models/travelDataModel');
 
+/**
+ * @todo change number of places to true/false
+ */
+
 const updatePlacesNumber = async function (req, res) {
    const { places, id } = req.body;
 
@@ -7,15 +11,15 @@ const updatePlacesNumber = async function (req, res) {
 
    const update = await travelModel.findOne({ _id: id });
 
-   // calc how many places will stay after booking
-   const verPlaces = +update.availablePlaces - +places;
+   // return if theres no available places left
+   if (!update.availablePlaces) return res.status(404).json({ message: `There's no places left for this travel` });
 
-   // return if number of available places will be less than 0
-   if (verPlaces < 0)
+   // return if number of requested places if bigger than available places
+   if (places > update.availablePlaces)
       return res.status(404).json({ message: `You can't bookmark ${places} places, there's only ${update.availablePlaces} left` });
 
-   // return if there's no places left
-   if (verPlaces === 0) return res.status(404).json({ message: `There's no places left for this travel` });
+   // calc how many places will stay after booking
+   const verPlaces = update.availablePlaces - +places;
 
    await travelModel.updateOne({ _id: id }, { availablePlaces: verPlaces });
 

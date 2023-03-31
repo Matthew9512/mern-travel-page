@@ -5,6 +5,7 @@ const { format } = require('date-fns');
  *
  * @todo if/eles
  * @todo check json responses
+ * @todo date and price date must starts with 01
  */
 
 const sendCategoryData = async function (req, res) {
@@ -40,7 +41,7 @@ const sendDataByID = async function (req, res) {
 
 const sendQueryData = async function (req, res) {
    const { startDate, endDate, price, city } = req.query;
-   const reqStartDate = startDate ? startDate : format(new Date(2023, 00, 17), 'dd/MM/yyyy');
+   const reqStartDate = startDate ? startDate : format(new Date(2022, 00, 01), 'dd/MM/yyyy');
    const reqEndDate = endDate ? endDate : format(new Date(2024, 12, 29), 'dd/MM/yyyy');
    const reqPrice = +price || 10_000;
    const reqCity = city || { $ne: null };

@@ -1,42 +1,37 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { bookTravel } from '../../hooks/useFetchConfig';
 import './PlacesItemAside.css';
+import { AuthContext } from '../../context/AuthContext';
 
 export const PlacesItemAside = ({ data }) => {
-   // if (!data) return <p>loading....</p>;
-
+   console.log(data);
    const [totalCost, setTotalCost] = useState(data?.price);
-   const [personCost, setPersonCost] = useState(data?.price);
+   const { booking, contextHolder, calc } = bookTravel();
+   const { auth } = useContext(AuthContext);
 
    const { id } = useParams();
    const inpRef = useRef();
 
-   const calcPrice = async () => {
+   const calcPrice = async (e) => {
+      if (e.target.textContent === 'Temporary unavailable' || auth === 'Log in') return;
+
       const personsAmount = +inpRef.current.value;
 
-      if (!personsAmount) return alert(`Number of people can't be empty`);
+      if (!personsAmount || personsAmount < 0) return alert(`Number of people can't be empty or negative`);
 
-      const { book, res } = await bookTravel(id, inpRef);
-      if (res.status !== 200) return;
-      else {
-         if (!personsAmount) {
-            setTotalCost(data);
-            setPersonCost(data);
-         }
-         if (personsAmount === 1) {
-            setTotalCost(data * personsAmount);
-            setPersonCost(data * personsAmount);
-         } else {
-            setTotalCost(data * personsAmount);
-            setPersonCost((data * personsAmount) / 2);
-         }
-      }
+      await booking(id, inpRef);
+
+      if (calc) return;
+
+      setTotalCost(data?.price * personsAmount);
    };
 
    return (
       <aside className='travel-sum'>
-         <label htmlFor='peoples-number'>Number of people:</label>
+         {contextHolder}
+         <h3>Book this travel:</h3>
+         <label htmlFor='peoples-number'>Choose number of people:</label>
          <div className='group'>
             <i className='icon fa-solid fa-users'></i>
             <input ref={inpRef} type='number' className='input' placeholder='e.g. 1' />
@@ -53,11 +48,11 @@ export const PlacesItemAside = ({ data }) => {
                {totalCost} $/<span>total</span>
             </p>
             <p className='destinations-price'>
-               {personCost} $/<span>per</span>
+               {data?.price} $/<span>per</span>
             </p>
          </div>
-         <button onClick={calcPrice} className='btn'>
-            Book
+         <button onClick={(e) => calcPrice(e)} className={`btn ${!data?.availablePlaces || auth === 'Log in' ? 'disabled' : ''}`}>
+            {!data?.availablePlaces ? 'Temporary unavailable' : 'Book'}
          </button>
       </aside>
    );

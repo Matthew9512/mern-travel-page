@@ -7,8 +7,8 @@ const userSchema = new Schema(
       username: String,
       password: String,
       bookings: {
-         type: String,
-         created: format(new Date(), 'dd/MM/yyyy'),
+         type: [String],
+         // created: format(new Date(), 'dd/MM/yyyy'),
       },
    },
    {

@@ -14,6 +14,9 @@ export const PlacesList = () => {
                   <div key={value._id} className='destinations__wrapper'>
                      <div className='destinations__item'>
                         <img src={value.image} className='destinations__img' alt='travel destination image' />
+                        <div className={`unavailable ${!value.availablePlaces ? '' : `hidden`}`}>
+                           <p className='unavailable__text'>Temporary unavailable</p>
+                        </div>
                         <div className='destinations__item-wrapper'>
                            <p className='destinations-name'>{value.city}</p>
                            <p className='destinations-country'>

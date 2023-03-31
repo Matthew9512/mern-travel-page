@@ -13,6 +13,9 @@ export const PlacesItem = ({ data }) => {
          <div className='single__wrapper'>
             <div className='single__wrapper-details'>
                <img src={data?.image} alt='vacation picture' className='single__img' />
+               <div className={`unavailable ${!data?.availablePlaces ? '' : `hidden`}`}>
+                  <p className='unavailable__text'>Temporary unavailable</p>
+               </div>
                <div className='single__details-wrapper'>
                   <div className='single__details'>
                      <div>
@@ -26,8 +29,6 @@ export const PlacesItem = ({ data }) => {
                               {data?.startDate} - {data?.endDate}
                            </p>
                         </div>
-                        {/* <p className='date destinations-start-date'>begin: {data?.startDate}</p>
-                     <p className='date destinations-end-date'>end: {data?.endDate}</p> */}
                      </div>
                      <div className='destinations__item-details'>
                         <p className='destinations-category'>{data?.type}</p>
@@ -47,7 +48,6 @@ export const PlacesItem = ({ data }) => {
                </p>
             </div>
             {data === null ? <p>Loading...</p> : <PlacesItemAside data={data} />}
-            {/* <PlacesItemAside data={data?.price} /> */}
          </div>
          <PostsSection />
       </section>

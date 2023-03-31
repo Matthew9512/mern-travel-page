@@ -9,7 +9,9 @@ import { usePopupMessage } from './usePopupMessage';
  * @todo DRY?
  * @todo rename
  * @todo split
+ * @todo scroll
  * @todo client side validation
+ * @todo signin/login
  */
 
 export const API = `http://localhost:8000`;
@@ -45,7 +47,7 @@ export const fetchInputData = () => {
    const getUsersInput = async (cityRef, priceRef, userDates) => {
       // obj with input info for request
       const values = {
-         city: cityRef.current.value,
+         city: cityRef.current.value.toLowerCase().trim(),
          price: +priceRef.current.value,
          startDate: !userDates ? '' : userDates?.[0].format('DD/MM/YYYY'),
          endDate: !userDates ? '' : userDates?.[1].format('DD/MM/YYYY'),
@@ -99,7 +101,8 @@ export const postComment = () => {
    const { contextHolder, success, error, info } = usePopupMessage();
 
    const sendComment = async (id, update, commentRef) => {
-      if (auth === 'Log in') return info(`You need to be logged in in order to post comments`);
+      if (auth === 'Log in') return;
+      // if (auth === 'Log in') return info(`You need to be logged in in order to post comments`);
       const { username } = JSON.parse(localStorage.getItem('travel__user'));
 
       try {
@@ -128,7 +131,7 @@ export const postComment = () => {
       }
    };
 
-   return { sendComment, contextHolder };
+   return { sendComment, contextHolder, auth };
 };
 
 // likes on post
@@ -193,7 +196,7 @@ export const authUser = (usernameRef, passwordRef) => {
          });
          const data = await res.json();
          console.log(data);
-         if (res.status === 200) {
+         if (res.ok && endpoint === 'login') {
             setAuth(usernameRef.current.value);
             localStorage.setItem('travel__user', JSON.stringify({ username: usernameRef.current.value, id: data.id }));
             // localStorage.setItem('travel__user', JSON.stringify(usernameRef.current.value));
@@ -270,25 +273,61 @@ export const postBtnsController = () => {
 };
 
 //
-export const bookTravel = async (id, inpRef) => {
-   const { username } = localStorage.getItem('travel__user');
+export const bookTravel = () => {
+   const { contextHolder, success, error } = usePopupMessage();
+   const [calc, setCalc] = useState(false);
+
+   const booking = async (travelID, inpRef) => {
+      try {
+         const res = await fetch(`http://localhost:8000/places`, {
+            method: 'PATCH',
+            headers: {
+               Accept: 'application/json',
+               'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+               places: inpRef.current.value,
+               id: travelID,
+            }),
+         });
+         const data = await res.json();
+         if (!data.data) throw new Error(data.message);
+         else {
+            await updateUserProfile(travelID, success, error);
+            setCalc(true);
+            inpRef.current.value = '';
+         }
+      } catch (err) {
+         console.log(err.message);
+         error(err.message);
+      }
+   };
+
+   return { booking, contextHolder, calc };
+};
+
+//
+const updateUserProfile = async (travelID, success, error) => {
+   const { id } = JSON.parse(localStorage.getItem('travel__user'));
 
    try {
-      const res = await fetch(`http://localhost:8000/places`, {
+      const res = await fetch(`http://localhost:8000/users/bookings`, {
          method: 'PATCH',
          headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
          },
          body: JSON.stringify({
-            places: inpRef.current.value,
-            id: id,
+            userID: id,
+            travelID,
          }),
       });
       const data = await res.json();
-      console.log(data);
-      return { data, res };
+
+      if (!res.ok) throw new Error(data.message);
+      success(data.message);
    } catch (err) {
       console.log(err.message);
+      error(err.message);
    }
 };

@@ -19,10 +19,11 @@
    max-width: 40em;
    gap: 2em;
    color: #233554;
+   position: relative;
 }
 .single__img {
    width: 100%;
-   height: 15em;
+   height: 14em;
    object-fit: cover;
    border-radius: 1em;
 }

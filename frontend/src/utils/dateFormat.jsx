@@ -5,6 +5,6 @@ export const dateFormat = function (date) {
 
    if (daysPassed === 0) return 'Today';
    if (daysPassed === 1) return 'Yesterday';
-   if (daysPassed <= 7) return `${daysPassed} days ago`;
-   if (daysLeft >= 30) return `${parseInt(daysLeft / 30)} months ago`;
+   if (daysPassed <= 30) return `${daysPassed} days ago`;
+   if (daysPassed >= 30) return `${parseInt(daysPassed / 30)} months ago`;
 };

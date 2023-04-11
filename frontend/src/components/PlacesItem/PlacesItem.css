@@ -74,4 +74,12 @@
    .single__btn {
       margin-inline: auto;
    }
+   .single__details-wrapper {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+   }
+   .star__rating {
+      margin-left: 0;
+   }
 }

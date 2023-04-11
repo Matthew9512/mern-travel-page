@@ -49,6 +49,9 @@
    margin-left: 1em;
    font-weight: 500;
 }
+.date {
+   padding-left: 1em;
+}
 .evaluate {
    display: flex;
    flex-direction: column;
@@ -91,15 +94,6 @@
    font-size: 1.8rem;
    opacity: 0.6;
 }
-/* .user-img {
-   width: 2.8em;
-   height: 2.8em;
-   border-radius: 50%;
-   padding: 0.2em;
-   border: 1px solid #01b2c9;
-   object-fit: cover;
-   background-color: #bbbbbb;
-} */
 .btn-send {
    height: min-content;
    padding: 0.4em 1em;

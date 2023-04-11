@@ -5,10 +5,10 @@ import { UserInputs } from '../components/UserInputs/UserInputs';
 
 export const Home = () => {
    return (
-      <section className=''>
+      <>
          <Hero />
          <UserInputs />
          <RenderPlacesList />
-      </section>
+      </>
    );
 };

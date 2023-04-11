@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { PlacesItemAside } from '../PlacesItemAside/PlacesItemAside';
 import { PostsSection } from '../PostsSection/PostsSection';
 import './PlacesItem.css';
+import { RatingStars } from '../RatingStars/RatingStars';
 
 export const PlacesItem = ({ data }) => {
    // scroll to top at render
@@ -38,10 +39,7 @@ export const PlacesItem = ({ data }) => {
                         Go Back
                      </Link>
                   </div>
-                  <div className='travel-rate'>
-                     *****
-                     <div className='travel-rate-result'>4/5</div>
-                  </div>
+                  <RatingStars data={data} />
                </div>
                <p className='single-description'>
                   <span>About travel:</span> {data?.description}

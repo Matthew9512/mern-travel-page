@@ -279,7 +279,7 @@ export const bookTravel = () => {
 
    const booking = async (travelID, inpRef) => {
       try {
-         const res = await fetch(`${API}/places`, {
+         const res = await fetch(`http://localhost:8000/places`, {
             method: 'PATCH',
             headers: {
                Accept: 'application/json',
@@ -311,7 +311,7 @@ const updateUserProfile = async (travelID, success, error) => {
    const { id } = JSON.parse(localStorage.getItem('travel__user'));
 
    try {
-      const res = await fetch(`${API}/users/bookings`, {
+      const res = await fetch(`http://localhost:8000/users/bookings`, {
          method: 'PATCH',
          headers: {
             Accept: 'application/json',
@@ -330,31 +330,4 @@ const updateUserProfile = async (travelID, success, error) => {
       console.log(err.message);
       error(err.message);
    }
-};
-
-//
-export const userRatingTravel = () => {
-   const { contextHolder, success, error } = usePopupMessage();
-
-   const travelVotes = async (travelRate, id) => {
-      try {
-         const res = await fetch(`${API}/places/rate`, {
-            method: 'PATCH',
-            headers: {
-               Accept: 'application/json',
-               'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-               id,
-               travelRate,
-            }),
-         });
-         const data = await res.json();
-         success(data.message);
-      } catch (err) {
-         error(err.message);
-         console.log(err.message);
-      }
-   };
-   return { travelVotes, contextHolder };
 };

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import '../UserInputs/UserInputs.css';
-import { _reducerActions } from '../../reducer/reducer';
+// import { _reducerActions } from '../../reducer/reducer';
 
 export const InputRange = ({ priceRef }) => {
    const [price, setPrice] = useState(9000);

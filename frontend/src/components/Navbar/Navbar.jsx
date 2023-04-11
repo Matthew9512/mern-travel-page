@@ -9,8 +9,9 @@ export const Navbar = () => {
 
    const handleAuth = (e) => {
       if (e.target.textContent !== 'Log in') {
-         localStorage.removeItem('travel__user');
-         setAuth('Log in');
+         // localStorage.removeItem('travel__user');
+         // setAuth('Log in');
+         navigate('/user');
       } else navigate('/auth');
    };
 

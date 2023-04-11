@@ -1,0 +1,31 @@
+.star__rating {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   text-align: center;
+   margin-left: 2em;
+}
+.star__rating-header {
+   font-weight: 700;
+}
+.star__rating-wrapper {
+   display: flex;
+}
+.star {
+   font-size: 2em;
+}
+.on {
+   color: #037dad;
+}
+.off {
+   color: #ccc;
+}
+.overall__travel-rating p:first-child {
+   margin-block: 0.8em;
+}
+
+@media screen and (max-width: 850px) {
+   .star__rating {
+      margin-left: 0;
+   }
+}

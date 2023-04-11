@@ -6,6 +6,7 @@ import { Error } from './pages/Error';
 import { Navbar } from './components/Navbar/Navbar';
 import { Footer } from './components/Footer/Footer';
 import { Auth } from './pages/Auth';
+import { UserPanel } from './pages/UserPanel';
 
 export const App = () => {
    return (
@@ -16,6 +17,7 @@ export const App = () => {
                <Route path={'/'} element={<Home />}></Route>
                <Route path={'/search/:id'} element={<SingleItem />}></Route>
                <Route path={'/auth'} element={<Auth />}></Route>
+               <Route path={'/user'} element={<UserPanel />}></Route>
                <Route path={'*'} element={<Error />}></Route>
             </Routes>
          </BrowserRouter>

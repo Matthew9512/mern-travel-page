@@ -30,7 +30,7 @@ const login = asyncHandler(async function (req, res) {
    // });
 
    // res.status(200).json({ message: `user login successfully`, accessToken });
-   res.status(200).json({ message: `user login successfully`, id: user._id });
+   res.status(200).json({ message: `user login successfully`, id: user._id, createdAt: user.createdAt });
 });
 
 module.exports = login;

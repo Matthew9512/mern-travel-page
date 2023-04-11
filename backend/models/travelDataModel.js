@@ -12,6 +12,14 @@ const travelDataSchema = new Schema({
    endDate: String,
    image: String,
    availablePlaces: Number,
+   userVotes: {
+      type: Number,
+      default: 0,
+   },
+   travelRate: {
+      type: Number,
+      default: 0,
+   },
 });
 
 module.exports = mongoose.model('Travel', travelDataSchema);

@@ -57,7 +57,7 @@ const sendQueryData = async function (req, res) {
       res.status(200).json(respond);
    } catch (error) {
       console.error(error);
-      res.status(400).json({ message: error.message });
+      return res.status(400).json({ message: error.message });
    }
 };
 

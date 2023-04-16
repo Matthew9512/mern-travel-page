@@ -4,15 +4,12 @@ import { AuthContext } from '../../context/AuthContext';
 import './Navbar.css';
 
 export const Navbar = () => {
-   const { auth, setAuth } = useContext(AuthContext);
+   const { auth } = useContext(AuthContext);
    const navigate = useNavigate();
 
-   const handleAuth = (e) => {
-      if (e.target.textContent !== 'Log in') {
-         // localStorage.removeItem('travel__user');
-         // setAuth('Log in');
-         navigate('/user');
-      } else navigate('/auth');
+   const handleAuth = () => {
+      if (auth !== 'Log in') navigate('/user');
+      else navigate('/login');
    };
 
    return (

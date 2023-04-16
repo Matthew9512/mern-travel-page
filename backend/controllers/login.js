@@ -3,6 +3,7 @@ const asyncHandler = require('express-async-handler');
 const userModel = require('../models/userModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { format } = require('date-fns');
 
 const login = asyncHandler(async function (req, res) {
    const { username, password } = req.body;
@@ -30,7 +31,13 @@ const login = asyncHandler(async function (req, res) {
    // });
 
    // res.status(200).json({ message: `user login successfully`, accessToken });
-   res.status(200).json({ message: `user login successfully`, id: user._id, createdAt: user.createdAt });
+   res.status(200).json({
+      user: {
+         username: user.username,
+         id: user._id,
+         createdAt: format(new Date(user.createdAt), 'dd/MM/yyyy'),
+      },
+   });
 });
 
 module.exports = login;

@@ -1,7 +1,8 @@
 const userModel = require('../models/userModel');
 
 const user = async function (req, res) {
-   const id = req.params.id;
+   const { id } = req.params;
+
    try {
       if (!id) return res.status(400).json({ message: `no data provided, pls try again` });
 

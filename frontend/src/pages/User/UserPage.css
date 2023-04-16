@@ -1,0 +1,39 @@
+.user__panel {
+   display: flex;
+   /* justify-content: center; */
+   align-items: center;
+   flex-direction: column;
+   min-height: 100vh;
+   margin-top: 6em;
+}
+.user__panel button {
+   margin-block: 0.6em;
+}
+.user__bookings-header {
+   margin-block: 1em;
+   text-align: center;
+   font-size: 1.5rem;
+}
+.user__bookings-list {
+   display: flex;
+   align-items: center;
+   gap: 1em;
+   margin-bottom: 1em;
+}
+.user__bookings-img {
+   width: 15em;
+   height: 10em;
+   object-fit: cover;
+   border-radius: 0.3em;
+}
+.user__bookings {
+   text-align: center;
+}
+.user__panel-btns {
+   display: flex;
+   gap: 1em;
+   margin-bottom: 1em;
+}
+.current-page {
+   opacity: 0.4;
+}

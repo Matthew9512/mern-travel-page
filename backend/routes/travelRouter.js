@@ -4,7 +4,7 @@ const { sendCategoryData, sendSearchInputData, sendDataByID, sendQueryData } = r
 const updatePlacesNumber = require('../controllers/updatePlacesNumber');
 const updateTravelRate = require('../controllers/updateTravelRate');
 
-router.get('/', sendCategoryData);
+router.get('/featured', sendCategoryData);
 router.get('/search', sendSearchInputData);
 router.get('/search/:id', sendDataByID);
 router.get('/q', sendQueryData);

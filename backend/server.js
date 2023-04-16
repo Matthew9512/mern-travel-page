@@ -25,7 +25,7 @@ app.use(express.json());
 // routes
 app.use('/', require('./routes/travelRouter'));
 
-app.use('/users', require('./routes/userRouter'));
+app.use('/user', require('./routes/userRouter'));
 
 app.use('/search/', require('./routes/postsRouter'));
 

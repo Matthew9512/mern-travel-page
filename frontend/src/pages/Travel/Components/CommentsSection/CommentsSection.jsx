@@ -10,7 +10,8 @@ export const CommentsSection = ({ id }) => {
 
    useEffect(() => {
       console.log(`CommentsSection effect`);
-      fetchData(`/search/${id}/comments`);
+      // fetchData(`/search/${id}/comments`);
+      fetchData(`/comments/${id}`);
    }, [render]);
 
    if (!data) return <p>Loading...</p>;

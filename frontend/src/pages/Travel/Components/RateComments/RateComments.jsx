@@ -21,7 +21,8 @@ export const RateComments = ({ data }) => {
          id,
          likes: +likesAmount.current.innerHTML,
       };
-      fetchData(`/search/likes`, 'PATCH', body);
+      // fetchData(`/search/likes`, 'PATCH', body);
+      fetchData(`/comments/likes/rate`, 'PATCH', body);
    };
 
    //    wait for user to stop

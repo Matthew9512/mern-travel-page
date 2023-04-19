@@ -16,7 +16,8 @@ export const CreateComments = ({ id, setRender }) => {
          post: commentRef.current.value,
       };
 
-      await fetchData(`/search/${id}/comments`, 'POST', body);
+      // await fetchData(`/search/${id}/comments`, 'POST', body);
+      await fetchData(`/comments/${id}`, 'POST', body);
    };
 
    // wait for fulfilled respond then save user in ls and change auth user state

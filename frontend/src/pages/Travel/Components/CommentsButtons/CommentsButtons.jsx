@@ -32,7 +32,8 @@ export const CommentsButtons = ({ setRender }) => {
          setValue((prev) => !prev);
          textField.disabled = true;
          textField.classList.remove('active');
-         fetchData(`/search/:id/comments`, 'PATCH', body);
+         // fetchData(`/search/:id/comments`, 'PATCH', body);
+         fetchData(`/comments/:id`, 'PATCH', body);
       }
    };
 
@@ -44,7 +45,8 @@ export const CommentsButtons = ({ setRender }) => {
          id,
       };
 
-      fetchData(`/search/delete`, 'DELETE', body);
+      // fetchData(`/search/delete`, 'DELETE', body);
+      fetchData(`/comments/delete`, 'DELETE', body);
    };
 
    // wait for fulfilled respond then rerender the component

@@ -7,11 +7,11 @@ export const BookingSection = ({ data, id }) => {
    const [personsAmount, setPersonsAmount] = useState(1);
    const [totalCost, setTotalCost] = useState(data?.price);
    const { fetchData, ready, contextHolder } = useFetch();
-   const { auth } = useContext(AuthContext);
+   const { userData } = useContext(AuthContext);
    const inpRef = useRef();
 
    const calcPrice = async (e) => {
-      if (e.target.textContent === 'Temporary unavailable' || auth === 'Log in') return;
+      if (e.target.textContent === 'Temporary unavailable' || userData.username === 'Log in') return;
 
       const personsAmountRef = +inpRef.current.value;
 
@@ -21,10 +21,11 @@ export const BookingSection = ({ data, id }) => {
 
       const body = {
          places: personsAmountRef,
-         id,
+         travelID: id,
+         userID: userData.id,
       };
 
-      await fetchData('/places', 'PATCH', body);
+      await fetchData('/bookings', 'PATCH', body);
    };
 
    // wait for fulfilled respond then calc and display updated total price
@@ -57,7 +58,7 @@ export const BookingSection = ({ data, id }) => {
                {data?.price} $/<span>per</span>
             </p>
          </div>
-         <button onClick={calcPrice} className={`btn ${!data?.availablePlaces || auth === 'Log in' ? 'disabled' : ''}`}>
+         <button onClick={calcPrice} className={`btn ${!data?.availablePlaces || userData.username === 'Log in' ? 'disabled' : ''}`}>
             {!data?.availablePlaces ? 'Temporary unavailable' : 'Book'}
          </button>
       </aside>

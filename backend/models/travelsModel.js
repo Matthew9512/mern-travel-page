@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const travelDataSchema = new Schema({
+const TravelsSchema = new Schema({
    city: String,
    country: String,
    price: Number,
@@ -22,4 +22,4 @@ const travelDataSchema = new Schema({
    },
 });
 
-module.exports = mongoose.model('Travel', travelDataSchema);
+module.exports = mongoose.model('Travel', TravelsSchema);

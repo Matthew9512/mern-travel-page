@@ -1,15 +1,16 @@
 import React, { useContext } from 'react';
 import './UserPage.css';
 import { AuthContext } from '../../context/AuthContext';
-import { redirect } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { UserPageNav } from './Components/UserPageNav/UserPageNav';
 
 export const UserPage = () => {
    const { userData } = useContext(AuthContext);
+   const navigate = useNavigate();
 
    const logOut = () => {
       localStorage.removeItem('travel__user');
-      redirect('/');
+      navigate('/');
    };
 
    return (

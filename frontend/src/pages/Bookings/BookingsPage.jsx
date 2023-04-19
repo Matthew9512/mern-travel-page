@@ -29,7 +29,9 @@ export const BookingsPage = () => {
       );
    };
 
-   if (!userBookings || !data) return <p>Loading...</p>;
+   // if (!userBookings || !data) return <p>Loading...</p>;
+   // if (!data) return <p>Loading...</p>;
+   if (!userBookings.length) return <p>you have no bookings yet</p>;
    console.log(userBookings);
 
    return (

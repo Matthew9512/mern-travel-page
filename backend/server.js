@@ -1,51 +1,47 @@
 require('dotenv').config();
 const express = require('express');
-const mongoose = require('mongoose');
 const cors = require('cors');
-// const corsOptions = require('./config/corsOptions');
-const PORT = 8000;
+const mongoose = require('mongoose');
+
 const app = express();
-const travelDataModel = require('./models/travelDataModel');
+const PORT = process.env.PORT || 8000;
+const corsOptions = require('./config/corsOptions');
+const connectDB = require('./config/connectDB');
+const errorHandler = require('./middleware/errorHandler');
 
-// // setting cors options
-// const whitelist = ['https://mysite.com', 'http://127.0.0.1:5173', 'http://localhost:8000'];
-// const corsOptions = {
-//    origin: (origin, callback) => {
-//       if (whitelist.indexOf(origin) !== -1) callback(null, true);
-//       else callback(new Error('Not allowed by CORS'));
-//    },
-//    optionsSuccessState: 200,
-// };
+/**
+ * @todo error
+ * @todo cookie parser
+ * @todo what if DB is down
+ */
 
-// app.use(cors(corsOptions));
-app.use(cors());
+// connect to DB
+connectDB();
+
+app.use(cors(corsOptions));
 
 app.use(express.json());
 
 // routes
-app.use('/', require('./routes/travelRouter'));
+app.use('/', require('./routes/travelsRouter'));
 
-app.use('/user', require('./routes/userRouter'));
+app.use('/user', require('./routes/usersRouter'));
 
-app.use('/search/', require('./routes/postsRouter'));
+app.use('/comments', require('./routes/commentsRouter'));
 
+// FINISH ERROR !!!!
 app.get('*', (req, res) => {
    res.send('erorr');
 });
 
-// connect to DB and start server
-const connectDB = async function () {
-   try {
-      await mongoose.connect(`${process.env.MONGODB_URL}`);
-      app.listen(PORT, () => console.log(`server started`));
-   } catch (error) {
-      console.log(error.message);
-      // mongoose.connection.close;
-      //      SEND STATUS CODE AND MESSAGE
-   }
-};
-connectDB();
+app.use(errorHandler);
 
+mongoose.connection.once('open', () => {
+   console.log(`mongoDB connected`);
+   app.listen(PORT, () => console.log(`server started`));
+});
+
+// ==============================================================
 // travelDataModel.insertMany([
 //    {
 //       city: 'bali',

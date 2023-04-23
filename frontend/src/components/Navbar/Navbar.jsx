@@ -1,9 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import './Navbar.css';
 
 export const Navbar = () => {
+   // const [show, setShow] = useState(false);
    const { auth } = useContext(AuthContext);
    const navigate = useNavigate();
 
@@ -44,3 +45,41 @@ export const Navbar = () => {
       </nav>
    );
 };
+// ============================================
+// const toggleNavbar = (e) => {
+//    const click = e.target;
+//    if (click.classList.contains('navbar__btn')) setShow((prev) => !prev);
+// };
+
+// return (
+//    <>
+//       <button onClick={() => setShow((prev) => !prev)} className='button btn-close'>
+//          X
+//       </button>
+//       <nav className={`navbar ${!show ? 'hide' : 'show'}`}>
+//          <i className='fa-solid fa-earth-americas navbar__logo'></i>
+//          <ul onClick={toggleNavbar} className='navbar__menu'>
+//             <li>
+//                <a href='/'>
+//                   <button className='navbar__btn'>Start</button>
+//                </a>
+//             </li>
+//             <li>
+//                <a href='#contact'>
+//                   <button className='navbar__btn'>Contact</button>
+//                </a>
+//             </li>
+//             <li>
+//                <a href='#contact'>
+//                   <button className='navbar__btn'>About</button>
+//                </a>
+//             </li>
+//             <li>
+//                <button onClick={handleAuth} className='navbar__btn'>
+//                   {auth}
+//                </button>
+//             </li>
+//          </ul>
+//       </nav>
+//    </>
+// )

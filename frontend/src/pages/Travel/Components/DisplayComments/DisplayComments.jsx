@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-// import '../../TravelPage.css';
 import { dateFormat } from '../../../../utils/dateFormat';
 import { AuthContext } from '../../../../context/AuthContext';
 import { CommentsButtons } from '../CommentsButtons/CommentsButtons';
@@ -8,9 +7,8 @@ import { RateComments } from '../RateComments/RateComments';
 export const DisplayComments = ({ data, setRender }) => {
    const { auth } = useContext(AuthContext);
 
-   // if (!data.data) return <p>Loading...</p>;
-
-   if (!data.data.length) return <p>Be first to add comment</p>;
+   if (!data.data.length)
+      return <p className='error-message'>Nobody responded to this post yet. Add your thoughts and get the conversation going.</p>;
 
    return (
       <article className='posts__wrapper'>
@@ -20,7 +18,7 @@ export const DisplayComments = ({ data, setRender }) => {
             return (
                <div key={value.postID} data-user={value.username} id={value.postID} className='post'>
                   <RateComments data={value} />
-                  <div className=''>
+                  <div>
                      <div className='details__wrapper'>
                         <div className='user__info'>
                            <div className='user-avatar'>

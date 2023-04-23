@@ -14,14 +14,12 @@ export const RatingStarsSection = ({ data }) => {
    const score = data?.userVotes === 0 ? '' : (data?.travelRate / data?.userVotes).toFixed(1, 0);
 
    return (
-      <>
-         <div className='star__rating'>
-            <div className='overall__travel-rating'>
-               {auth === 'Log in' ? '' : <RatingStars data={data?._id} />}
-               <p>{!score ? <span>Be first to rate</span> : <span className='btn'>{score}/5</span>} </p>
-               <p>{!score ? '' : `overall travel rate based on user votes`}</p>
-            </div>
+      <div className='star__rating'>
+         <div className='overall__travel-rating'>
+            {auth === 'Log in' ? '' : <RatingStars data={data?._id} />}
+            <p>{!score ? <span>Be first to rate</span> : <span className='btn'>{score}/5</span>} </p>
+            <p>{!score ? '' : `overall travel rate based on user votes`}</p>
          </div>
-      </>
+      </div>
    );
 };

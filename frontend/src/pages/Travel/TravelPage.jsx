@@ -1,9 +1,12 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useFetch } from '../../api/useFetch';
 import { CommentsSection } from './Components/CommentsSection/CommentsSection';
 import { BookingSection } from './Components/BookingSection/BookingSection';
 import { RatingStarsSection } from './Components/RatingStarsSection/RatingStarsSection';
+import { Footer } from '../../components/Footer/Footer';
+import { LoadingSpinner } from '../../components/LoadingSpinner/LoadingSpinner';
+// import { PopupMessage } from '../../components/PopupMessage/PopupMessage';
 
 export const TravelPage = () => {
    const { id } = useParams();
@@ -19,10 +22,11 @@ export const TravelPage = () => {
    }, []);
 
    if (errors) return <p>{errors}</p>;
-   if (!data) return <p>Loading...</p>;
+   if (!data) return <LoadingSpinner loading={loading} />;
 
    return (
       <main className='container'>
+         {/* <PopupMessage /> */}
          <section className='single'>
             <div className='single__wrapper'>
                <div className='single__wrapper-details'>
@@ -58,10 +62,11 @@ export const TravelPage = () => {
                      <span>About travel:</span> {data?.description}
                   </p>
                </div>
-               {!data ? <p>Loading...</p> : <BookingSection data={data} id={id} />}
+               {!data ? '' : <BookingSection data={data} id={id} />}
             </div>
             <CommentsSection id={id} />
          </section>
+         <Footer />
       </main>
    );
 };

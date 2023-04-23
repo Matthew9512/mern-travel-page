@@ -2,11 +2,12 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import './BookingSection.css';
 import { AuthContext } from '../../../../context/AuthContext';
 import { useFetch } from '../../../../api/useFetch';
+import { LoadingSpinner } from '../../../../components/LoadingSpinner/LoadingSpinner';
 
 export const BookingSection = ({ data, id }) => {
    const [personsAmount, setPersonsAmount] = useState(1);
    const [totalCost, setTotalCost] = useState(data?.price);
-   const { fetchData, ready, contextHolder } = useFetch();
+   const { fetchData, loading, ready, contextHolder } = useFetch();
    const { userData } = useContext(AuthContext);
    const inpRef = useRef();
 
@@ -36,6 +37,7 @@ export const BookingSection = ({ data, id }) => {
 
    return (
       <aside className='travel-sum'>
+         <LoadingSpinner loading={loading} />
          {contextHolder}
          <h3>Book this travel:</h3>
          <label htmlFor='peoples-number'>Choose number of people:</label>

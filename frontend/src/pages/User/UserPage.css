@@ -34,6 +34,21 @@
    gap: 1em;
    margin-bottom: 1em;
 }
+.user-panel-btn {
+   padding: 0.3em 0.8em;
+   color: #01b2c9;
+   border-radius: 1em;
+   cursor: pointer;
+   font-weight: 400;
+   min-width: fit-content;
+   border: 1px solid #01b2c9;
+   transition: 0.4s;
+}
+.user-panel-btn:hover:not(:has(.current-page)) {
+   background: linear-gradient(90deg, #01b2c9 0%, #0077a6 100%);
+   color: #fff;
+}
 .current-page {
-   opacity: 0.4;
+   background: linear-gradient(90deg, #01b2c9 0%, #0077a6 100%);
+   color: #fff;
 }

@@ -1,41 +1,27 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useContext, useEffect, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import './LoginPage.css';
 import { useFetch } from '../../api/useFetch';
 import { AuthContext } from '../../context/AuthContext';
 
-/**
- * @todo split to login and signin
- */
-
 export const LoginPage = () => {
-   const usernameRef = useRef();
+   const emailRef = useRef();
    const passwordRef = useRef();
-   const [login, setLogin] = useState(true);
    const { setAuth } = useContext(AuthContext);
    const navigate = useNavigate();
-
-   // display proper text for login or signin form
-   const setting = {
-      header: login ? 'Log into' : 'Sign up',
-      btn: login ? 'Log in' : 'Sign up',
-      footer: login ? `Don't have an account? ` : `Have an account? `,
-      footerBtn: login ? 'Sign Up' : 'Log in',
-   };
 
    const { fetchData, data, ready, contextHolder } = useFetch();
 
    const authUser = async (e) => {
       e.preventDefault();
-      const endpoint = login ? 'login' : 'signin';
 
       const body = {
-         username: usernameRef.current?.value,
+         email: emailRef.current?.value,
          password: passwordRef.current?.value,
       };
 
       // get user data
-      await fetchData(`/user/${endpoint}`, 'POST', body);
+      await fetchData(`/user/login`, 'POST', body);
    };
 
    // wait for fulfilled respond then save user in ls and change auth user state
@@ -45,7 +31,8 @@ export const LoginPage = () => {
          setAuth(data.user.username);
          localStorage.setItem('travel__user', JSON.stringify(data.user));
          alert(`user login successfully, welcome back ${data.user.username}`);
-         navigate('/');
+         // go back to previous page
+         navigate(-1);
       }
    }, [ready]);
 
@@ -60,22 +47,22 @@ export const LoginPage = () => {
                </span>
                Travello
             </p>
-            <p>{setting.header} your account</p>
+            <p>Log into your account</p>
             <form className='login__wrapper'>
-               <label htmlFor='username'>Username:</label>
-               <input ref={usernameRef} type='text' id='username' />
+               <label htmlFor='email'>Email:</label>
+               <input ref={emailRef} type='text' id='email' />
                <label htmlFor='password'>Password:</label>
                <input ref={passwordRef} type='password' id='password' />
-               <button onClick={(e) => authUser(e)} className='btn auth-btn'>
-                  {setting.btn}
+               <button onClick={authUser} className='btn auth-btn'>
+                  Log in
                </button>
             </form>
-            <p>
-               {setting.footer}
-               <span onClick={() => setLogin((prev) => !prev)} className='signin-span'>
-                  {setting.footerBtn}
-               </span>
-            </p>
+            <Link to={'/signin'}>
+               <p>
+                  Don't have an account?
+                  <span className='signin-span'>Sign Up</span>
+               </p>
+            </Link>
          </div>
       </div>
    );

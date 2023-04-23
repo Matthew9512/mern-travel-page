@@ -6,10 +6,10 @@ export const UserPageNav = () => {
 
    return (
       <div className='user__panel-btns'>
-         <Link to={'/user'} className={`btn ${pathname === '/user' ? 'current-page' : ''}`}>
+         <Link to={'/user'} className={`user-panel-btn  ${pathname === '/user' ? 'current-page' : ''}`}>
             My profile
          </Link>
-         <Link to={'/user/bookings'} className={`btn ${pathname === '/user/bookings' ? 'current-page' : ''}`}>
+         <Link to={'/user/bookings'} className={`user-panel-btn  ${pathname === '/user/bookings' ? 'current-page' : ''}`}>
             My bookings
          </Link>
       </div>

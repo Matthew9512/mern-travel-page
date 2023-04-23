@@ -29,7 +29,6 @@ const getComments = async function (req, res, next) {
       if (!id) return res.status(400).json({ message: `No data provided` });
 
       const comments = await commentsModel.find({ id });
-
       const sendComments = comments.map((value) => {
          return {
             createdAt: value.createdAt,
@@ -39,6 +38,7 @@ const getComments = async function (req, res, next) {
             id: value.id,
             postID: value._id,
             likes: value.likes,
+            userLikes: value.userLikes,
          };
       });
 
@@ -82,14 +82,17 @@ const deleteComments = async function (req, res, next) {
    }
 };
 
-// update likes on comment
+// update likes of comment and save data of user that rate comment
 const likesOnComments = async function (req, res, next) {
    try {
-      const { id, likes } = req.body;
+      const { id, likes, userLikes } = req.body;
+      // !likes
+      if (!id || !userLikes) return res.status(404).json({ message: `No data provided` });
 
-      if (!id || likes < 0) return res.status(404).json({ message: `No data provided` });
-
-      const respond = await commentsModel.updateOne({ _id: id }, { likes });
+      const respond = await commentsModel.updateMany(
+         { _id: id },
+         { likes, $addToSet: { userLikes: { userID: userLikes.userID, rateType: userLikes.rateType } } }
+      );
 
       if (!respond) res.status(400).json({ message: `Error occurred couldn't process request` });
 
@@ -99,4 +102,24 @@ const likesOnComments = async function (req, res, next) {
    }
 };
 
-module.exports = { createComments, getComments, updateComments, deleteComments, likesOnComments };
+// update like type on comment
+const updateLikesOnComments = async function (req, res, next) {
+   try {
+      const { id, likes, userLikes } = req.body;
+      // !likes
+      if (!id || !userLikes) return res.status(404).json({ message: `No data provided` });
+
+      const respond = await commentsModel.updateMany(
+         { _id: id },
+         { likes, userLikes: { userID: userLikes.userID, rateType: userLikes.rateType } }
+      );
+
+      if (!respond) res.status(400).json({ message: `Error occurred couldn't process request` });
+
+      res.status(200).json({ message: `Thank you for adding your likes` });
+   } catch (error) {
+      next(error);
+   }
+};
+
+module.exports = { createComments, getComments, updateComments, deleteComments, likesOnComments, updateLikesOnComments };

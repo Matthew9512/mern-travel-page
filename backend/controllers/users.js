@@ -10,13 +10,13 @@ const { format } = require('date-fns');
 // login
 const logIn = async function (req, res, next) {
    try {
-      const { username, password } = req.body;
+      const { email, password } = req.body;
 
-      if (!username || !password) return res.status(400).json({ message: `please input correct username and password` });
+      if (!email || !password) return res.status(400).json({ message: `please input correct email and password` });
 
-      const user = await usersModel.findOne({ username });
+      const user = await usersModel.findOne({ email });
 
-      if (!user) return res.status(401).json({ message: `wrong username or password` });
+      if (!user) return res.status(401).json({ message: `wrong email or password` });
 
       const bcryptPassword = await bcrypt.compare(password, user.password);
 
@@ -37,6 +37,7 @@ const logIn = async function (req, res, next) {
       // res.status(200).json({ message: `user login successfully`, accessToken });
       res.status(200).json({
          user: {
+            email: user.email,
             username: user.username,
             id: user._id,
             createdAt: format(new Date(user.createdAt), 'dd/MM/yyyy'),
@@ -50,18 +51,19 @@ const logIn = async function (req, res, next) {
 // signin
 const signIn = async function (req, res, next) {
    try {
-      const { username, password } = req.body;
+      const { email, username, password } = req.body;
 
-      if (!username || !password) return res.status(400).json({ message: `incorrect username or password` });
+      if (!email || !username || !password) return res.status(400).json({ message: `incorrect username or password` });
 
-      const duplicate = await usersModel.findOne({ username });
+      const duplicate = await usersModel.findOne({ email });
 
-      if (duplicate) return res.status(409).json({ message: `username: ${username} is already taken please choose different name` });
+      if (duplicate) return res.status(409).json({ message: `email is invalid or already taken` });
 
       const bcryptPassword = await bcrypt.hash(password, 10);
 
       const newUser = await usersModel.create({
-         username: username,
+         email,
+         username,
          password: bcryptPassword,
       });
 

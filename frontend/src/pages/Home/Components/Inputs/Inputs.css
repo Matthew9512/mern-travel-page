@@ -1,11 +1,13 @@
 .input__wrapper {
    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.com/svgjs' width='1387' height='516' preserveAspectRatio='none' viewBox='0 0 1387 516'%3e%3cg mask='url(%26quot%3b%23SvgjsMask1924%26quot%3b)' fill='none'%3e%3cpath d='M281.84 555.08C399.35 552.05 499.09 383.67 719.61 383.47 940.13 383.27 938.5 447.97 1157.38 447.97 1376.27 447.97 1484.53 383.64 1595.15 383.47' stroke='rgba(51%2c 118%2c 194%2c 0.11)' stroke-width='2'%3e%3c/path%3e%3cpath d='M380.46 607.58C502.5 592.1 569.81 316.35 775.4 314.05 981 311.75 972.87 378.55 1170.35 378.55 1367.82 378.55 1465.25 314.26 1565.29 314.05' stroke='rgba(51%2c 118%2c 194%2c 0.11)' stroke-width='2'%3e%3c/path%3e%3cpath d='M825.67 587.31C938.22 576.16 981.93 354.32 1202.09 336.33 1422.25 318.34 1470.79 131.85 1578.51 124.77' stroke='rgba(51%2c 118%2c 194%2c 0.11)' stroke-width='2'%3e%3c/path%3e%3cpath d='M707.26 599.84C792.02 575.84 763.89 338.66 943.39 338.27 1122.88 337.88 1292.19 481.15 1415.64 482.75' stroke='rgba(51%2c 118%2c 194%2c 0.11)' stroke-width='2'%3e%3c/path%3e%3cpath d='M842.94 547.21C955.19 537.89 1001.54 328.85 1226.08 310.17 1450.62 291.49 1496.93 82.17 1609.22 72.81' stroke='rgba(51%2c 118%2c 194%2c 0.11)' stroke-width='2'%3e%3c/path%3e%3c/g%3e%3cdefs%3e%3cmask id='SvgjsMask1924'%3e%3crect width='1387' height='516' fill='white'%3e%3c/rect%3e%3c/mask%3e%3c/defs%3e%3c/svg%3e");
+   background-position: center;
+   background-repeat: no-repeat;
    display: flex;
    flex-direction: column;
    justify-content: center;
    align-items: center;
    position: relative;
-   height: 516px;
+   height: 316px;
 }
 .inputs__form {
    display: flex;
@@ -49,7 +51,7 @@
    align-items: center;
    gap: 1em;
    position: absolute;
-   top: 63%;
+   top: 71%;
 }
 
 /*  */
@@ -59,11 +61,15 @@
    color: #fff;
    border-radius: 1em;
    cursor: pointer;
-   transition: 0.5s;
    font-weight: 400;
    border: none;
-   font-family: inherit;
    min-width: fit-content;
+}
+.loading-button {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   gap: 0.5em;
 }
 .btn:active {
    filter: brightness(0.8);
@@ -73,12 +79,11 @@
    line-height: 28px;
    align-items: center;
    position: relative;
-   /* max-width: 190px; */
 }
 .input {
    width: 100%;
    height: 40px;
-   line-height: 28px;
+   /* line-height: 28px; */
    padding: 0 1rem;
    padding-left: 2.7rem;
    border: 1px solid #bdbdbd68;
@@ -127,6 +132,9 @@
    }
 }
 @media screen and (max-width: 850px) {
+   .input__wrapper {
+      height: 516px;
+   }
    .inputs__form {
       width: auto;
       flex-direction: column;

@@ -4,17 +4,10 @@ const Schema = mongoose.Schema;
 
 const UsersSchema = new Schema(
    {
-      username: {
-         type: String,
-         required: true,
-      },
-      password: {
-         type: String,
-         required: true,
-      },
-      bookings: {
-         type: [String],
-      },
+      email: String,
+      username: String,
+      password: String,
+      bookings: [String],
    },
    {
       timestamps: true,

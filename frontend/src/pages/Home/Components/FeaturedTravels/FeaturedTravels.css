@@ -7,9 +7,10 @@
    margin-inline: auto;
    color: #233554;
    padding-bottom: 6em;
+   position: relative;
 }
 .destinations__header {
-   padding: 2em 0 2em 4em;
+   padding: 0 0 3em 4em;
    color: black;
 }
 .destinations__item-wrapper {
@@ -85,4 +86,11 @@
 }
 .hidden {
    display: none;
+}
+
+@media screen and (max-width: 850px) {
+   .destinations__header {
+      padding-left: 0;
+      text-align: center;
+   }
 }

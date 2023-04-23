@@ -1,16 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import '../FeaturedTravels/FeaturedTravels.css';
+import { LoadingSpinner } from '../../../../components/LoadingSpinner/LoadingSpinner';
 
-export const FeaturedTravels = ({ data, errors }) => {
-   // loading
-   if (!data) return <p>Loading..</p>;
-   if (errors) return <p>{errors}</p>;
+export const FeaturedTravels = ({ data, error, loading }) => {
+   if (error) return <p className='error-message featured'>{error}</p>;
 
    return (
       <>
-         <h2 className='destinations__header'>Most popular places:</h2>
+         <h2 className='destinations__header'>Featured travels:</h2>
          <article className='destinations'>
+            <LoadingSpinner loading={loading} />
             {data.map((value) => {
                return (
                   <div key={value?._id} className='destinations__wrapper'>

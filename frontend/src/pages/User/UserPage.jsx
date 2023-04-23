@@ -5,12 +5,14 @@ import { useNavigate } from 'react-router-dom';
 import { UserPageNav } from './Components/UserPageNav/UserPageNav';
 
 export const UserPage = () => {
-   const { userData } = useContext(AuthContext);
+   const { userData, setAuth } = useContext(AuthContext);
    const navigate = useNavigate();
 
    const logOut = () => {
+      // go back to previous page
+      navigate(-1);
       localStorage.removeItem('travel__user');
-      navigate('/');
+      setAuth('Log in');
    };
 
    return (
@@ -18,6 +20,7 @@ export const UserPage = () => {
          <UserPageNav />
          <div className='user__bookings'>
             <p>username: {userData.username}</p>
+            <p>active email: {userData.email}</p>
             <p>joined: {userData.createdAt}</p>
             <button onClick={logOut} className='btn'>
                Log Out

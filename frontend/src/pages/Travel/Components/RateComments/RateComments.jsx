@@ -1,56 +1,131 @@
-import React, { useContext, useMemo, useRef, useState } from 'react';
-import debounce from 'lodash.debounce';
+import React, { useContext, useRef, useState } from 'react';
 import { useFetch } from '../../../../api/useFetch';
 import { AuthContext } from '../../../../context/AuthContext';
 
-/**
- * @todo add feature to add only one like
- */
-
 export const RateComments = ({ data }) => {
    const [likes, setLikes] = useState(data.likes);
-   const { auth } = useContext(AuthContext);
+   const { userData } = useContext(AuthContext);
    const likesAmount = useRef();
-
    const { fetchData, contextHolder, info } = useFetch();
 
-   const updateLikes = (e) => {
+   // update likes amount in db
+   const updateLikes = (click, value, update) => {
       console.log(`updateLikes`);
-      const id = e.target.closest('.post').id;
+      const id = click.closest('.post').id;
+
       const body = {
          id,
-         likes: +likesAmount.current.innerHTML,
+         likes: value,
+         userLikes: {
+            userID: userData.id,
+            rateType: click.className,
+         },
       };
-      // fetchData(`/search/likes`, 'PATCH', body);
-      fetchData(`/comments/likes/rate`, 'PATCH', body);
+
+      if (!update) fetchData(`/comments/likes/rate`, 'PATCH', body);
+      else fetchData(`/comments/likes/rate/update`, 'PATCH', body);
    };
 
-   //    wait for user to stop
-   const debouncedChangeHandler = useMemo(() => debounce(updateLikes, 1000), []);
+   const checkIfRated = (e) => {
+      const click = e.target;
 
-   const increase = (e) => {
-      if (auth === 'Log in') return info(`You have to be logged in order to rate comments`);
-      setLikes((prev) => prev + 1);
-      debouncedChangeHandler(e);
+      // take all rate buttons inside current comment
+      const rate = [...click.closest('.post').querySelectorAll('.fa-solid')];
+
+      // find element that has 'rated' class active
+      const [hasRatedClass] = rate.filter((value) => value.classList.contains('rated'));
+
+      if (click.classList.contains('fa-thumbs-up')) increase(click, hasRatedClass);
+      if (click.classList.contains('fa-thumbs-down')) decrease(click, hasRatedClass);
    };
 
-   const decrease = (e) => {
-      if (likes === 0) return;
-      if (auth === 'Log in') return info(`You have to be logged in order to rate comments`);
-      setLikes((prev) => prev - 1);
-      debouncedChangeHandler(e);
+   // increase amount of likes
+   const increase = (click, hasRatedClass) => {
+      if (click.classList.contains('rated')) {
+         click.classList.remove('rated');
+         setLikes((prev) => prev - 1);
+         const value = +likesAmount.current.innerHTML - 1;
+         updateLikes(click, value);
+      } else {
+         click.classList.add('rated');
+         setLikes((prev) => prev + 1);
+         const value = +likesAmount.current.innerHTML + 1;
+         updateLikes(click, value, true);
+         if (!hasRatedClass) return;
+
+         // remove 'rated' class if is active
+         hasRatedClass.classList.remove('rated');
+      }
    };
+
+   // decrease amount of likes
+   const decrease = (click, hasRatedClass) => {
+      if (click.classList.contains('rated')) {
+         click.classList.remove('rated');
+         setLikes((prev) => prev + 1);
+         const value = +likesAmount.current.innerHTML + 1;
+         updateLikes(click, value);
+      } else {
+         click.classList.add('rated');
+         setLikes((prev) => prev - 1);
+         const value = +likesAmount.current.innerHTML - 1;
+         updateLikes(click, value, true);
+         if (!hasRatedClass) return;
+
+         // remove 'rated' class if is active
+         hasRatedClass.classList.remove('rated');
+      }
+   };
+
+   //
+   const [rateType] = data.userLikes.filter((value) => {
+      const findUser = value.userID === userData.id;
+      if (findUser) return value.rateType;
+      else return '';
+   });
 
    return (
       <div className='evaluate'>
          {contextHolder}
-         <button onClick={increase} disabled={auth === 'Log in'}>
-            <i className={`fa-regular fa-thumbs-up ${auth === 'Log in' ? 'disabled' : ''}`}></i>
+         <button
+            onClick={checkIfRated}
+            disabled={userData.username === 'Log in'}
+            className={`${userData.username === 'Log in' ? 'disabled' : ''}`}
+         >
+            <i
+               className={`${
+                  rateType?.rateType === 'fa-solid fa-thumbs-up rated' ? 'fa-solid fa-thumbs-up rated' : 'fa-solid fa-thumbs-up'
+               } `}
+            ></i>
          </button>
-         <p ref={likesAmount}>{likes}</p>
-         <button onClick={decrease} disabled={auth === 'Log in'}>
-            <i className={`fa-regular fa-thumbs-down ${auth === 'Log in' ? 'disabled' : ''}`}></i>
+         <p className='likes' ref={likesAmount}>
+            {likes}
+         </p>
+         <button
+            onClick={checkIfRated}
+            disabled={userData.username === 'Log in'}
+            className={`${userData.username === 'Log in' ? 'disabled' : ''}`}
+         >
+            <i
+               className={`${
+                  rateType?.rateType === 'fa-solid fa-thumbs-down rated' ? 'fa-solid fa-thumbs-down rated' : 'fa-solid fa-thumbs-down'
+               }`}
+            ></i>
          </button>
       </div>
    );
+   // return (
+   //    <div className='evaluate'>
+   //       {contextHolder}
+   //       <button onClick={checkIfRated} disabled={userData.username === 'Log in'}>
+   //          <i className={`fa-solid fa-thumbs-up ${userData.username === 'Log in' ? 'disabled' : ''}`}></i>
+   //       </button>
+   //       <p className='likes' ref={likesAmount}>
+   //          {likes}
+   //       </p>
+   //       <button onClick={checkIfRated} disabled={userData.username === 'Log in'}>
+   //          <i className={`fa-solid fa-thumbs-down ${userData.username === 'Log in' ? 'disabled' : ''}`}></i>
+   //       </button>
+   //    </div>
+   // );
 };

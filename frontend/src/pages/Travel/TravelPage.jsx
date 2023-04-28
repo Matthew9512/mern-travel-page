@@ -6,6 +6,8 @@ import { BookingSection } from './Components/BookingSection/BookingSection';
 import { RatingStarsSection } from './Components/RatingStarsSection/RatingStarsSection';
 import { Footer } from '../../components/Footer/Footer';
 import { LoadingSpinner } from '../../components/LoadingSpinner/LoadingSpinner';
+import '../../assets/App.css';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { PopupMessage } from '../../components/PopupMessage/PopupMessage';
 
 export const TravelPage = () => {
@@ -39,9 +41,11 @@ export const TravelPage = () => {
                         <div>
                            <p className='destinations-name'>{data?.city}</p>
                            <p className='destinations-country'>
+                              {/* <FontAwesomeIcon icon='location-dot' /> {data?.country} */}
                               <i className='fa-solid fa-location-dot'></i> {data?.country}
                            </p>
                            <div className='destinations-date'>
+                              {/* <FontAwesomeIcon icon='plane' /> */}
                               <i className='fa-solid fa-plane'></i>
                               <p>
                                  {data?.startDate} - {data?.endDate}
@@ -62,7 +66,7 @@ export const TravelPage = () => {
                      <span>About travel:</span> {data?.description}
                   </p>
                </div>
-               {!data ? '' : <BookingSection data={data} id={id} />}
+               {!data ? '' : <BookingSection dataa={data} id={id} />}
             </div>
             <CommentsSection id={id} />
          </section>

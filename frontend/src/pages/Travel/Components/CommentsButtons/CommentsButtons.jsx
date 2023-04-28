@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useFetch } from '../../../../api/useFetch';
 import { LoadingButton } from '../../../../components/LoadingButton';
 import { PopupMessage } from '../../../../components/PopupMessage/PopupMessage';
+import { usePopupMessage } from '../../../../api/usePopupMessage';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 /**
  * @todo width of active edit textfield !!!
@@ -10,7 +12,10 @@ import { PopupMessage } from '../../../../components/PopupMessage/PopupMessage';
 
 export const CommentsButtons = ({ setRender }) => {
    const [icon, setIcon] = useState(false);
-   const { fetchData, data, ready, contextHolder } = useFetch();
+   const { fetchData, data, ready } = useFetch();
+   const { contextHolder, successMsg } = usePopupMessage();
+   // const [btnLoad, setBtnLoad] = useState(<FontAwesomeIcon icon='check' />);
+   // const [btnDelete, setBtnDelete] = useState(<FontAwesomeIcon icon='trash' />);
    const [btnLoad, setBtnLoad] = useState(<i className='fa-solid fa-check'></i>);
    const [btnDelete, setBtnDelete] = useState(<i className='fa-solid fa-trash'></i>);
 
@@ -54,21 +59,24 @@ export const CommentsButtons = ({ setRender }) => {
 
    // wait for fulfilled respond then rerender the component
    useEffect(() => {
+      if (!ready) return;
       console.log('CommentsButtons effect');
-      if (ready) {
-         setRender((prev) => !prev);
-         setIcon(false);
-      }
+      setRender(true);
+      setIcon(false);
+      successMsg(data.message);
+
+      return () => setRender(false);
    }, [ready]);
 
    return (
       <div className='post__btns'>
          {contextHolder}
-         {/* <Button onClick={changeComment} loading={loading} className='btn btn-edit'>
+         {/* <button onClick={changeComment} loading={loading} className='btn btn-edit'>
             {!icon ? <i className='fa-solid fa-pen-to-square'></i> : btnLoad}
-         </Button> */}
+         </button> */}
          {/* <PopupMessage ready={ready} error={errorMsg} message={data?.message} /> */}
          <button onClick={changeComment} className='btn btn-edit'>
+            {/* {!icon ? <FontAwesomeIcon icon='pen-to-square' /> : btnLoad} */}
             {!icon ? <i className='fa-solid fa-pen-to-square'></i> : btnLoad}
          </button>
          <button onClick={deleteComment} className='btn btn-delete'>

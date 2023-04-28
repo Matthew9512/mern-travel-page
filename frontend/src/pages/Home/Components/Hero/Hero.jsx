@@ -1,4 +1,5 @@
 import React from 'react';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './Hero.css';
 
 export const Hero = () => {
@@ -10,6 +11,7 @@ export const Hero = () => {
             <span>
                W
                <span>
+                  {/* <FontAwesomeIcon icon='earth-americas' className='hero__logo' /> */}
                   <i className='fa-solid fa-earth-americas hero__logo'></i>
                </span>
                rld

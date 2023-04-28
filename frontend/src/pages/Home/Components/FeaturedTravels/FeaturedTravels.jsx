@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import '../FeaturedTravels/FeaturedTravels.css';
 import { LoadingSpinner } from '../../../../components/LoadingSpinner/LoadingSpinner';
 
@@ -22,9 +23,11 @@ export const FeaturedTravels = ({ data, error, loading }) => {
                         <div className='destinations__item-wrapper'>
                            <p className='destinations-name'>{value?.city}</p>
                            <p className='destinations-country'>
+                              {/* <FontAwesomeIcon icon='location-dot' /> {value?.country} */}
                               <i className='fa-solid fa-location-dot'></i> {value?.country}
                            </p>
                            <div className='destinations-date'>
+                              {/* <FontAwesomeIcon icon='plane' /> */}
                               <i className='fa-solid fa-plane'></i>
                               <p>
                                  {value?.startDate} - {value?.endDate}

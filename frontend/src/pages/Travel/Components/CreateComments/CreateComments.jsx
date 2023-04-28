@@ -2,10 +2,13 @@ import React, { useContext, useEffect, useRef } from 'react';
 import { AuthContext } from '../../../../context/AuthContext';
 import { useFetch } from '../../../../api/useFetch';
 import { LoadingButton } from '../../../../components/LoadingButton';
+import { usePopupMessage } from '../../../../api/usePopupMessage';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const CreateComments = ({ id, setRender }) => {
-   const { auth } = useContext(AuthContext);
-   const { fetchData, loading, contextHolder, ready } = useFetch();
+   const { userData } = useContext(AuthContext);
+   const { fetchData, loading, ready } = useFetch();
+   const { contextHolder, successMsg } = usePopupMessage();
    const commentRef = useRef();
 
    const sendComment = async () => {
@@ -16,14 +19,16 @@ export const CreateComments = ({ id, setRender }) => {
          username,
          post: commentRef.current.value,
       };
-      // await fetchData(`/search/${id}/comments`, 'POST', body);
       await fetchData(`/comments/${id}`, 'POST', body);
       commentRef.current.value = '';
    };
 
    // wait for fulfilled respond then save user in ls and change auth user state
    useEffect(() => {
-      if (ready) setRender((prev) => !prev);
+      if (!ready) return;
+      setRender((prev) => !prev);
+
+      successMsg(`Comment successfully created`);
    }, [ready]);
 
    return (
@@ -32,9 +37,14 @@ export const CreateComments = ({ id, setRender }) => {
          <textarea ref={commentRef} className='user-comment' id='user-comment' placeholder='add a comment' maxLength={250}></textarea>
          <div className='create__comment-wrapper'>
             <div className='user-avatar'>
+               {/* <FontAwesomeIcon icon='user' className='user-img' /> */}
                <i className='fa-solid fa-user user-img'></i>
             </div>
-            <button onClick={sendComment} disabled={auth === 'Log in'} className={`btn btn-send ${auth === 'Log in' ? 'disabled' : ''} `}>
+            <button
+               onClick={sendComment}
+               disabled={userData.username === 'Log in'}
+               className={`btn btn-send ${userData.username === 'Log in' ? 'disabled' : ''} `}
+            >
                {loading ? <LoadingButton /> : '+Add'}
             </button>
             {/* <Button

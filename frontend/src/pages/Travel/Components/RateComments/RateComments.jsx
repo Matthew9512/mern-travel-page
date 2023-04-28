@@ -1,4 +1,5 @@
 import React, { useContext, useRef, useState } from 'react';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useFetch } from '../../../../api/useFetch';
 import { AuthContext } from '../../../../context/AuthContext';
 
@@ -92,6 +93,7 @@ export const RateComments = ({ data }) => {
             disabled={userData.username === 'Log in'}
             className={`${userData.username === 'Log in' ? 'disabled' : ''}`}
          >
+            {/* <FontAwesomeIcon icon='thumbs-down' className='rated' /> */}
             <i
                className={`${
                   rateType?.rateType === 'fa-solid fa-thumbs-up rated' ? 'fa-solid fa-thumbs-up rated' : 'fa-solid fa-thumbs-up'
@@ -106,6 +108,7 @@ export const RateComments = ({ data }) => {
             disabled={userData.username === 'Log in'}
             className={`${userData.username === 'Log in' ? 'disabled' : ''}`}
          >
+            {/* <FontAwesomeIcon icon='thumbs-down' className='rated' /> */}
             <i
                className={`${
                   rateType?.rateType === 'fa-solid fa-thumbs-down rated' ? 'fa-solid fa-thumbs-down rated' : 'fa-solid fa-thumbs-down'

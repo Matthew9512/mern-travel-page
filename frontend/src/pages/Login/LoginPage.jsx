@@ -1,16 +1,22 @@
 import React, { useContext, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './LoginPage.css';
+import '../../assets/App.css';
 import { useFetch } from '../../api/useFetch';
 import { AuthContext } from '../../context/AuthContext';
+
+/**
+ * @todo fetch user in context
+ */
 
 export const LoginPage = () => {
    const emailRef = useRef();
    const passwordRef = useRef();
-   const { setAuth } = useContext(AuthContext);
+   const { setUserID } = useContext(AuthContext);
    const navigate = useNavigate();
 
-   const { fetchData, data, ready, contextHolder } = useFetch();
+   const { fetchData, data, ready } = useFetch();
 
    const authUser = async (e) => {
       e.preventDefault();
@@ -28,9 +34,11 @@ export const LoginPage = () => {
    useEffect(() => {
       if (ready) {
          console.log(`user effect`);
-         setAuth(data.user.username);
-         localStorage.setItem('travel__user', JSON.stringify(data.user));
-         alert(`user login successfully, welcome back ${data.user.username}`);
+         setUserID(data.id);
+         // setAuth(data.user.username);
+         console.log(data);
+         // localStorage.setItem('travel__user', JSON.stringify(data.user));
+         alert(`user login successfully, welcome back ${data.username}`);
          // go back to previous page
          navigate(-1);
       }
@@ -40,9 +48,9 @@ export const LoginPage = () => {
       <div className='auth__container'>
          <video className='hero__video' src='../hero4.mp4' muted loop></video>
          <div className='login'>
-            {contextHolder}
             <p className='auth__header'>
                <span>
+                  {/* <FontAwesomeIcon icon='earth-americas' /> */}
                   <i className='fa-solid fa-earth-americas'></i>
                </span>
                Travello

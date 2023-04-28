@@ -1,19 +1,14 @@
 import { useEffect, useState } from 'react';
-import { usePopupMessage } from './usePopupMessage';
-import { PopupMessage } from '../components/PopupMessage/PopupMessage';
-
-/**
- * @todo success popup message
- */
 
 export const API = `http://localhost:8000`;
 
 /**
  * @todo useEffect waiting for endpoint change to activate function?
+ * @todo abort controller
  */
 
 export const useFetch = () => {
-   const { contextHolder, successMsg, errorMsg } = usePopupMessage();
+   const controller = new AbortController();
    const [data, setData] = useState(null);
    const [error, setError] = useState(null);
    const [loading, setLoading] = useState(false);
@@ -36,16 +31,13 @@ export const useFetch = () => {
          console.log(resData);
          if (!res.ok) throw new Error(resData.message);
 
-         setData(resData);
-         // <PopupMessage ready={ready} />;
-         // successMsg(resData.message || resData.at(0)?.message);
          setReady(true);
+         setData(resData);
       } catch (err) {
-         errorMsg(err.message);
          setError(err.message);
       }
       setLoading(false);
    };
 
-   return { fetchData, data, loading, error, ready, contextHolder };
+   return { fetchData, data, loading, error, ready };
 };

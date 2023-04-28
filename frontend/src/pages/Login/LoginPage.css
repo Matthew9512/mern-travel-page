@@ -35,6 +35,9 @@
    border: none;
    padding: 0.4em 0.8em;
 }
+.login__wrapper input:focus {
+   border: 1px solid #0e57c5;
+}
 .login__wrapper label {
    opacity: 0.8;
    font-size: 0.9rem;

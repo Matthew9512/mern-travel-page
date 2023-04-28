@@ -15,12 +15,7 @@ export const PopupMessage = ({ ready, error }) => {
 
    return (
       <div className={`popup__wrapper ${ready || error ? 'add' : ''} `}>
-         <div className='popup__box'>
-            {ready ? successMsg : errorMsg}
-            {/* <i class='fa-solid fa-circle-xmark'></i> */}
-            {/* <i class='fa-solid fa-circle-check'></i> */}
-            {/* <i class='fa-solid fa-circle-info'></i> */}
-         </div>
+         <div className='popup__box'>{ready ? successMsg : errorMsg}</div>
       </div>
    );
 };

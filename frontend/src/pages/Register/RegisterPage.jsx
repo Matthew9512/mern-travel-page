@@ -1,20 +1,23 @@
-import React, { useRef } from 'react';
-import '../Login/LoginPage';
+import React, { useEffect, useRef } from 'react';
 import { useFetch } from '../../api/useFetch';
+import { usePopupMessage } from '../../api/usePopupMessage';
 import { Link } from 'react-router-dom';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import '../Login/LoginPage';
 
 export const RegisterPage = () => {
    const usernameRef = useRef();
    const passwordRef = useRef();
    const emailRef = useRef();
 
-   const { fetchData, contextHolder } = useFetch();
+   const { fetchData, data, ready } = useFetch();
+   const { contextHolder, successMsg } = usePopupMessage();
 
    const authUser = async (e) => {
       e.preventDefault();
 
       const email = emailRef.current?.value;
-      if (!email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)) alert`wrong mail`;
+      if (!email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)) return alert`wrong mail`;
 
       const body = {
          email,
@@ -26,6 +29,11 @@ export const RegisterPage = () => {
       await fetchData(`/user/signin`, 'POST', body);
    };
 
+   useEffect(() => {
+      if (!ready) return;
+      successMsg(data.message);
+   }, [ready]);
+
    return (
       <div className='auth__container'>
          <video className='hero__video' src='../hero4.mp4' muted loop></video>
@@ -33,6 +41,7 @@ export const RegisterPage = () => {
             {contextHolder}
             <p className='auth__header'>
                <span>
+                  {/* <FontAwesomeIcon icon='earth-americas' /> */}
                   <i className='fa-solid fa-earth-americas'></i>
                </span>
                Travello

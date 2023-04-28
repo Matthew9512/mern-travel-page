@@ -1,28 +1,42 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import './Navbar.css';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const Navbar = () => {
-   // const [show, setShow] = useState(false);
-   const { auth } = useContext(AuthContext);
+   const { userData } = useContext(AuthContext);
    const navigate = useNavigate();
+   const navbarBtn = useRef();
+   const [navbarVisibility, setNavbarVisibility] = useState(false);
 
    const handleAuth = () => {
-      if (auth !== 'Log in') navigate('/user');
+      if (userData.username !== 'Log in') navigate('/user');
       else navigate('/login');
    };
 
+   // toggle navbar visibility
+   const toggleNavbar = (e) => {
+      const click = e.target;
+      if (navbarBtn.current.contains(click)) setNavbarVisibility((prev) => !prev);
+      if (click.classList.contains('navbar__btn')) setNavbarVisibility(false);
+      // else return;
+   };
+
    return (
-      <nav className='navbar'>
+      <nav onClick={toggleNavbar} className='navbar'>
          <i className='fa-solid fa-earth-americas navbar__logo'></i>
-         <input id='menu-toggle' type='checkbox' />
-         <label className='navbar__menu-button-container' htmlFor='menu-toggle'>
-            <div className='navbar__menu-button'></div>
-         </label>
-         <ul className='navbar__menu'>
+         <input type='checkbox' id='navbar-check' />
+         <div className='navbar__btn-wrapper'>
+            <label ref={navbarBtn} htmlFor='navbar-check'>
+               <span></span>
+               <span></span>
+               <span></span>
+            </label>
+         </div>
+         <ul className={`navbar__items-wrapper ${navbarVisibility ? 'show' : 'hide'}`}>
             <li>
-               <a href='/'>
+               <a className='q' href='/'>
                   <button className='navbar__btn'>Start</button>
                </a>
             </li>
@@ -38,29 +52,53 @@ export const Navbar = () => {
             </li>
             <li>
                <button onClick={handleAuth} className='navbar__btn'>
-                  {auth}
+                  {userData?.username} <i className='fa-solid fa-user'></i>
                </button>
             </li>
          </ul>
       </nav>
    );
 };
-// ============================================
-// const toggleNavbar = (e) => {
-//    const click = e.target;
-//    if (click.classList.contains('navbar__btn')) setShow((prev) => !prev);
-// };
 
-// return (
-//    <>
-//       <button onClick={() => setShow((prev) => !prev)} className='button btn-close'>
-//          X
-//       </button>
-//       <nav className={`navbar ${!show ? 'hide' : 'show'}`}>
+// import React, { useContext, useRef, useState } from 'react';
+// import { useNavigate } from 'react-router-dom';
+// import { AuthContext } from '../../context/AuthContext';
+// import './Navbar.css';
+// // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+// export const Navbar = () => {
+//    const { auth } = useContext(AuthContext);
+//    const navigate = useNavigate();
+//    const navbarBtn = useRef();
+//    const [navbarVisibility, setNavbarVisibility] = useState(false);
+
+//    const handleAuth = () => {
+//       if (auth !== 'Log in') navigate('/user');
+//       else navigate('/login');
+//    };
+
+//    // toggle navbar visibility
+//    const toggleNavbar = (e) => {
+//       const click = e.target;
+//       if (navbarBtn.current.contains(click)) setNavbarVisibility((prev) => !prev);
+//       if (click.classList.contains('navbar__btn')) setNavbarVisibility(false);
+//       // else return;
+//    };
+
+//    return (
+//       <nav onClick={toggleNavbar} className='navbar'>
 //          <i className='fa-solid fa-earth-americas navbar__logo'></i>
-//          <ul onClick={toggleNavbar} className='navbar__menu'>
+//          <input type='checkbox' id='navbar-check' />
+//          <div className='navbar__btn-wrapper'>
+//             <label ref={navbarBtn} htmlFor='navbar-check'>
+//                <span></span>
+//                <span></span>
+//                <span></span>
+//             </label>
+//          </div>
+//          <ul className={`navbar__items-wrapper ${navbarVisibility ? 'show' : 'hide'}`}>
 //             <li>
-//                <a href='/'>
+//                <a className='q' href='/'>
 //                   <button className='navbar__btn'>Start</button>
 //                </a>
 //             </li>
@@ -76,10 +114,10 @@ export const Navbar = () => {
 //             </li>
 //             <li>
 //                <button onClick={handleAuth} className='navbar__btn'>
-//                   {auth}
+//                   {auth} <i className='fa-solid fa-user'></i>
 //                </button>
 //             </li>
 //          </ul>
 //       </nav>
-//    </>
-// )
+//    );
+// };

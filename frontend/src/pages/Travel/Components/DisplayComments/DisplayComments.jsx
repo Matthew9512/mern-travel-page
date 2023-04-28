@@ -3,9 +3,10 @@ import { dateFormat } from '../../../../utils/dateFormat';
 import { AuthContext } from '../../../../context/AuthContext';
 import { CommentsButtons } from '../CommentsButtons/CommentsButtons';
 import { RateComments } from '../RateComments/RateComments';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const DisplayComments = ({ data, setRender }) => {
-   const { auth } = useContext(AuthContext);
+   const { userData } = useContext(AuthContext);
 
    if (!data.data.length)
       return <p className='error-message'>Nobody responded to this post yet. Add your thoughts and get the conversation going.</p>;
@@ -22,13 +23,14 @@ export const DisplayComments = ({ data, setRender }) => {
                      <div className='details__wrapper'>
                         <div className='user__info'>
                            <div className='user-avatar'>
+                              {/* <FontAwesomeIcon icon='user' className='user-img' /> */}
                               <i className='fa-solid fa-user user-img'></i>
                            </div>
                            <p className='username'>{value.username}</p>
                            <p className='date'>{formatedDate}</p>
                         </div>
                         {/* display buttons only for user that is logged in */}
-                        {value.username === auth ? <CommentsButtons setRender={setRender} /> : ''}
+                        {value.username === userData.username ? <CommentsButtons setRender={setRender} /> : ''}
                      </div>
                      <div className='user__post'>
                         <textarea disabled={true} className='text' defaultValue={value.post}></textarea>

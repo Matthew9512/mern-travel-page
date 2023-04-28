@@ -43,7 +43,6 @@ const getAllTravles = async function (req, res, next) {
 
 // get travel by id
 const getTravelsByID = async function (req, res, next) {
-   console.log(`ji`);
    try {
       const { id } = req.params;
 
@@ -131,9 +130,22 @@ const bookTravel = async function (req, res, next) {
 
       const saveBookings = await usersModel.updateOne({ _id: userID }, { $addToSet: { bookings: travelID } }).orFail();
 
+      // const userData = await usersModel.findById({ _id: userID });
+
+      // const user = {
+      //    email: userData.email,
+      //    username: userData.username,
+      //    id: userData._id,
+      //    createdAt: format(new Date(userData.createdAt), 'dd/MM/yyyy'),
+      //    bookings: userData.bookings,
+      // };
+
       if (!updatePlaces || !saveBookings) return res.status(404).json({ message: `Something went wrong, please try again` });
 
-      res.status(200).json({ message: `You have succesfully bookmarked travel`, data: verPlaces });
+      res.status(200).json({
+         message: `You have succesfully bookmarked travel`,
+         // user,
+      });
    } catch (error) {
       next(error);
    }

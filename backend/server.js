@@ -8,6 +8,7 @@ const PORT = process.env.PORT || 8000;
 const corsOptions = require('./config/corsOptions');
 const connectDB = require('./config/connectDB');
 const errorHandler = require('./middleware/errorHandler');
+const cacheControl = require('./middleware/cacheControl');
 
 /**
  * @todo error
@@ -21,6 +22,8 @@ connectDB();
 app.use(cors(corsOptions));
 
 app.use(express.json());
+
+app.use(cacheControl);
 
 // routes
 app.use('/', require('./routes/travelsRouter'));

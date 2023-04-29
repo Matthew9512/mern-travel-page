@@ -1,7 +1,8 @@
 import React, { useContext, useRef, useState } from 'react';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useFetch } from '../../../../api/useFetch';
 import { AuthContext } from '../../../../context/AuthContext';
+import { FontAwesome } from '../../../../utils/icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const RateComments = ({ data }) => {
    const [likes, setLikes] = useState(data.likes);
@@ -93,12 +94,13 @@ export const RateComments = ({ data }) => {
             disabled={userData.username === 'Log in'}
             className={`${userData.username === 'Log in' ? 'disabled' : ''}`}
          >
+            <FontAwesome iconName='thumbs-up' className='rated' />
             {/* <FontAwesomeIcon icon='thumbs-down' className='rated' /> */}
-            <i
+            {/* <i
                className={`${
                   rateType?.rateType === 'fa-solid fa-thumbs-up rated' ? 'fa-solid fa-thumbs-up rated' : 'fa-solid fa-thumbs-up'
                } `}
-            ></i>
+            ></i> */}
          </button>
          <p className='likes' ref={likesAmount}>
             {likes}
@@ -108,12 +110,13 @@ export const RateComments = ({ data }) => {
             disabled={userData.username === 'Log in'}
             className={`${userData.username === 'Log in' ? 'disabled' : ''}`}
          >
+            <FontAwesome iconName='thumbs-down' className='rated' />
             {/* <FontAwesomeIcon icon='thumbs-down' className='rated' /> */}
-            <i
+            {/* <i
                className={`${
                   rateType?.rateType === 'fa-solid fa-thumbs-down rated' ? 'fa-solid fa-thumbs-down rated' : 'fa-solid fa-thumbs-down'
                }`}
-            ></i>
+            ></i> */}
          </button>
       </div>
    );

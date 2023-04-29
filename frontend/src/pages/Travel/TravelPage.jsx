@@ -7,6 +7,7 @@ import { RatingStarsSection } from './Components/RatingStarsSection/RatingStarsS
 import { Footer } from '../../components/Footer/Footer';
 import { LoadingSpinner } from '../../components/LoadingSpinner/LoadingSpinner';
 import '../../assets/App.css';
+import { FontAwesome } from '../../utils/icons';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { PopupMessage } from '../../components/PopupMessage/PopupMessage';
 
@@ -14,17 +15,13 @@ export const TravelPage = () => {
    const { id } = useParams();
    const { fetchData, data, errors, loading } = useFetch();
 
-   // for development
    useEffect(() => {
       console.log(`travelsection effect`);
-   }, []);
-
-   useEffect(() => {
       fetchData(`/search/${id}`);
    }, []);
 
    if (errors) return <p>{errors}</p>;
-   if (!data) return <LoadingSpinner loading={loading} />;
+   if (data.length === 0) return <LoadingSpinner loading={loading} />;
 
    return (
       <main className='container'>
@@ -41,12 +38,14 @@ export const TravelPage = () => {
                         <div>
                            <p className='destinations-name'>{data?.city}</p>
                            <p className='destinations-country'>
+                              <FontAwesome iconName='location-dot' />
                               {/* <FontAwesomeIcon icon='location-dot' /> {data?.country} */}
-                              <i className='fa-solid fa-location-dot'></i> {data?.country}
+                              {/* <i className='fa-solid fa-location-dot'></i> {data?.country} */}
                            </p>
                            <div className='destinations-date'>
+                              <FontAwesome iconName='plane' />
                               {/* <FontAwesomeIcon icon='plane' /> */}
-                              <i className='fa-solid fa-plane'></i>
+                              {/* <i className='fa-solid fa-plane'></i> */}
                               <p>
                                  {data?.startDate} - {data?.endDate}
                               </p>
@@ -66,7 +65,7 @@ export const TravelPage = () => {
                      <span>About travel:</span> {data?.description}
                   </p>
                </div>
-               {!data ? '' : <BookingSection dataa={data} id={id} />}
+               {data.length === 0 ? '' : <BookingSection travelData={data} id={id} />}
             </div>
             <CommentsSection id={id} />
          </section>

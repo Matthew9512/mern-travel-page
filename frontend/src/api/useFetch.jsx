@@ -8,8 +8,7 @@ export const API = `http://localhost:8000`;
  */
 
 export const useFetch = () => {
-   const controller = new AbortController();
-   const [data, setData] = useState(null);
+   const [data, setData] = useState([]);
    const [error, setError] = useState(null);
    const [loading, setLoading] = useState(false);
    const [ready, setReady] = useState(false);

@@ -10,10 +10,7 @@ export const Navbar = () => {
    const navbarBtn = useRef();
    const [navbarVisibility, setNavbarVisibility] = useState(false);
 
-   const handleAuth = () => {
-      if (userData.username !== 'Log in') navigate('/user');
-      else navigate('/login');
-   };
+   const handleAuth = () => (!userData.length ? navigate('/login') : navigate('/user'));
 
    // toggle navbar visibility
    const toggleNavbar = (e) => {
@@ -52,7 +49,7 @@ export const Navbar = () => {
             </li>
             <li>
                <button onClick={handleAuth} className='navbar__btn'>
-                  {userData?.username} <i className='fa-solid fa-user'></i>
+                  {!userData.length ? 'Log in' : userData.at(0).username} <i className='fa-solid fa-user'></i>
                </button>
             </li>
          </ul>

@@ -35,16 +35,16 @@ const logIn = async function (req, res, next) {
       // });
 
       // res.status(200).json({ message: `user login successfully`, accessToken });
-      res.status(200).json({ message: `user login successfully`, username: user.username, id: user._id });
-      // res.status(200).json({
-      //    user: {
-      //       email: user.email,
-      //       username: user.username,
-      //       id: user._id,
-      //       createdAt: format(new Date(user.createdAt), 'dd/MM/yyyy'),
-      //       bookings: user.bookings,
-      //    },
-      // });
+      // res.status(200).json({ message: `user login successfully`, username: user.username, id: user._id });
+      res.status(200).json({
+         user: {
+            email: user.email,
+            username: user.username,
+            id: user._id,
+            createdAt: format(new Date(user.createdAt), 'dd/MM/yyyy'),
+            bookings: user.bookings,
+         },
+      });
    } catch (error) {
       next(error);
    }

@@ -130,21 +130,21 @@ const bookTravel = async function (req, res, next) {
 
       const saveBookings = await usersModel.updateOne({ _id: userID }, { $addToSet: { bookings: travelID } }).orFail();
 
-      // const userData = await usersModel.findById({ _id: userID });
+      const userData = await usersModel.findById({ _id: userID });
 
-      // const user = {
-      //    email: userData.email,
-      //    username: userData.username,
-      //    id: userData._id,
-      //    createdAt: format(new Date(userData.createdAt), 'dd/MM/yyyy'),
-      //    bookings: userData.bookings,
-      // };
+      const user = {
+         email: userData.email,
+         username: userData.username,
+         id: userData._id,
+         createdAt: format(new Date(userData.createdAt), 'dd/MM/yyyy'),
+         bookings: userData.bookings,
+      };
 
       if (!updatePlaces || !saveBookings) return res.status(404).json({ message: `Something went wrong, please try again` });
 
       res.status(200).json({
          message: `You have succesfully bookmarked travel`,
-         // user,
+         user,
       });
    } catch (error) {
       next(error);

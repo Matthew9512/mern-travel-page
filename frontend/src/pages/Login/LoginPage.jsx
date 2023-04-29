@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './LoginPage.css';
 import '../../assets/App.css';
 import { useFetch } from '../../api/useFetch';
 import { AuthContext } from '../../context/AuthContext';
+import { FontAwesome } from '../../utils/icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 /**
  * @todo fetch user in context
@@ -13,7 +14,7 @@ import { AuthContext } from '../../context/AuthContext';
 export const LoginPage = () => {
    const emailRef = useRef();
    const passwordRef = useRef();
-   const { setUserID } = useContext(AuthContext);
+   const { setUserData } = useContext(AuthContext);
    const navigate = useNavigate();
 
    const { fetchData, data, ready } = useFetch();
@@ -32,16 +33,12 @@ export const LoginPage = () => {
 
    // wait for fulfilled respond then save user in ls and change auth user state
    useEffect(() => {
-      if (ready) {
-         console.log(`user effect`);
-         setUserID(data.id);
-         // setAuth(data.user.username);
-         console.log(data);
-         // localStorage.setItem('travel__user', JSON.stringify(data.user));
-         alert(`user login successfully, welcome back ${data.username}`);
-         // go back to previous page
-         navigate(-1);
-      }
+      if (!ready) return;
+      console.log(`user effect`);
+      setUserData((prev) => [...prev, data.user]);
+      alert(`user login successfully, welcome back ${data.user.username}`);
+      // go back to previous page
+      navigate(-1);
    }, [ready]);
 
    return (
@@ -50,8 +47,9 @@ export const LoginPage = () => {
          <div className='login'>
             <p className='auth__header'>
                <span>
+                  <FontAwesome iconName='earth-americas' />
                   {/* <FontAwesomeIcon icon='earth-americas' /> */}
-                  <i className='fa-solid fa-earth-americas'></i>
+                  {/* <i className='fa-solid fa-earth-americas'></i> */}
                </span>
                Travello
             </p>

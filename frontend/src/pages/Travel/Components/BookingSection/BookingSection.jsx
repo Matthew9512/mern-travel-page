@@ -4,21 +4,24 @@ import './BookingSection.css';
 import { AuthContext } from '../../../../context/AuthContext';
 import { useFetch } from '../../../../api/useFetch';
 import { LoadingSpinner } from '../../../../components/LoadingSpinner/LoadingSpinner';
+import { FontAwesome } from '../../../../utils/icons';
 
-/**
- * @todo fetch user in context
- */
-
-export const BookingSection = ({ dataa, id }) => {
+export const BookingSection = ({ travelData, id }) => {
    const [personsAmount, setPersonsAmount] = useState(1);
-   const [totalCost, setTotalCost] = useState(dataa?.price);
-   const [bookedButton, setBookedButton] = useState(false);
-   const { fetchData, data, loading, ready, contextHolder } = useFetch();
+   const [totalCost, setTotalCost] = useState(travelData?.price);
    const { userData, setUserData } = useContext(AuthContext);
+
+   const [bookedButton, setBookedButton] = useState(() => {
+      // check if current travel was booked by current user
+      if (userData.at(0)?.bookings.some((value) => value == id)) return true;
+      return false;
+   });
+   const { fetchData, data, loading, ready, contextHolder } = useFetch();
    const inpRef = useRef();
 
-   const calcPrice = async (e) => {
-      if (e.target.textContent === 'Temporary unavailable' || userData.username === 'Log in') return;
+   const calcPrice = async () => {
+      if (!userData.length) return;
+      // if (e.target.textContent === 'Temporary unavailable' || !userData.length) return;
       const personsAmountRef = +inpRef.current.value;
       setPersonsAmount(personsAmountRef);
 
@@ -26,9 +29,8 @@ export const BookingSection = ({ dataa, id }) => {
       const body = {
          places: personsAmountRef,
          travelID: id,
-         userID: userData.id,
+         userID: userData.at(0).id,
       };
-
       await fetchData('/bookings', 'PATCH', body);
    };
 
@@ -36,19 +38,11 @@ export const BookingSection = ({ dataa, id }) => {
    useEffect(() => {
       console.log(`BookingSection effect`);
       if (!ready) return;
-      setTotalCost(dataa?.price * personsAmount);
-      localStorage.setItem('travel__user', JSON.stringify(data.user));
-      setUserData(data.user);
-      setBookedButton(true);
+      setTotalCost(travelData?.price * personsAmount);
+      localStorage.removeItem('travel__user');
+      setUserData([data.user]);
+      setBookedButton('Travel booked');
    }, [ready]);
-
-   // check if current travel was booked by current user
-   useEffect(() => {
-      console.log(`component mount`);
-      if (!userData?.bookings) return;
-      const checkUserSBookings = userData?.bookings.some((value) => value === id);
-      if (checkUserSBookings) setBookedButton(true);
-   }, []);
 
    return (
       <aside className='travel-sum'>
@@ -57,24 +51,26 @@ export const BookingSection = ({ dataa, id }) => {
          <h3>Book this travel:</h3>
          <label htmlFor='peoples-number'>Choose number of people:</label>
          <div className='group'>
+            <FontAwesome iconName='user' />
             {/* <FontAwesomeIcon icon='user' className='icon' /> */}
-            <i className='icon fa-solid fa-users'></i>
+            {/* <i className='icon fa-solid fa-users'></i> */}
             <input ref={inpRef} disabled={bookedButton} type='number' className='input' placeholder='e.g. 1' />
          </div>
          <div className='destinations-date'>
+            <FontAwesome iconName='plane' />
             {/* <FontAwesomeIcon icon='plane' /> */}
-            <i className='fa-solid fa-plane'></i>
+            {/* <i className='fa-solid fa-plane'></i> */}
             <p>
-               {dataa?.startDate} - {dataa?.endDate}
+               {travelData?.startDate} - {travelData?.endDate}
             </p>
          </div>
-         <div key={dataa?.id} className='cost-wrapper'>
+         <div key={travelData?.id} className='cost-wrapper'>
             <p className='cost'>Cost:</p>
             <p className='destinations-price'>
                {totalCost} $/<span>total</span>
             </p>
             <p className='destinations-price'>
-               {dataa?.price} $/<span>per</span>
+               {travelData?.price} $/<span>per</span>
             </p>
          </div>
          {/* display proper info if user alreay booked travel */}
@@ -83,15 +79,10 @@ export const BookingSection = ({ dataa, id }) => {
                <p>Travel booked</p>
             </div>
          ) : (
-            <button onClick={calcPrice} className={`btn ${!dataa?.availablePlaces || userData.username === 'Log in' ? 'disabled' : ''}`}>
-               {!dataa?.availablePlaces ? 'Temporary unavailable' : 'Book'}
+            <button onClick={calcPrice} className={`btn ${!travelData?.availablePlaces || !userData.length ? 'disabled' : ''}`}>
+               {!travelData?.availablePlaces ? 'Temporary unavailable' : 'Book'}
             </button>
          )}
       </aside>
    );
 };
-{
-   /* <button onClick={calcPrice} className={`btn ${!data?.availablePlaces || userData.username === 'Log in' ? 'disabled' : ''}`}>
-{!data?.availablePlaces ? 'Temporary unavailable' : 'Book'}
-</button> */
-}

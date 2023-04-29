@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { useFetch } from '../../api/useFetch';
 import { usePopupMessage } from '../../api/usePopupMessage';
 import { Link } from 'react-router-dom';
+import { FontAwesome } from '../../utils/icons';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import '../Login/LoginPage';
 
@@ -41,8 +42,9 @@ export const RegisterPage = () => {
             {contextHolder}
             <p className='auth__header'>
                <span>
+                  <FontAwesome iconName='earth-americas' />
                   {/* <FontAwesomeIcon icon='earth-americas' /> */}
-                  <i className='fa-solid fa-earth-americas'></i>
+                  {/* <i className='fa-solid fa-earth-americas'></i> */}
                </span>
                Travello
             </p>

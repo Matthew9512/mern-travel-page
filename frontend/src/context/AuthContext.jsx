@@ -1,45 +1,24 @@
 import { createContext, useEffect, useState } from 'react';
-import { useFetch } from '../api/useFetch';
 
 /**
  * @todo fetch user here on useEffect then save in ls when state change
  */
 
-// take user obj from ls
-const getLS = () => (localStorage.getItem('travel__user') ? JSON.parse(localStorage.getItem('travel__user')) : {});
-
 export const AuthContext = createContext({});
 
 export const AuthContextProvider = ({ children }) => {
-   const { fetchData, data } = useFetch();
-   const [userID, setUserID] = useState(null);
-   const [userData, setUserData] = useState({
-      username: null,
-      email: null,
-      id: null,
-      createdAt: null,
-      bookings: null,
+   const [userData, setUserData] = useState(() => {
+      const lsItems = localStorage.getItem('travel__user');
+      if (!lsItems) return [];
+
+      return JSON.parse(lsItems);
    });
 
    useEffect(() => {
-      console.log(`auth effect`);
-      const { username, email, id, createdAt, bookings } = getLS();
-      if (!username) setUserData(localStorage.setItem('travel__user', JSON.stringify({ username: 'Log in' })));
-      setUserData({ username, email, id, createdAt, bookings });
+      localStorage.setItem('travel__user', JSON.stringify(userData));
+   }, [userData]);
 
-      if (!userID) return;
-      else fetchData(`/user/${userID}`);
-   }, [userID]);
-
-   useEffect(() => {
-      if (!data) return;
-      console.log(`tt`);
-      localStorage.setItem('travel__user', JSON.stringify(data.user));
-      const { username, email, id, createdAt, bookings } = getLS();
-      setUserData({ username, email, id, createdAt, bookings });
-   }, [data]);
-
-   return <AuthContext.Provider value={{ setUserID, userData, setUserData }}>{children}</AuthContext.Provider>;
+   return <AuthContext.Provider value={{ userData, setUserData }}>{children}</AuthContext.Provider>;
 };
 // import { createContext, useEffect, useState } from 'react';
 

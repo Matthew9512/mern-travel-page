@@ -14,20 +14,7 @@ const createComments = async function (req, res, next) {
       });
 
       if (!newComment) return res.status(404).json({ message: `Something went wrong, can't create new comment` });
-
-      res.status(201).json({ message: `Comment successfully created` });
-   } catch (error) {
-      next(error);
-   }
-};
-
-// send comments related to id of travel
-const getComments = async function (req, res, next) {
-   try {
-      const { id } = req.params;
-
-      if (!id) return res.status(400).json({ message: `No data provided` });
-
+      // ================
       const comments = await commentsModel.find({ id });
       const sendComments = comments.map((value) => {
          return {
@@ -42,7 +29,38 @@ const getComments = async function (req, res, next) {
          };
       });
 
-      if (comments) res.status(200).json({ data: sendComments });
+      if (comments) res.status(200).json({ message: `Comment successfully created`, sendComments });
+      // ================
+
+      // res.status(201).json({ message: `Comment successfully created` });
+   } catch (error) {
+      next(error);
+   }
+};
+
+// send comments related to id of travel
+const getComments = async function (req, res, next) {
+   try {
+      const { id } = req.params;
+
+      if (!id) return res.status(400).json({ message: `No data provided` });
+
+      const comments = await commentsModel.find({ id });
+
+      const sendComments = comments.map((value) => {
+         return {
+            createdAt: value.createdAt,
+            updatedAt: value.updatedAt,
+            post: value.post,
+            username: value.username,
+            id: value.id,
+            postID: value._id,
+            likes: value.likes,
+            userLikes: value.userLikes,
+         };
+      });
+
+      if (comments) res.status(200).json(sendComments);
    } catch (error) {
       next(error);
    }

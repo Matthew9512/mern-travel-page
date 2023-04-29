@@ -41,8 +41,8 @@ import { RegisterPage } from './pages/Register/RegisterPage';
 import { TravelPage } from './pages/Travel/TravelPage';
 import { ErrorPage } from './pages/Error/ErrorPage';
 import { UserPage } from './pages/User/UserPage';
-import { BookingsPage } from './pages/Bookings/BookingsPage';
-// import './utils/icons';
+import { UserBookings } from './pages/User/Components/UserBookings/UserBookings';
+import './utils/icons';
 
 export const App = () => {
    return (
@@ -55,7 +55,7 @@ export const App = () => {
                <Route path={'/signin'} element={<RegisterPage />}></Route>
                <Route path={'/search/:id'} element={<TravelPage />}></Route>
                <Route path={'/user'} element={<UserPage />}></Route>
-               <Route path={'/user/bookings'} element={<BookingsPage />}></Route>
+               <Route path={'/user/bookings'} element={<UserBookings />}></Route>
                <Route path={'*'} element={<ErrorPage />}></Route>
             </Routes>
          </BrowserRouter>

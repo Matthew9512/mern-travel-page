@@ -1,18 +1,19 @@
 import React, { useEffect, useRef } from 'react';
 import { useFetch } from '../../api/useFetch';
-import { usePopupMessage } from '../../api/usePopupMessage';
 import { Link } from 'react-router-dom';
 import { FontAwesome } from '../../utils/icons';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import '../Login/LoginPage';
 
+/**
+ * @todo clear inps
+ */
+
 export const RegisterPage = () => {
    const usernameRef = useRef();
    const passwordRef = useRef();
    const emailRef = useRef();
-
-   const { fetchData, data, ready } = useFetch();
-   const { contextHolder, successMsg } = usePopupMessage();
+   const { fetchData, ready, contextHolder } = useFetch();
 
    const authUser = async (e) => {
       e.preventDefault();
@@ -32,7 +33,7 @@ export const RegisterPage = () => {
 
    useEffect(() => {
       if (!ready) return;
-      successMsg(data.message);
+      // clear inp here after created user
    }, [ready]);
 
    return (

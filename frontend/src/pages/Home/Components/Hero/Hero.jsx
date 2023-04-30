@@ -11,7 +11,7 @@ export const Hero = () => {
             Explore the <br />
             <span>
                W
-               <span>
+               <span className='hero__logo'>
                   <FontAwesome iconName='earth-americas' className='hero__logo' />
                   {/* <FontAwesomeIcon icon='earth-americas' className='hero__logo' /> */}
                   {/* <i className='fa-solid fa-earth-americas hero__logo'></i> */}

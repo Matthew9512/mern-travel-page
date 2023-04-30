@@ -24,7 +24,7 @@ export const CommentsSection = ({ id }) => {
             <LoadingButton />
          ) : (
             <>
-               <h2 className='comment__section-header'>{!data.length ? `` : `${data.length} Comments:`}</h2>
+               <h2 className='comment__section-header'>{!commentList.length ? `` : `${commentList.length} Comments:`}</h2>
                <DisplayComments commentList={commentList} setCommentList={setCommentList} />
                <h3 className='add-comment-header'>Add a Comment:</h3>
                <CreateComments id={id} setCommentList={setCommentList} />

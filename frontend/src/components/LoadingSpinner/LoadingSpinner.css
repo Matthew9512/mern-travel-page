@@ -1,5 +1,5 @@
 .loading__wrapper {
-   background-color: rgba(42, 42, 42, 0.701);
+   background-color: rgba(42, 42, 42, 0.7);
    position: absolute;
    top: 0;
    left: 0;
@@ -10,6 +10,7 @@
    justify-content: center;
    align-items: center;
    z-index: 9;
+   animation: fade 2s linear infinite;
 }
 .spinner {
    width: 48px;
@@ -25,6 +26,17 @@
    display: none;
 }
 
+@keyframes fade {
+   0% {
+      opacity: 1;
+   }
+   50% {
+      opacity: 0.7;
+   }
+   100% {
+      opacity: 1;
+   }
+}
 @keyframes rotation {
    0% {
       transform: rotate(0deg);

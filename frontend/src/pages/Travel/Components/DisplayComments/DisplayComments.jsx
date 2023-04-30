@@ -12,6 +12,15 @@ export const DisplayComments = ({ commentList, setCommentList }) => {
    if (!commentList.length)
       return <p className='error-message'>Nobody responded to this post yet. Add your thoughts and get the conversation going.</p>;
 
+   // display buttons only for user that is logged in
+   const properBtns = (value) => {
+      if (!userData.length) return '';
+      else {
+         if (value.username === userData.at(0)?.username) return <CommentsButtons setCommentList={setCommentList} />;
+         else return '';
+      }
+   };
+
    return (
       <article className='posts__wrapper'>
          {commentList.map((value) => {
@@ -32,10 +41,17 @@ export const DisplayComments = ({ commentList, setCommentList }) => {
                            <p className='date'>{formatedDate}</p>
                         </div>
                         {/* display buttons only for user that is logged in */}
-                        {value.username === userData.at(0).username ? <CommentsButtons setCommentList={setCommentList} /> : ''}
+                        {properBtns(value)}
+                        {/* {!userData.length ? (
+                           ''
+                        ) : value.username === userData.at(0)?.username ? (
+                           <CommentsButtons setCommentList={setCommentList} />
+                        ) : (
+                           ''
+                        )} */}
                      </div>
                      <div className='user__post'>
-                        <textarea disabled={!userData.length} className='text' defaultValue={value.post}></textarea>
+                        <textarea disabled={true} className='text' defaultValue={value.post}></textarea>
                      </div>
                   </div>
                </div>

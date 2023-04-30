@@ -9,7 +9,6 @@ import { LoadingSpinner } from '../../components/LoadingSpinner/LoadingSpinner';
 import '../../assets/App.css';
 import { FontAwesome } from '../../utils/icons';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { PopupMessage } from '../../components/PopupMessage/PopupMessage';
 
 export const TravelPage = () => {
    const { id } = useParams();
@@ -25,7 +24,6 @@ export const TravelPage = () => {
 
    return (
       <main className='container'>
-         {/* <PopupMessage /> */}
          <section className='single'>
             <div className='single__wrapper'>
                <div className='single__wrapper-details'>

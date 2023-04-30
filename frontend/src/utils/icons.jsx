@@ -35,7 +35,7 @@ library.add(
 //    return <FontAwesomeIcon icon={iconName} />;
 // };
 
-export const FontAwesome = ({ iconName }) => {
+export const FontAwesome = ({ iconName, action }) => {
    //    console.log(iconName);
    //    const iconName = 'plane';
    //    if (!iconName) return;

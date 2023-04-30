@@ -9,7 +9,7 @@
 // const RegisterPage = lazyLoad('../pages/Register/RegisterPage', 'RegisterPage');
 // const TravelPage = lazyLoad('../pages/Travel/TravelPage', 'TravelPage');
 // const UserPage = lazyLoad('../pages/User/UserPage', 'UserPage');
-// const BookingsPage = lazyLoad('../pages/Bookings/BookingsPage', 'BookingsPage');
+// const UserBookings = lazyLoad('./pages/User/Components/UserBookings/UserBookings', 'UserBookings');
 // const ErrorPage = lazyLoad('../pages/Error/ErrorPage', 'ErrorPage');
 
 // export const App = () => {
@@ -24,7 +24,7 @@
 //                   <Route path={'/signin'} element={<RegisterPage />}></Route>
 //                   <Route path={'/search/:id'} element={<TravelPage />}></Route>
 //                   <Route path={'/user'} element={<UserPage />}></Route>
-//                   <Route path={'/user/bookings'} element={<BookingsPage />}></Route>
+//                   <Route path={'/user/bookings'} element={<UserBookings />}></Route>
 //                   <Route path={'*'} element={<ErrorPage />}></Route>
 //                </Routes>
 //             </Suspense>

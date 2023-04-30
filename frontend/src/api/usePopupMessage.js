@@ -7,10 +7,10 @@ export const usePopupMessage = () => {
       messageApi.success(value, 2);
    };
    const errorMsg = (value) => {
-      messageApi.error(value, 2.5);
+      messageApi.error(value, 2);
    };
    const infoMsg = (value) => {
-      messageApi.info(value, 2.5);
+      messageApi.info(value, 2);
    };
 
    return { contextHolder, successMsg, errorMsg, infoMsg };

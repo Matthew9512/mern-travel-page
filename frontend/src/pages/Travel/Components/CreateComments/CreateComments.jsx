@@ -2,14 +2,12 @@ import React, { useContext, useEffect, useRef } from 'react';
 import { AuthContext } from '../../../../context/AuthContext';
 import { useFetch } from '../../../../api/useFetch';
 import { LoadingButton } from '../../../../components/LoadingButton';
-import { usePopupMessage } from '../../../../api/usePopupMessage';
 import { FontAwesome } from '../../../../utils/icons';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const CreateComments = ({ id, setCommentList }) => {
    const { userData } = useContext(AuthContext);
-   const { fetchData, data, loading, ready } = useFetch();
-   const { contextHolder, successMsg } = usePopupMessage();
+   const { fetchData, data, loading, ready, contextHolder } = useFetch();
    const commentRef = useRef();
 
    const sendComment = async () => {
@@ -27,8 +25,6 @@ export const CreateComments = ({ id, setCommentList }) => {
    useEffect(() => {
       if (!ready) return;
       setCommentList(data.sendComments);
-
-      // successMsg(`Comment successfully created`);
    }, [ready]);
 
    return (

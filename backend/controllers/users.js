@@ -77,31 +77,33 @@ const signIn = async function (req, res, next) {
    }
 };
 
+module.exports = { logIn, signIn };
+
 // get user info
-const getUser = async function (req, res, next) {
-   try {
-      const { id } = req.params;
-      if (!id) return res.status(400).json({ message: `no data provided, pls try again` });
+// const getUser = async function (req, res, next) {
+//    try {
+//       const { id } = req.params;
+//       if (!id) return res.status(400).json({ message: `no data provided, pls try again` });
 
-      const user = await usersModel.findOne({ _id: id });
-      // const usersBookings = await usersModel.findOne({ _id: id });
+//       const user = await usersModel.findOne({ _id: id });
+//       // const usersBookings = await usersModel.findOne({ _id: id });
 
-      if (!user) return res.status(400).json({ message: `user not found` });
-      // if (!usersBookings) return res.status(400).json({ message: `user not found` });
+//       if (!user) return res.status(400).json({ message: `user not found` });
+//       // if (!usersBookings) return res.status(400).json({ message: `user not found` });
 
-      // res.status(200).json({ data: usersBookings.bookings });
-      res.status(200).json({
-         user: {
-            email: user.email,
-            username: user.username,
-            id: user._id,
-            createdAt: format(new Date(user.createdAt), 'dd/MM/yyyy'),
-            bookings: user.bookings,
-         },
-      });
-   } catch (error) {
-      next(error);
-   }
-};
+//       // res.status(200).json({ data: usersBookings.bookings });
+//       res.status(200).json({
+//          user: {
+//             email: user.email,
+//             username: user.username,
+//             id: user._id,
+//             createdAt: format(new Date(user.createdAt), 'dd/MM/yyyy'),
+//             bookings: user.bookings,
+//          },
+//       });
+//    } catch (error) {
+//       next(error);
+//    }
+// };
 
-module.exports = { logIn, signIn, getUser };
+// module.exports = { logIn, signIn, getUser };

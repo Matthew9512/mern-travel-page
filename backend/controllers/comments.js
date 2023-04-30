@@ -71,7 +71,7 @@ const updateComments = async function (req, res, next) {
    try {
       const { post, id } = req.body;
 
-      if (!post) return res.status(400).json({ message: `No data provided` });
+      if (!post || !id) return res.status(400).json({ message: `No data provided` });
 
       const updatedComment = await commentsModel.updateOne({ _id: id }, { post });
 

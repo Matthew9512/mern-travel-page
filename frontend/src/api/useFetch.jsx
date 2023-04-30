@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { usePopupMessage } from './usePopupMessage';
 
 export const API = `http://localhost:8000`;
 
@@ -12,6 +13,7 @@ export const useFetch = () => {
    const [error, setError] = useState(null);
    const [loading, setLoading] = useState(false);
    const [ready, setReady] = useState(false);
+   const { contextHolder, successMsg, errorMsg } = usePopupMessage();
 
    const fetchData = async (endpoint, method = 'GET', body = null) => {
       setLoading(true);
@@ -32,11 +34,13 @@ export const useFetch = () => {
 
          setReady(true);
          setData(resData);
+         successMsg(resData.message);
       } catch (err) {
          setError(err.message);
+         errorMsg(err.message);
       }
       setLoading(false);
    };
 
-   return { fetchData, data, loading, error, ready };
+   return { fetchData, data, error, loading, ready, contextHolder };
 };

@@ -24,7 +24,7 @@ export const HomePage = () => {
       else await fetchData('/search');
    };
 
-   if (!data) return <LoadingSpinner loading={loading} />;
+   if (!data.length) return <LoadingSpinner loading={loading} />;
 
    return (
       <main className='container'>

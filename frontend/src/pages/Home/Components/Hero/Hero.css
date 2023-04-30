@@ -16,10 +16,11 @@
    font-size: 3rem;
    line-height: 1.2;
 }
-.hero__header span {
+.hero__header span:not(.hero__logo) {
    font-size: 6rem;
 }
 .hero__logo {
+   /* font-size: 3rem; */
    font-size: 3rem;
 }
 

@@ -51,7 +51,7 @@ export const BookingSection = ({ travelData, id }) => {
          <h3>Book this travel:</h3>
          <label htmlFor='peoples-number'>Choose number of people:</label>
          <div className='group'>
-            <FontAwesome iconName='user' />
+            <FontAwesome iconName='user' classType='icon' />
             {/* <FontAwesomeIcon icon='user' className='icon' /> */}
             {/* <i className='icon fa-solid fa-users'></i> */}
             <input ref={inpRef} disabled={bookedButton} type='number' className='input' placeholder='e.g. 1' />

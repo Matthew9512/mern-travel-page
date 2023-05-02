@@ -28,7 +28,7 @@ export const DisplayComments = ({ commentList, setCommentList }) => {
             const formatedDate = dateFormat(value.createdAt);
             return (
                <div key={value.postID} data-user={value.username} id={value.postID} className='post'>
-                  <RateComments data={value} />
+                  <RateComments resData={value} />
                   <div>
                      <div className='details__wrapper'>
                         <div className='user__info'>

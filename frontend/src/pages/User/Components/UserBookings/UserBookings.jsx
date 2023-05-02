@@ -10,6 +10,9 @@ export const UserBookings = () => {
    const { userData } = useContext(AuthContext);
    const [bookingList, setBookingList] = useState([]);
    const [loading, setLoading] = useState(false);
+   const [error, setError] = useState(false);
+
+   // useEffect
 
    useEffect(() => {
       fetchUserBookings();
@@ -25,9 +28,13 @@ export const UserBookings = () => {
             fetch(`${API}/search/${value}`)
                .then((res) => res.json())
                .then((bookings) => {
+                  console.log(bookings);
                   setBookingList((prev) => [...prev, bookings]);
-                  setLoading(false);
-               });
+                  if (!res.ok) throw new Error('wrong path');
+                  else setBookingList((prev) => [...prev, bookings]);
+               })
+               .catch((err) => setError(err.message))
+               .finally(() => setLoading(false));
          })
       );
    };

@@ -10,7 +10,6 @@ const CommentsSchema = new Schema(
          type: Number,
          default: 0,
       },
-      userLikes: [{ userID: String, rateType: String }],
    },
    {
       timestamps: true,

@@ -20,16 +20,16 @@ export const CommentsSection = ({ id }) => {
 
    return (
       <section className='comment__section'>
-         {!data.length ? (
-            <LoadingButton />
-         ) : (
-            <>
-               <h2 className='comment__section-header'>{!commentList.length ? `` : `${commentList.length} Comments:`}</h2>
-               <DisplayComments commentList={commentList} setCommentList={setCommentList} />
-               <h3 className='add-comment-header'>Add a Comment:</h3>
-               <CreateComments id={id} setCommentList={setCommentList} />
-            </>
-         )}
+         {/* {!data.length ? (
+            <p className='error-message'>Nobody responded to this post yet. Add your thoughts and get the conversation going.</p>
+         ) : ( */}
+         <>
+            <h2 className='comment__section-header'>{!commentList.length ? `` : `${commentList.length} Comments:`}</h2>
+            <DisplayComments commentList={commentList} setCommentList={setCommentList} />
+            <h3 className='add-comment-header'>Add a Comment:</h3>
+            <CreateComments id={id} setCommentList={setCommentList} />
+         </>
+         {/* )} */}
       </section>
    );
 };

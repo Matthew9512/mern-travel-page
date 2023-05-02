@@ -36,7 +36,7 @@ export const TravelPage = () => {
                         <div>
                            <p className='destinations-name'>{data?.city}</p>
                            <p className='destinations-country'>
-                              <FontAwesome iconName='location-dot' />
+                              <FontAwesome iconName='location-dot' /> {data?.country}
                               {/* <FontAwesomeIcon icon='location-dot' /> {data?.country} */}
                               {/* <i className='fa-solid fa-location-dot'></i> {data?.country} */}
                            </p>

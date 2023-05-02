@@ -63,7 +63,7 @@ export const Navbar = () => {
             </li>
             <li>
                <button onClick={handleAuth} className='navbar__btn'>
-                  {!userData.length ? 'Log in' : userData.at(0).username} <FontAwesome iconName='user' />
+                  {!userData.length ? 'Log in' : userData.at(0)?.username} <FontAwesome iconName='user' />
                   {/* <i className='fa-solid fa-user'></i> */}
                </button>
             </li>

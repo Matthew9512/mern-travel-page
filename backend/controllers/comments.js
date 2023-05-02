@@ -1,5 +1,21 @@
 const commentsModel = require('../models/commentsModel');
 
+// helper for getting only required data from comments
+const findComments = function (comments) {
+   return comments.map((value) => {
+      return {
+         createdAt: value.createdAt,
+         updatedAt: value.updatedAt,
+         post: value.post,
+         username: value.username,
+         id: value.id,
+         postID: value._id,
+         likes: value.likes,
+         userLikes: value.userLikes,
+      };
+   });
+};
+
 // create new comment
 const createComments = async function (req, res, next) {
    try {
@@ -14,25 +30,13 @@ const createComments = async function (req, res, next) {
       });
 
       if (!newComment) return res.status(404).json({ message: `Something went wrong, can't create new comment` });
-      // ================
+
       const comments = await commentsModel.find({ id });
-      const sendComments = comments.map((value) => {
-         return {
-            createdAt: value.createdAt,
-            updatedAt: value.updatedAt,
-            post: value.post,
-            username: value.username,
-            id: value.id,
-            postID: value._id,
-            likes: value.likes,
-            userLikes: value.userLikes,
-         };
-      });
 
-      if (comments) res.status(200).json({ message: `Comment successfully created`, sendComments });
-      // ================
+      // function thats returns comments
+      const sendComments = findComments(comments);
 
-      // res.status(201).json({ message: `Comment successfully created` });
+      if (comments) res.status(201).json({ message: `Comment successfully created`, sendComments });
    } catch (error) {
       next(error);
    }
@@ -47,18 +51,8 @@ const getComments = async function (req, res, next) {
 
       const comments = await commentsModel.find({ id });
 
-      const sendComments = comments.map((value) => {
-         return {
-            createdAt: value.createdAt,
-            updatedAt: value.updatedAt,
-            post: value.post,
-            username: value.username,
-            id: value.id,
-            postID: value._id,
-            likes: value.likes,
-            userLikes: value.userLikes,
-         };
-      });
+      // function thats returns comments
+      const sendComments = findComments(comments);
 
       if (comments) res.status(200).json(sendComments);
    } catch (error) {
@@ -100,17 +94,14 @@ const deleteComments = async function (req, res, next) {
    }
 };
 
-// update likes of comment and save data of user that rate comment
-const likesOnComments = async function (req, res, next) {
+// // update amount likes of comment
+const amountOfCommentLikes = async function (req, res, next) {
    try {
-      const { id, likes, userLikes } = req.body;
-      // !likes
-      if (!id || !userLikes) return res.status(404).json({ message: `No data provided` });
+      const { id, likes } = req.body;
 
-      const respond = await commentsModel.updateMany(
-         { _id: id },
-         { likes, $addToSet: { userLikes: { userID: userLikes.userID, rateType: userLikes.rateType } } }
-      );
+      if (!id) return res.status(404).json({ message: `No data provided` });
+
+      const respond = await commentsModel.updateOne({ _id: id }, { likes });
 
       if (!respond) res.status(400).json({ message: `Error occurred couldn't process request` });
 
@@ -120,24 +111,26 @@ const likesOnComments = async function (req, res, next) {
    }
 };
 
-// update like type on comment
-const updateLikesOnComments = async function (req, res, next) {
-   try {
-      const { id, likes, userLikes } = req.body;
-      // !likes
-      if (!id || !userLikes) return res.status(404).json({ message: `No data provided` });
+module.exports = { createComments, getComments, updateComments, deleteComments, amountOfCommentLikes };
 
-      const respond = await commentsModel.updateMany(
-         { _id: id },
-         { likes, userLikes: { userID: userLikes.userID, rateType: userLikes.rateType } }
-      );
+// // update like type on comment
+// const updateLikesOnComments = async function (req, res, next) {
+//    try {
+//       const { id, likes, userLikes } = req.body;
+//       // !likes
+//       if (!id || !userLikes) return res.status(404).json({ message: `No data provided` });
 
-      if (!respond) res.status(400).json({ message: `Error occurred couldn't process request` });
+//       const respond = await commentsModel.updateMany(
+//          { _id: id },
+//          { likes, userLikes: { userID: userLikes.userID, rateType: userLikes.rateType } }
+//       );
 
-      res.status(200).json({ message: `Thank you for adding your likes` });
-   } catch (error) {
-      next(error);
-   }
-};
+//       if (!respond) res.status(400).json({ message: `Error occurred couldn't process request` });
 
-module.exports = { createComments, getComments, updateComments, deleteComments, likesOnComments, updateLikesOnComments };
+//       res.status(200).json({ message: `Thank you for adding your likes` });
+//    } catch (error) {
+//       next(error);
+//    }
+// };
+
+// module.exports = { createComments, getComments, updateComments, deleteComments, likesOnComments, updateLikesOnComments };

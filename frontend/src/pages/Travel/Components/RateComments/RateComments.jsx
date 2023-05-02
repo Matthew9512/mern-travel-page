@@ -4,35 +4,45 @@ import { AuthContext } from '../../../../context/AuthContext';
 import { FontAwesome } from '../../../../utils/icons';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-export const RateComments = ({ data }) => {
-   const [likes, setLikes] = useState(data.likes);
-   const { userData } = useContext(AuthContext);
+export const RateComments = ({ resData }) => {
+   const { userData, rateIconStyle } = useContext(AuthContext);
    const likesAmount = useRef();
-   const { fetchData, contextHolder, info } = useFetch();
+   const { fetchData, contextHolder } = useFetch();
+   const [likes, setLikes] = useState(resData.likes);
+   const [icons, setIcons] = useState(() => {
+      if (!rateIconStyle.length) return '';
+      const postIDs = rateIconStyle.filter((value) => value.postID === resData.postID);
+      const rateTypes = postIDs.map((post) => post.rateType);
+      return rateTypes.length > 0 ? rateTypes[0] : '';
+   });
 
    // update likes amount in db
-   const updateLikes = (click, value, update) => {
-      console.log(`updateLikes`);
+   const updateLikes = async (click, value) => {
       const id = click.closest('.post').id;
 
-      const body = {
+      await fetchData(`/comments/likes/rate`, 'PATCH', {
          id,
          likes: value,
+      });
+      await fetchData(`/user/likes/rate/update`, 'PATCH', {
+         id: userData.at(0).id,
          userLikes: {
-            userID: userData.id,
-            rateType: click.className,
+            postID: id,
+            rateType: click.dataset.icon,
          },
-      };
+      });
 
-      if (!update) fetchData(`/comments/likes/rate`, 'PATCH', body);
-      else fetchData(`/comments/likes/rate/update`, 'PATCH', body);
+      const lsItems = localStorage.getItem('travel__likes') ? JSON.parse(localStorage.getItem('travel__likes')) : [];
+      const newArr = lsItems.filter((value) => value.postID !== id);
+      newArr.push({ postID: id, rateType: click.dataset.icon });
+      localStorage.setItem('travel__likes', JSON.stringify(newArr));
    };
 
    const checkIfRated = (e) => {
       const click = e.target;
 
       // take all rate buttons inside current comment
-      const rate = [...click.closest('.post').querySelectorAll('.fa-solid')];
+      const rate = [...click.closest('.post').querySelectorAll('.rate-btn')];
 
       // find element that has 'rated' class active
       const [hasRatedClass] = rate.filter((value) => value.classList.contains('rated'));
@@ -52,7 +62,7 @@ export const RateComments = ({ data }) => {
          click.classList.add('rated');
          setLikes((prev) => prev + 1);
          const value = +likesAmount.current.innerHTML + 1;
-         updateLikes(click, value, true);
+         updateLikes(click, value);
          if (!hasRatedClass) return;
 
          // remove 'rated' class if is active
@@ -71,7 +81,7 @@ export const RateComments = ({ data }) => {
          click.classList.add('rated');
          setLikes((prev) => prev - 1);
          const value = +likesAmount.current.innerHTML - 1;
-         updateLikes(click, value, true);
+         updateLikes(click, value);
          if (!hasRatedClass) return;
 
          // remove 'rated' class if is active
@@ -79,22 +89,11 @@ export const RateComments = ({ data }) => {
       }
    };
 
-   //
-   const [rateType] = data.userLikes.filter((value) => {
-      const findUser = value.userID === userData.id;
-      if (findUser) return value.rateType;
-      else return '';
-   });
-
    return (
       <div className='evaluate'>
          {contextHolder}
-         <button
-            onClick={checkIfRated}
-            disabled={userData.username === 'Log in'}
-            className={`${userData.username === 'Log in' ? 'disabled' : ''}`}
-         >
-            <FontAwesome iconName='thumbs-up' className='rated' />
+         <button onClick={checkIfRated} disabled={!userData.length} className={`${!userData.length ? 'disabled' : ''}`}>
+            <FontAwesome iconName='thumbs-up' classType={`rate-btn ${icons === 'thumbs-up' ? 'rated' : ''}`} />
             {/* <FontAwesomeIcon icon='thumbs-down' className='rated' /> */}
             {/* <i
                className={`${
@@ -105,12 +104,8 @@ export const RateComments = ({ data }) => {
          <p className='likes' ref={likesAmount}>
             {likes}
          </p>
-         <button
-            onClick={checkIfRated}
-            disabled={userData.username === 'Log in'}
-            className={`${userData.username === 'Log in' ? 'disabled' : ''}`}
-         >
-            <FontAwesome iconName='thumbs-down' className='rated' />
+         <button onClick={checkIfRated} disabled={!userData.length} className={`${!userData.length ? 'disabled' : ''}`}>
+            <FontAwesome iconName='thumbs-down' classType={`rate-btn ${icons === 'thumbs-down' ? 'rated' : ''}`} />
             {/* <FontAwesomeIcon icon='thumbs-down' className='rated' /> */}
             {/* <i
                className={`${
@@ -120,18 +115,4 @@ export const RateComments = ({ data }) => {
          </button>
       </div>
    );
-   // return (
-   //    <div className='evaluate'>
-   //       {contextHolder}
-   //       <button onClick={checkIfRated} disabled={userData.username === 'Log in'}>
-   //          <i className={`fa-solid fa-thumbs-up ${userData.username === 'Log in' ? 'disabled' : ''}`}></i>
-   //       </button>
-   //       <p className='likes' ref={likesAmount}>
-   //          {likes}
-   //       </p>
-   //       <button onClick={checkIfRated} disabled={userData.username === 'Log in'}>
-   //          <i className={`fa-solid fa-thumbs-down ${userData.username === 'Log in' ? 'disabled' : ''}`}></i>
-   //       </button>
-   //    </div>
-   // );
 };

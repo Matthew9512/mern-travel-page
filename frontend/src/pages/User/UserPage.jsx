@@ -5,14 +5,16 @@ import { useNavigate } from 'react-router-dom';
 import { UserPageNav } from './Components/UserPageNav/UserPageNav';
 
 export const UserPage = () => {
-   const { userData, setUserData } = useContext(AuthContext);
+   const { userData, setUserData, setRateIconStyle } = useContext(AuthContext);
    const navigate = useNavigate();
 
    const logOut = () => {
+      localStorage.removeItem('travel__user');
+      localStorage.removeItem('travel__likes');
+      setUserData([]);
+      setRateIconStyle([]);
       // go back to previous page
       navigate(-1);
-      localStorage.removeItem('travel__user');
-      setUserData([]);
    };
 
    return (

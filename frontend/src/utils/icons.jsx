@@ -35,11 +35,11 @@ library.add(
 //    return <FontAwesomeIcon icon={iconName} />;
 // };
 
-export const FontAwesome = ({ iconName, action }) => {
+export const FontAwesome = ({ iconName, classType = '' }) => {
    //    console.log(iconName);
    //    const iconName = 'plane';
    //    if (!iconName) return;
-   return <FontAwesomeIcon icon={`${iconName}`} />;
+   return <FontAwesomeIcon icon={`${iconName}`} className={`${classType}`} />;
 };
 
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

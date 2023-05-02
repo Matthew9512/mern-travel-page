@@ -72,6 +72,10 @@
    border: none;
    outline: none;
    cursor: pointer;
+   z-index: 9;
+}
+.rate-btn {
+   z-index: 0;
 }
 .create__comment {
    display: flex;

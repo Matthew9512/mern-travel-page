@@ -5,6 +5,7 @@ const { format } = require('date-fns');
 
 /**
  * @todo remove format
+ * @todo userLikes send after every click?!
  */
 
 // login
@@ -43,6 +44,7 @@ const logIn = async function (req, res, next) {
             id: user._id,
             createdAt: format(new Date(user.createdAt), 'dd/MM/yyyy'),
             bookings: user.bookings,
+            likes: user.userLikes,
          },
       });
    } catch (error) {
@@ -77,9 +79,71 @@ const signIn = async function (req, res, next) {
    }
 };
 
-module.exports = { logIn, signIn };
+// update/save type of like
+const updateLikesType = async function (req, res, next) {
+   try {
+      const { id, userLikes } = req.body;
 
-// get user info
+      if (!id || !userLikes) return res.status(404).json({ message: `No data provided` });
+
+      // const respond = await usersModel.update(
+      //    { _id: id, 'userLikes.postID': userLikes.postID },
+      //    { $set: { 'userLikes.$.rateType': userLikes.rateType } }
+      //    // false
+      //    // true
+      // );
+      const respond = await usersModel.findById({ _id: id });
+
+      if (!respond) res.status(400).json({ message: `Error occurred couldn't process request` });
+
+      //
+      const checkIfLikeWasSaved = await respond.userLikes.find((value) => value.postID == userLikes.postID);
+
+      if (!checkIfLikeWasSaved) {
+         await usersModel
+            .updateOne({ _id: id }, { $addToSet: { userLikes: { postID: userLikes.postID, rateType: userLikes.rateType } } })
+            .orFail();
+      } else {
+         await usersModel.updateOne(
+            { _id: id, 'userLikes.postID': userLikes.postID },
+            { $set: { 'userLikes.$.rateType': userLikes.rateType } }
+         );
+      }
+      // == foe development == //
+      const respond2 = await usersModel.findOne({ _id: id });
+      // == foe development == //
+
+      res.status(200).json(respond2.userLikes);
+      // res.status(200).json({ message: `Thank you for updating your likes`, data: respond2.userLikes });
+   } catch (error) {
+      next(error);
+   }
+};
+
+module.exports = { logIn, signIn, updateLikesType };
+
+// // update likes of comment and save data of user that rate comment
+// const likesOnComments = async function (req, res, next) {
+//    try {
+//       const { id, likes, userLikes } = req.body;
+//       // !likes
+//       if (!id || !userLikes) return res.status(404).json({ message: `No data provided` });
+
+//       const respond = await usersModel.updateMany(
+//          { _id: id },
+//          { likes, $addToSet: { userLikes: { userID: userLikes.userID, rateType: userLikes.rateType } } }
+//       );
+
+//       if (!respond) res.status(400).json({ message: `Error occurred couldn't process request` });
+
+//       res.status(200).json({ message: `Thank you for adding your likes` });
+//    } catch (error) {
+//       next(error);
+//    }
+// };
+// { userLikes: { postID: userLikes.postID, rateType: userLikes.rateType } }
+
+// // get user info
 // const getUser = async function (req, res, next) {
 //    try {
 //       const { id } = req.params;
@@ -99,6 +163,7 @@ module.exports = { logIn, signIn };
 //             id: user._id,
 //             createdAt: format(new Date(user.createdAt), 'dd/MM/yyyy'),
 //             bookings: user.bookings,
+//             likes: user.likes,
 //          },
 //       });
 //    } catch (error) {
@@ -106,4 +171,4 @@ module.exports = { logIn, signIn };
 //    }
 // };
 
-// module.exports = { logIn, signIn, getUser };
+// module.exports = { logIn, signIn, updateLikesType, getUser };

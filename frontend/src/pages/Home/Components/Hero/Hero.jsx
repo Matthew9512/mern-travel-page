@@ -12,7 +12,7 @@ export const Hero = () => {
             <span>
                W
                <span className='hero__logo'>
-                  <FontAwesome iconName='earth-americas' className='hero__logo' />
+                  <FontAwesome iconName='earth-americas' classType='hero__logo' />
                   {/* <FontAwesomeIcon icon='earth-americas' className='hero__logo' /> */}
                   {/* <i className='fa-solid fa-earth-americas hero__logo'></i> */}
                </span>

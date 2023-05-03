@@ -8,6 +8,7 @@ const UsersSchema = new Schema(
       username: String,
       password: String,
       bookings: [String],
+      userVotes: [{ travelID: String }],
       userLikes: [{ postID: String, rateType: String }],
    },
    {

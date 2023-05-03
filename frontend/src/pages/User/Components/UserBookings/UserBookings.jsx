@@ -6,6 +6,10 @@ import { LoadingSpinner } from '../../../../components/LoadingSpinner/LoadingSpi
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FontAwesome } from '../../../../utils/icons';
 
+/**
+ * @todo error handling
+ */
+
 export const UserBookings = () => {
    const { userData } = useContext(AuthContext);
    const [bookingList, setBookingList] = useState([]);
@@ -33,10 +37,10 @@ export const UserBookings = () => {
                   if (!res.ok) throw new Error('wrong path');
                   else setBookingList((prev) => [...prev, bookings]);
                })
-               .catch((err) => setError(err.message))
-               .finally(() => setLoading(false));
+               .catch((err) => setError(err.message));
          })
       );
+      setLoading(false);
    };
 
    return (

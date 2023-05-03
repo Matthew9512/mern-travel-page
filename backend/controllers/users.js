@@ -5,7 +5,6 @@ const { format } = require('date-fns');
 
 /**
  * @todo remove format
- * @todo userLikes send after every click?!
  */
 
 // login
@@ -23,7 +22,7 @@ const logIn = async function (req, res, next) {
 
       if (!bcryptPassword) return res.status(401).json({ message: `incorrect password` });
 
-      // access token
+      // // access token
       // const accessToken = jwt.sign({ username }, process.env.ACCESS_TOKEN);
       // // refresh token
       // const refreshToken = jwt.sign({ username }, process.env.REFRESH_TOKEN);
@@ -36,7 +35,6 @@ const logIn = async function (req, res, next) {
       // });
 
       // res.status(200).json({ message: `user login successfully`, accessToken });
-      // res.status(200).json({ message: `user login successfully`, username: user.username, id: user._id });
       res.status(200).json({
          user: {
             email: user.email,
@@ -45,6 +43,7 @@ const logIn = async function (req, res, next) {
             createdAt: format(new Date(user.createdAt), 'dd/MM/yyyy'),
             bookings: user.bookings,
             likes: user.userLikes,
+            votes: user.userVotes,
          },
       });
    } catch (error) {
@@ -86,12 +85,6 @@ const updateLikesType = async function (req, res, next) {
 
       if (!id || !userLikes) return res.status(404).json({ message: `No data provided` });
 
-      // const respond = await usersModel.update(
-      //    { _id: id, 'userLikes.postID': userLikes.postID },
-      //    { $set: { 'userLikes.$.rateType': userLikes.rateType } }
-      //    // false
-      //    // true
-      // );
       const respond = await usersModel.findById({ _id: id });
 
       if (!respond) res.status(400).json({ message: `Error occurred couldn't process request` });
@@ -121,27 +114,6 @@ const updateLikesType = async function (req, res, next) {
 };
 
 module.exports = { logIn, signIn, updateLikesType };
-
-// // update likes of comment and save data of user that rate comment
-// const likesOnComments = async function (req, res, next) {
-//    try {
-//       const { id, likes, userLikes } = req.body;
-//       // !likes
-//       if (!id || !userLikes) return res.status(404).json({ message: `No data provided` });
-
-//       const respond = await usersModel.updateMany(
-//          { _id: id },
-//          { likes, $addToSet: { userLikes: { userID: userLikes.userID, rateType: userLikes.rateType } } }
-//       );
-
-//       if (!respond) res.status(400).json({ message: `Error occurred couldn't process request` });
-
-//       res.status(200).json({ message: `Thank you for adding your likes` });
-//    } catch (error) {
-//       next(error);
-//    }
-// };
-// { userLikes: { postID: userLikes.postID, rateType: userLikes.rateType } }
 
 // // get user info
 // const getUser = async function (req, res, next) {

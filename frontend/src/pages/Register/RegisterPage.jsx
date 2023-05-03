@@ -1,38 +1,37 @@
 import React, { useEffect, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useFetch } from '../../api/useFetch';
-import { Link } from 'react-router-dom';
 import { FontAwesome } from '../../utils/icons';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import '../Login/LoginPage';
-
-/**
- * @todo clear inps
- */
 
 export const RegisterPage = () => {
    const usernameRef = useRef();
    const passwordRef = useRef();
    const emailRef = useRef();
    const { fetchData, ready, contextHolder } = useFetch();
+   const navigate = useNavigate();
 
    const authUser = async (e) => {
       e.preventDefault();
 
-      const email = emailRef.current?.value;
-      if (!email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)) return alert`wrong mail`;
-
       const body = {
-         email,
+         email: emailRef.current?.value,
          username: usernameRef.current?.value,
          password: passwordRef.current?.value,
       };
-
+      if (usernameRef.current?.value.length < 3 || passwordRef.current?.value.length < 3 || !emailRef.current.value) return;
       // register new user
       await fetchData(`/user/signin`, 'POST', body);
    };
 
    useEffect(() => {
       if (!ready) return;
+      // navigate after message ends
+      setTimeout(() => {
+         navigate('/login');
+      }, 1500);
+
       // clear inp here after created user
    }, [ready]);
 
@@ -52,11 +51,11 @@ export const RegisterPage = () => {
             <p>Sign up your account</p>
             <form className='login__wrapper'>
                <label htmlFor='emailRef'>Email:</label>
-               <input ref={emailRef} type='text' id='emailRef' />
+               <input ref={emailRef} type='email' id='emailRef' />
                <label htmlFor='username'>Username:</label>
-               <input ref={usernameRef} type='text' id='username' />
+               <input ref={usernameRef} type='text' id='username' minLength={3} />
                <label htmlFor='password'>Password:</label>
-               <input ref={passwordRef} type='password' id='password' />
+               <input ref={passwordRef} type='password' id='password' minLength={3} />
                <button onClick={authUser} className='btn auth-btn'>
                   Sign up
                </button>

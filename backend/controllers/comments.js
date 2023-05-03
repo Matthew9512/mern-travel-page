@@ -94,7 +94,7 @@ const deleteComments = async function (req, res, next) {
    }
 };
 
-// // update amount likes of comment
+// update amount likes of comment
 const amountOfCommentLikes = async function (req, res, next) {
    try {
       const { id, likes } = req.body;
@@ -112,25 +112,3 @@ const amountOfCommentLikes = async function (req, res, next) {
 };
 
 module.exports = { createComments, getComments, updateComments, deleteComments, amountOfCommentLikes };
-
-// // update like type on comment
-// const updateLikesOnComments = async function (req, res, next) {
-//    try {
-//       const { id, likes, userLikes } = req.body;
-//       // !likes
-//       if (!id || !userLikes) return res.status(404).json({ message: `No data provided` });
-
-//       const respond = await commentsModel.updateMany(
-//          { _id: id },
-//          { likes, userLikes: { userID: userLikes.userID, rateType: userLikes.rateType } }
-//       );
-
-//       if (!respond) res.status(400).json({ message: `Error occurred couldn't process request` });
-
-//       res.status(200).json({ message: `Thank you for adding your likes` });
-//    } catch (error) {
-//       next(error);
-//    }
-// };
-
-// module.exports = { createComments, getComments, updateComments, deleteComments, likesOnComments, updateLikesOnComments };

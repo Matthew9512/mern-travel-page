@@ -1,29 +1,19 @@
-import React, { useEffect, useState } from 'react';
-// import { useParams } from 'react-router-dom';
-import '../RatingStarsSection/RatingStarsSection.css';
+import React, { useState } from 'react';
 import { useFetch } from '../../../../api/useFetch';
+import '../RatingStarsSection/RatingStarsSection.css';
 
-export const RatingStars = ({ data, userData }) => {
+export const RatingStars = ({ travelID, userData }) => {
    const [travelRate, setTravelRate] = useState(0);
    const [hover, setHover] = useState(0);
    const { fetchData, contextHolder } = useFetch();
-   // const [stars, setStars] = useState('');
-   // const { id } = useParams();
 
-   // useEffect(() => {
-   //    console.log(`stars effect`);
-   //    const getLS = () => (localStorage.getItem('travel__rate__stars') ? JSON.parse(localStorage.getItem('travel__rate__stars')) : []);
-   //    if (!getLS.length) return () => {};
-   //    const check = getLS.map((value) => value.travelID === id && value.userID === userData.id);
-   //    if (check) setStars(<span className='star'>&#9733;</span>);
-   //    else setStars(`koksod`);
+   // save id of travel in LS
+   const saveToLS = (travelID) => {
+      const lsItems = localStorage.getItem('travel__rate__stars') ? JSON.parse(localStorage.getItem('travel__rate__stars')) : [];
 
-   //    getLS();
-   // }, [id]);
-
-   // const saveToLS = (dataObj) => {
-   //    localStorage.setItem('travel_rate__stars', JSON.stringify(dataObj));
-   // };
+      lsItems.push(travelID);
+      localStorage.setItem('travel__rate__stars', JSON.stringify(lsItems));
+   };
 
    return (
       <>
@@ -39,13 +29,12 @@ export const RatingStars = ({ data, userData }) => {
                      className={index <= (hover || travelRate) ? 'on' : 'off'}
                      onClick={() => {
                         setTravelRate(index);
-                        fetchData(`/places/rate`, 'PATCH', { id: data, travelRate: index });
-                        // saveToLS({ travelID: data, userID: userData.id });
+                        fetchData(`/places/rate`, 'PUT', { id: travelID, travelRate: index, userID: userData.at(0)?.id });
+                        saveToLS({ travelID });
                      }}
                      onMouseEnter={() => setHover(index)}
                      onMouseLeave={() => setHover(travelRate)}
                   >
-                     {/* {stars} */}
                      <span className='star'>&#9733;</span>
                   </div>
                );

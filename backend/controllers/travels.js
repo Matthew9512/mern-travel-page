@@ -87,9 +87,9 @@ const getSearchedTravels = async function (req, res, next) {
 // update rate of travel
 const updateTravelRate = async function (req, res, next) {
    try {
-      const { id, travelRate } = req.body;
+      const { id, travelRate, userID } = req.body;
 
-      if (!id) return res.status(400).json({ message: `No data provided` });
+      if (!id || !travelRate || !userID) return res.status(400).json({ message: `No data provided` });
 
       const updateRate = await travelsModel.findById({ _id: id });
 
@@ -100,6 +100,8 @@ const updateTravelRate = async function (req, res, next) {
       const votes = updateRate.userVotes + 1;
 
       await updateRate.updateOne({ travelRate: rate, userVotes: votes });
+
+      await usersModel.updateOne({ _id: userID }, { $addToSet: { userVotes: { travelID: id } } });
 
       res.status(200).json({ message: `Thank you for your vote` });
    } catch (error) {
@@ -130,21 +132,20 @@ const bookTravel = async function (req, res, next) {
 
       const saveBookings = await usersModel.updateOne({ _id: userID }, { $addToSet: { bookings: travelID } }).orFail();
 
-      const userData = await usersModel.findById({ _id: userID });
-
-      const user = {
-         email: userData.email,
-         username: userData.username,
-         id: userData._id,
-         createdAt: format(new Date(userData.createdAt), 'dd/MM/yyyy'),
-         bookings: userData.bookings,
-      };
+      const userData = await usersModel.findOneAndUpdate({ _id: userID });
 
       if (!updatePlaces || !saveBookings) return res.status(404).json({ message: `Something went wrong, please try again` });
 
       res.status(200).json({
          message: `You have succesfully bookmarked travel`,
-         user,
+         user: {
+            email: userData.email,
+            username: userData.username,
+            id: userData._id,
+            createdAt: format(new Date(userData.createdAt), 'dd/MM/yyyy'),
+            bookings: userData.bookings,
+            likes: userData.userLikes,
+         },
       });
    } catch (error) {
       next(error);

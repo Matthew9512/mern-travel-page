@@ -1,27 +1,26 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import './BookingSection.css';
 import { AuthContext } from '../../../../context/AuthContext';
 import { useFetch } from '../../../../api/useFetch';
 import { LoadingSpinner } from '../../../../components/LoadingSpinner/LoadingSpinner';
 import { FontAwesome } from '../../../../utils/icons';
+import './BookingSection.css';
 
 export const BookingSection = ({ travelData, id }) => {
    const [personsAmount, setPersonsAmount] = useState(1);
    const [totalCost, setTotalCost] = useState(travelData?.price);
    const { userData, setUserData } = useContext(AuthContext);
+   const { fetchData, data, loading, ready, contextHolder } = useFetch();
+   const inpRef = useRef();
 
    const [bookedButton, setBookedButton] = useState(() => {
       // check if current travel was booked by current user
       if (userData.at(0)?.bookings.some((value) => value == id)) return true;
       return false;
    });
-   const { fetchData, data, loading, ready, contextHolder } = useFetch();
-   const inpRef = useRef();
 
    const calcPrice = async () => {
       if (!userData.length) return;
-      // if (e.target.textContent === 'Temporary unavailable' || !userData.length) return;
       const personsAmountRef = +inpRef.current.value;
       setPersonsAmount(personsAmountRef);
 
@@ -39,7 +38,7 @@ export const BookingSection = ({ travelData, id }) => {
       console.log(`BookingSection effect`);
       if (!ready) return;
       setTotalCost(travelData?.price * personsAmount);
-      localStorage.removeItem('travel__user');
+      // localStorage.removeItem('travel__user');
       setUserData([data.user]);
       setBookedButton('Travel booked');
    }, [ready]);

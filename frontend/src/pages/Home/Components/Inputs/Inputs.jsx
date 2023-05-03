@@ -29,7 +29,7 @@ export const Inputs = ({ fetchTravelData }) => {
             <div className='inp__wrapper'>
                <label htmlFor='city'>Search by destination:</label>
                <div className='group'>
-                  <FontAwesome iconName='magnifying-glass' className='icon' />
+                  <FontAwesome iconName='magnifying-glass' classType='icon' />
                   {/* <FontAwesomeIcon icon='magnifying-glass' className='icon' /> */}
                   {/* <i className='icon fa-solid fa-magnifying-glass'></i> */}
                   <input ref={cityRef} id='city' name='city' type='text' className='input' placeholder='e.g. bali' />

@@ -8,12 +8,12 @@ export const Footer = () => {
       <footer className='footer'>
          <div className='footer__media-icons'>
             <a href='https://github.com/' target='_blank'>
-               <FontAwesome iconName={['fab', 'github']} />
+               <FontAwesome iconName='fa-brands fa-github' classType='fa-brands' />
                {/* <FontAwesomeIcon icon={['fab', 'github']} /> */}
                {/* <i className='fa-brands fa-github'></i> */}
             </a>
             <a href='https://pl.linkedin.com/' target='_blank'>
-               <FontAwesome iconName={['fab', 'linkedin']} />
+               <FontAwesome iconName='fa-brands fa-linkedin' classType='fa-brands' />
                {/* <FontAwesomeIcon icon={['fab', 'linkedin']} /> */}
                {/* <i className='fa-brands fa-linkedin'></i> */}
             </a>

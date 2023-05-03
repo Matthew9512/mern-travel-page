@@ -1,5 +1,6 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import {
    faCheck,
    faCircleNotch,
@@ -13,7 +14,6 @@ import {
    faTrash,
    faUser,
 } from '@fortawesome/free-solid-svg-icons';
-import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 
 library.add(
    faGithub,
@@ -31,15 +31,6 @@ library.add(
    faThumbsUp
 );
 
-// export const FontAwesome = (iconName) => {
-//    return <FontAwesomeIcon icon={iconName} />;
-// };
-
 export const FontAwesome = ({ iconName, classType = '' }) => {
-   //    console.log(iconName);
-   //    const iconName = 'plane';
-   //    if (!iconName) return;
    return <FontAwesomeIcon icon={`${iconName}`} className={`${classType}`} />;
 };
-
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

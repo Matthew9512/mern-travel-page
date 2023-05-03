@@ -21,12 +21,24 @@ export const AuthContextProvider = ({ children }) => {
       return JSON.parse(lsItems);
    });
 
+   const [wasTravelRated, setWasTravelRated] = useState(() => {
+      const lsItems = localStorage.getItem('travel__rate__stars');
+      if (!lsItems) return [];
+
+      return JSON.parse(lsItems);
+   });
+
    useEffect(() => {
       localStorage.setItem('travel__user', JSON.stringify(userData));
       localStorage.setItem('travel__likes', JSON.stringify(rateIconStyle));
+      localStorage.setItem('travel__rate__stars', JSON.stringify(wasTravelRated));
    }, [userData]);
 
-   return <AuthContext.Provider value={{ userData, setUserData, rateIconStyle, setRateIconStyle }}>{children}</AuthContext.Provider>;
+   return (
+      <AuthContext.Provider value={{ userData, setUserData, rateIconStyle, setRateIconStyle, wasTravelRated, setWasTravelRated }}>
+         {children}
+      </AuthContext.Provider>
+   );
 };
 // import { createContext, useEffect, useState } from 'react';
 

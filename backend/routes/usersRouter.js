@@ -1,10 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const users = require('../controllers/users');
+const verifyJwt = require('../middleware/verifyJwt');
 
-// router.get('/:id', users.getUser);
+router.get('/:id', verifyJwt, users.getUser);
+router.post('/refresh', users.refreshJwt);
+
 router.post('/login', users.logIn);
 router.post('/signin', users.signIn);
-router.patch('/likes/rate/update', users.updateLikesType);
+router.patch('/likes/rate/update', verifyJwt, users.updateLikesType);
 
 module.exports = router;

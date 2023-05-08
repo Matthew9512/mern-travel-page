@@ -132,7 +132,8 @@ const bookTravel = async function (req, res, next) {
 
       const saveBookings = await usersModel.updateOne({ _id: userID }, { $addToSet: { bookings: travelID } }).orFail();
 
-      const userData = await usersModel.findOneAndUpdate({ _id: userID });
+      const userData = await usersModel.findOne({ _id: userID });
+      // const userData = await usersModel.findOneAndUpdate({ _id: userID });
 
       if (!updatePlaces || !saveBookings) return res.status(404).json({ message: `Something went wrong, please try again` });
 

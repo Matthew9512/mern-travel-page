@@ -1,7 +1,6 @@
 import React from 'react';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import './Hero.css';
 import { FontAwesome } from '../../../../utils/icons';
+import './Hero.css';
 
 export const Hero = () => {
    return (
@@ -13,8 +12,6 @@ export const Hero = () => {
                W
                <span className='hero__logo'>
                   <FontAwesome iconName='earth-americas' classType='hero__logo' />
-                  {/* <FontAwesomeIcon icon='earth-americas' className='hero__logo' /> */}
-                  {/* <i className='fa-solid fa-earth-americas hero__logo'></i> */}
                </span>
                rld
             </span>

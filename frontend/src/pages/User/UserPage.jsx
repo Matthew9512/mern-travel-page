@@ -3,18 +3,15 @@ import './UserPage.css';
 import { AuthContext } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { UserPageNav } from './Components/UserPageNav/UserPageNav';
+import { removeToken } from '../../api/authUser';
 
 export const UserPage = () => {
-   const { userData, setUserData, setWasTravelRated, setRateIconStyle } = useContext(AuthContext);
+   const { userData, setUserData } = useContext(AuthContext);
    const navigate = useNavigate();
 
    const logOut = () => {
-      localStorage.removeItem('travel__user');
-      localStorage.removeItem('travel__likes');
-      localStorage.removeItem('travel__rate__stars');
-      setUserData([]);
-      setRateIconStyle([]);
-      setWasTravelRated([]);
+      setUserData(null);
+      removeToken();
       // go back to previous page
       navigate(-1);
    };
@@ -23,9 +20,9 @@ export const UserPage = () => {
       <section className='user__panel'>
          <UserPageNav />
          <div className='user__bookings'>
-            <p>username: {userData.at(0)?.username}</p>
-            <p>active email: {userData.at(0)?.email}</p>
-            <p>joined: {userData.at(0)?.createdAt}</p>
+            <p>username: {userData?.username}</p>
+            <p>active email: {userData?.email}</p>
+            <p>joined: {userData?.createdAt}</p>
             <button onClick={logOut} className='btn'>
                Log Out
             </button>

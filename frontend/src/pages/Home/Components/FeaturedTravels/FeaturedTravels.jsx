@@ -1,9 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesome } from '../../../../utils/icons';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import '../FeaturedTravels/FeaturedTravels.css';
 import { LoadingSpinner } from '../../../../components/LoadingSpinner/LoadingSpinner';
+import '../FeaturedTravels/FeaturedTravels.css';
 
 export const FeaturedTravels = ({ data, error, loading }) => {
    if (error) return <p className='error-message featured'>{error}</p>;
@@ -25,13 +24,9 @@ export const FeaturedTravels = ({ data, error, loading }) => {
                            <p className='destinations-name'>{value?.city}</p>
                            <p className='destinations-country'>
                               <FontAwesome iconName='location-dot' /> {value?.country}
-                              {/* <FontAwesomeIcon icon='location-dot' /> {value?.country} */}
-                              {/* <i className='fa-solid fa-location-dot'></i> {value?.country} */}
                            </p>
                            <div className='destinations-date'>
                               <FontAwesome iconName='plane' />
-                              {/* <FontAwesomeIcon icon='plane' /> */}
-                              {/* <i className='fa-solid fa-plane'></i> */}
                               <p>
                                  {value?.startDate} - {value?.endDate}
                               </p>

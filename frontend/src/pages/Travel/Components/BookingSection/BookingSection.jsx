@@ -1,34 +1,35 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { AuthContext } from '../../../../context/AuthContext';
 import { useFetch } from '../../../../api/useFetch';
 import { LoadingSpinner } from '../../../../components/LoadingSpinner/LoadingSpinner';
 import { FontAwesome } from '../../../../utils/icons';
 import './BookingSection.css';
 
-export const BookingSection = ({ travelData, id }) => {
+export const BookingSection = ({ travelData }) => {
+   const { userData } = useContext(AuthContext);
    const [personsAmount, setPersonsAmount] = useState(1);
    const [totalCost, setTotalCost] = useState(travelData?.price);
-   const { userData, setUserData } = useContext(AuthContext);
-   const { fetchData, data, loading, ready, contextHolder } = useFetch();
+   const { fetchData, loading, ready, contextHolder } = useFetch();
    const inpRef = useRef();
+   const [bookedButton, setBookedButton] = useState(false);
 
-   const [bookedButton, setBookedButton] = useState(() => {
-      // check if current travel was booked by current user
-      if (userData.at(0)?.bookings.some((value) => value == id)) return true;
-      return false;
-   });
+   // check if current travel was booked by current user
+   useEffect(() => {
+      const check = userData?.bookings.some((value) => value === travelData._id);
+      if (!check) setBookedButton(false);
+      else setBookedButton(true);
+   }, [userData]);
 
    const calcPrice = async () => {
-      if (!userData.length) return;
+      if (!userData) return;
       const personsAmountRef = +inpRef.current.value;
       setPersonsAmount(personsAmountRef);
 
       if (!personsAmountRef || personsAmountRef < 0) return alert(`Number of people can't be empty or negative`);
       const body = {
          places: personsAmountRef,
-         travelID: id,
-         userID: userData.at(0).id,
+         travelID: travelData._id,
+         userID: userData._id,
       };
       await fetchData('/bookings', 'PATCH', body);
    };
@@ -38,9 +39,7 @@ export const BookingSection = ({ travelData, id }) => {
       console.log(`BookingSection effect`);
       if (!ready) return;
       setTotalCost(travelData?.price * personsAmount);
-      // localStorage.removeItem('travel__user');
-      setUserData([data.user]);
-      setBookedButton('Travel booked');
+      setBookedButton(true);
    }, [ready]);
 
    return (
@@ -51,14 +50,10 @@ export const BookingSection = ({ travelData, id }) => {
          <label htmlFor='peoples-number'>Choose number of people:</label>
          <div className='group'>
             <FontAwesome iconName='user' classType='icon' />
-            {/* <FontAwesomeIcon icon='user' className='icon' /> */}
-            {/* <i className='icon fa-solid fa-users'></i> */}
             <input ref={inpRef} disabled={bookedButton} type='number' className='input' placeholder='e.g. 1' />
          </div>
          <div className='destinations-date'>
             <FontAwesome iconName='plane' />
-            {/* <FontAwesomeIcon icon='plane' /> */}
-            {/* <i className='fa-solid fa-plane'></i> */}
             <p>
                {travelData?.startDate} - {travelData?.endDate}
             </p>
@@ -78,7 +73,7 @@ export const BookingSection = ({ travelData, id }) => {
                <p>Travel booked</p>
             </div>
          ) : (
-            <button onClick={calcPrice} className={`btn ${!travelData?.availablePlaces || !userData.length ? 'disabled' : ''}`}>
+            <button onClick={calcPrice} className={`btn ${!travelData?.availablePlaces || !userData ? 'disabled' : ''}`}>
                {!travelData?.availablePlaces ? 'Temporary unavailable' : 'Book'}
             </button>
          )}

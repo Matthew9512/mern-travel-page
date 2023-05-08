@@ -110,10 +110,6 @@
    align-items: center;
    border: 1px solid #01b2c9;
 }
-.user-img {
-   font-size: 1.4rem;
-   opacity: 0.8;
-}
 .btn-send {
    height: min-content;
    padding: 0.4em 1em;

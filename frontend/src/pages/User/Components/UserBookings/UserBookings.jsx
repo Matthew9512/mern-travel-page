@@ -3,7 +3,6 @@ import { UserPageNav } from '../UserPageNav/UserPageNav';
 import { AuthContext } from '../../../../context/AuthContext';
 import { API } from '../../../../api/useFetch';
 import { LoadingSpinner } from '../../../../components/LoadingSpinner/LoadingSpinner';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FontAwesome } from '../../../../utils/icons';
 
 /**
@@ -25,10 +24,10 @@ export const UserBookings = () => {
    // fetch all users bookings
    const fetchUserBookings = () => {
       // return if user didnt book any travel
-      if (!userData.length) return;
+      if (!userData) return;
       setLoading(true);
       Promise.all(
-         userData.at(0).bookings.map((value) => {
+         userData?.bookings.map((value) => {
             fetch(`${API}/search/${value}`)
                .then((res) => res.json())
                .then((bookings) => {
@@ -60,7 +59,6 @@ export const UserBookings = () => {
                         <p>{value?.price}$</p>
                         <div className='destinations-date'>
                            <FontAwesome iconName='plane' />
-                           {/* <i className='fa-solid fa-plane'></i> */}
                            <p>
                               {value?.startDate} - {value?.endDate}
                            </p>

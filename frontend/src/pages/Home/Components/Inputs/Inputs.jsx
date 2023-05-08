@@ -1,6 +1,5 @@
 import React, { useRef } from 'react';
 import { DatePicker } from 'antd';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { PriceInput } from '../PriceInput/PriceInput';
 import { FontAwesome } from '../../../../utils/icons';
 import { Buttons } from '../Buttons/Buttons';
@@ -30,8 +29,6 @@ export const Inputs = ({ fetchTravelData }) => {
                <label htmlFor='city'>Search by destination:</label>
                <div className='group'>
                   <FontAwesome iconName='magnifying-glass' classType='icon' />
-                  {/* <FontAwesomeIcon icon='magnifying-glass' className='icon' /> */}
-                  {/* <i className='icon fa-solid fa-magnifying-glass'></i> */}
                   <input ref={cityRef} id='city' name='city' type='text' className='input' placeholder='e.g. bali' />
                </div>
             </div>

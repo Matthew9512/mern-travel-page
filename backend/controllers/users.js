@@ -7,6 +7,52 @@ const { format } = require('date-fns');
  * @todo remove format
  */
 
+// get user data
+const getUser = async (req, res, next) => {
+   console.log(`getUser`);
+   try {
+      const { id } = req.params;
+
+      if (!id) return res.status(404).json({ message: `no data provided` });
+
+      const user = await usersModel.findById({ _id: id });
+
+      if (!user) return res.status(404).json({ message: `user not found` });
+
+      // decoded users info
+      const { userID } = req.user;
+
+      if (id !== userID) return res.status(403).json({ message: `You are not authorized to access this information` });
+
+      const { password, updatedAt, __v, ...usersData } = user._doc;
+
+      res.status(200).json(usersData);
+   } catch (error) {
+      next(error);
+   }
+};
+
+// refresh json web token
+const refreshJwt = (req, res) => {
+   const cookies = req.cookies;
+
+   if (!cookies?.jwt) return res.status(401).json({ message: `You are not authorized to access this information` });
+   const refreshToken = cookies.jwt;
+
+   jwt.verify(refreshToken, process.env.REFRESH_TOKEN, async (error, decodedInfo) => {
+      if (error) {
+         console.log(error);
+         return res.status(403).json({ message: `You are not authorized to access this information` });
+      }
+      const user = await usersModel.findOne({ _id: decodedInfo.userID });
+      if (!user) return res.status(401).json({ message: 'User not found, refresh' });
+
+      const accessToken = jwt.sign({ email: user.email, userID: user.id }, process.env.ACCESS_TOKEN, { expiresIn: '10s' });
+
+      res.json({ accessToken });
+   });
+};
+
 // login
 const logIn = async function (req, res, next) {
    try {
@@ -22,30 +68,18 @@ const logIn = async function (req, res, next) {
 
       if (!bcryptPassword) return res.status(401).json({ message: `incorrect password` });
 
-      // // access token
-      // const accessToken = jwt.sign({ username }, process.env.ACCESS_TOKEN);
-      // // refresh token
-      // const refreshToken = jwt.sign({ username }, process.env.REFRESH_TOKEN);
-      // // httpOnly cookie
-      // res.cookie('jwt', refreshToken, {
-      //    httpOnly: true, //accessible only by web server
-      //    //   secure: true, //https
-      //    sameSite: 'None', //cross-site cookie
-      //    maxAge: 7 * 24 * 60 * 60 * 1000, //cookie expiry: set to match rT
-      // });
+      const accessToken = jwt.sign({ email, userID: user.id }, process.env.ACCESS_TOKEN, { expiresIn: '10s' });
 
-      // res.status(200).json({ message: `user login successfully`, accessToken });
-      res.status(200).json({
-         user: {
-            email: user.email,
-            username: user.username,
-            id: user._id,
-            createdAt: format(new Date(user.createdAt), 'dd/MM/yyyy'),
-            bookings: user.bookings,
-            likes: user.userLikes,
-            votes: user.userVotes,
-         },
+      const refreshToken = jwt.sign({ email, userID: user.id }, process.env.REFRESH_TOKEN, { expiresIn: '1d' });
+
+      res.cookie('jwt', refreshToken, {
+         httpOnly: true, //accessible only by web server
+         secure: true, //https
+         sameSite: 'None', //cross-site cookie
+         maxAge: 7 * 24 * 60 * 60 * 1000, //cookie expiry: set to match rT
       });
+
+      res.status(200).json({ accessToken });
    } catch (error) {
       next(error);
    }
@@ -113,34 +147,4 @@ const updateLikesType = async function (req, res, next) {
    }
 };
 
-module.exports = { logIn, signIn, updateLikesType };
-
-// // get user info
-// const getUser = async function (req, res, next) {
-//    try {
-//       const { id } = req.params;
-//       if (!id) return res.status(400).json({ message: `no data provided, pls try again` });
-
-//       const user = await usersModel.findOne({ _id: id });
-//       // const usersBookings = await usersModel.findOne({ _id: id });
-
-//       if (!user) return res.status(400).json({ message: `user not found` });
-//       // if (!usersBookings) return res.status(400).json({ message: `user not found` });
-
-//       // res.status(200).json({ data: usersBookings.bookings });
-//       res.status(200).json({
-//          user: {
-//             email: user.email,
-//             username: user.username,
-//             id: user._id,
-//             createdAt: format(new Date(user.createdAt), 'dd/MM/yyyy'),
-//             bookings: user.bookings,
-//             likes: user.likes,
-//          },
-//       });
-//    } catch (error) {
-//       next(error);
-//    }
-// };
-
-// module.exports = { logIn, signIn, updateLikesType, getUser };
+module.exports = { logIn, signIn, updateLikesType, getUser, refreshJwt };

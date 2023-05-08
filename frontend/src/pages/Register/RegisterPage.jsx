@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useFetch } from '../../api/useFetch';
 import { FontAwesome } from '../../utils/icons';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import '../Login/LoginPage';
 
 export const RegisterPage = () => {
@@ -43,8 +42,6 @@ export const RegisterPage = () => {
             <p className='auth__header'>
                <span>
                   <FontAwesome iconName='earth-americas' />
-                  {/* <FontAwesomeIcon icon='earth-americas' /> */}
-                  {/* <i className='fa-solid fa-earth-americas'></i> */}
                </span>
                Travello
             </p>

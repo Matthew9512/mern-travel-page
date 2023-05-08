@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from 'react';
-
+import jwtDecode from 'jwt-decode';
+import { axiosInstance } from '../api/authUser';
 /**
  * @todo fetch user here on useEffect then save in ls when state change
  */
@@ -7,58 +8,25 @@ import { createContext, useEffect, useState } from 'react';
 export const AuthContext = createContext({});
 
 export const AuthContextProvider = ({ children }) => {
-   const [rateIconStyle, setRateIconStyle] = useState(() => {
-      const lsItems = localStorage.getItem('travel__likes');
-      if (!lsItems) return [];
-
-      return JSON.parse(lsItems);
-   });
-
-   const [userData, setUserData] = useState(() => {
-      const lsItems = localStorage.getItem('travel__user');
-      if (!lsItems) return [];
-
-      return JSON.parse(lsItems);
-   });
-
-   const [wasTravelRated, setWasTravelRated] = useState(() => {
-      const lsItems = localStorage.getItem('travel__rate__stars');
-      if (!lsItems) return [];
-
-      return JSON.parse(lsItems);
-   });
+   const [userData, setUserData] = useState(null);
+   const [fetchUser, setFetchUser] = useState();
 
    useEffect(() => {
-      localStorage.setItem('travel__user', JSON.stringify(userData));
-      localStorage.setItem('travel__likes', JSON.stringify(rateIconStyle));
-      localStorage.setItem('travel__rate__stars', JSON.stringify(wasTravelRated));
-   }, [userData]);
+      const token = JSON.parse(localStorage.getItem('access__token')) || '';
+      if (!token) return;
+      const { userID } = jwtDecode(token);
 
-   return (
-      <AuthContext.Provider value={{ userData, setUserData, rateIconStyle, setRateIconStyle, wasTravelRated, setWasTravelRated }}>
-         {children}
-      </AuthContext.Provider>
-   );
+      const getUser = async (userID) => {
+         try {
+            const res = await axiosInstance.get(`/user/${userID}`);
+            console.log(res.data);
+            setUserData(res.data);
+         } catch (error) {
+            console.log(error);
+         }
+      };
+      getUser(userID);
+   }, [fetchUser]);
+
+   return <AuthContext.Provider value={{ userData, setUserData, setFetchUser }}>{children}</AuthContext.Provider>;
 };
-// import { createContext, useEffect, useState } from 'react';
-
-// /**
-//  * @todo fetch user here on useEffect then save in ls when state change
-//  */
-
-// export const AuthContext = createContext({});
-
-// export const AuthContextProvider = ({ children }) => {
-//    const [userData, setUserData] = useState(() => {
-//       const lsItems = localStorage.getItem('travel__user');
-//       if (!lsItems) return [];
-
-//       return JSON.parse(lsItems);
-//    });
-
-//    useEffect(() => {
-//       localStorage.setItem('travel__user', JSON.stringify(userData));
-//    }, [userData]);
-
-//    return <AuthContext.Provider value={{ userData, setUserData }}>{children}</AuthContext.Provider>;
-// };

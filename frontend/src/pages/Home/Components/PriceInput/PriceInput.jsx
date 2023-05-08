@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-// import '../UserInputs/UserInputs.css';
 
 export const PriceInput = ({ priceRef }) => {
    const [price, setPrice] = useState(9000);

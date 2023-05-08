@@ -9,6 +9,7 @@ const corsOptions = require('./config/corsOptions');
 const connectDB = require('./config/connectDB');
 const errorHandler = require('./middleware/errorHandler');
 const cacheControl = require('./middleware/cacheControl');
+const cookieParser = require('cookie-parser');
 
 /**
  * @todo error
@@ -16,14 +17,24 @@ const cacheControl = require('./middleware/cacheControl');
  * @todo what if DB is down
  */
 
-// connect to DB
-connectDB();
+// app.use(
+//    cors({
+//       credentials: true,
+//    })
+// );
 
 app.use(cors(corsOptions));
 
 app.use(express.json());
 
-app.use(cacheControl);
+app.use(express.urlencoded({ extended: false }));
+
+app.use(cookieParser());
+
+// app.use(cacheControl);
+
+// connect to DB
+connectDB();
 
 // routes
 app.use('/', require('./routes/travelsRouter'));

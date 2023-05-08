@@ -6,9 +6,8 @@ import { BookingSection } from './Components/BookingSection/BookingSection';
 import { RatingStarsSection } from './Components/RatingStarsSection/RatingStarsSection';
 import { Footer } from '../../components/Footer/Footer';
 import { LoadingSpinner } from '../../components/LoadingSpinner/LoadingSpinner';
-import '../../assets/App.css';
 import { FontAwesome } from '../../utils/icons';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import '../../assets/App.css';
 
 export const TravelPage = () => {
    const { id } = useParams();
@@ -37,13 +36,9 @@ export const TravelPage = () => {
                            <p className='destinations-name'>{data?.city}</p>
                            <p className='destinations-country'>
                               <FontAwesome iconName='location-dot' /> {data?.country}
-                              {/* <FontAwesomeIcon icon='location-dot' /> {data?.country} */}
-                              {/* <i className='fa-solid fa-location-dot'></i> {data?.country} */}
                            </p>
                            <div className='destinations-date'>
                               <FontAwesome iconName='plane' />
-                              {/* <FontAwesomeIcon icon='plane' /> */}
-                              {/* <i className='fa-solid fa-plane'></i> */}
                               <p>
                                  {data?.startDate} - {data?.endDate}
                               </p>
@@ -63,7 +58,7 @@ export const TravelPage = () => {
                      <span>About travel:</span> {data?.description}
                   </p>
                </div>
-               {data.length === 0 ? '' : <BookingSection travelData={data} id={id} />}
+               {data.length === 0 ? '' : <BookingSection travelData={data} />}
             </div>
             <CommentsSection id={id} />
          </section>

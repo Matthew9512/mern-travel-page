@@ -1,20 +1,28 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useFetch } from '../../../../api/useFetch';
 import { AuthContext } from '../../../../context/AuthContext';
 import { FontAwesome } from '../../../../utils/icons';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const RateComments = ({ resData }) => {
-   const { userData, rateIconStyle } = useContext(AuthContext);
+   const { userData } = useContext(AuthContext);
    const likesAmount = useRef();
    const { fetchData, contextHolder } = useFetch();
    const [likes, setLikes] = useState(resData.likes);
+   //
    const [icons, setIcons] = useState(() => {
-      if (!rateIconStyle.length) return '';
-      const postIDs = rateIconStyle.filter((value) => value.postID === resData.postID);
-      const rateTypes = postIDs.map((post) => post.rateType);
-      return rateTypes.length > 0 ? rateTypes[0] : '';
+      // if (!userData) return '';
+      // const postIDs = userData?.userLikes.filter((value) => value.postID === resData.postID);
+      // const rateTypes = postIDs.map((post) => post.rateType);
+      // return rateTypes.length > 0 ? rateTypes[0] : '';
    });
+
+   useEffect(() => {
+      if (!userData) return setIcons('');
+      const postIDs = userData?.userLikes.filter((value) => value.postID === resData.postID);
+
+      const rateTypes = postIDs.map((post) => post.rateType);
+      return rateTypes.length > 0 ? setIcons(rateTypes[0]) : setIcons('');
+   }, []);
 
    // update likes amount in db
    const updateLikes = async (click, value) => {
@@ -25,17 +33,12 @@ export const RateComments = ({ resData }) => {
          likes: value,
       });
       await fetchData(`/user/likes/rate/update`, 'PATCH', {
-         id: userData.at(0).id,
+         id: userData?._id,
          userLikes: {
             postID: id,
             rateType: click.dataset.icon,
          },
       });
-
-      const lsItems = localStorage.getItem('travel__likes') ? JSON.parse(localStorage.getItem('travel__likes')) : [];
-      const newArr = lsItems.filter((value) => value.postID !== id);
-      newArr.push({ postID: id, rateType: click.dataset.icon });
-      localStorage.setItem('travel__likes', JSON.stringify(newArr));
    };
 
    const checkIfRated = (e) => {
@@ -92,26 +95,14 @@ export const RateComments = ({ resData }) => {
    return (
       <div className='evaluate'>
          {contextHolder}
-         <button onClick={checkIfRated} disabled={!userData.length} className={`${!userData.length ? 'disabled' : ''}`}>
+         <button onClick={checkIfRated} disabled={!userData} className={`${!userData ? 'disabled' : ''}`}>
             <FontAwesome iconName='thumbs-up' classType={`rate-btn ${icons === 'thumbs-up' ? 'rated' : ''}`} />
-            {/* <FontAwesomeIcon icon='thumbs-down' className='rated' /> */}
-            {/* <i
-               className={`${
-                  rateType?.rateType === 'fa-solid fa-thumbs-up rated' ? 'fa-solid fa-thumbs-up rated' : 'fa-solid fa-thumbs-up'
-               } `}
-            ></i> */}
          </button>
          <p className='likes' ref={likesAmount}>
             {likes}
          </p>
-         <button onClick={checkIfRated} disabled={!userData.length} className={`${!userData.length ? 'disabled' : ''}`}>
+         <button onClick={checkIfRated} disabled={!userData} className={`${!userData ? 'disabled' : ''}`}>
             <FontAwesome iconName='thumbs-down' classType={`rate-btn ${icons === 'thumbs-down' ? 'rated' : ''}`} />
-            {/* <FontAwesomeIcon icon='thumbs-down' className='rated' /> */}
-            {/* <i
-               className={`${
-                  rateType?.rateType === 'fa-solid fa-thumbs-down rated' ? 'fa-solid fa-thumbs-down rated' : 'fa-solid fa-thumbs-down'
-               }`}
-            ></i> */}
          </button>
       </div>
    );

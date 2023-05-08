@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
-import './Navbar.css';
 import { FontAwesome } from '../../utils/icons';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import './Navbar.css';
 
 export const Navbar = () => {
    const { userData } = useContext(AuthContext);
@@ -12,7 +11,7 @@ export const Navbar = () => {
    const navRef = useRef();
    const [navbarVis, setNavbarVis] = useState(false);
 
-   const handleAuth = () => (!userData.length ? navigate('/login') : navigate('/user'));
+   const handleAuth = () => (!userData ? navigate('/login') : navigate('/user'));
 
    // toggle navbar visibility
    const toggleNavbar = (e) => {
@@ -36,7 +35,6 @@ export const Navbar = () => {
    return (
       <nav ref={navRef} onClick={toggleNavbar} className='navbar'>
          <FontAwesome iconName='earth-americas' classType='navbar__logo' />
-         {/* <i className='fa-solid fa-earth-americas navbar__logo'></i> */}
          <input type='checkbox' id='navbar-check' />
          <div className='navbar__btn-wrapper'>
             <label ref={navBtn} htmlFor='navbar-check'>
@@ -63,8 +61,7 @@ export const Navbar = () => {
             </li>
             <li>
                <button onClick={handleAuth} className='navbar__btn'>
-                  {!userData.length ? 'Log in' : userData.at(0)?.username} <FontAwesome iconName='user' />
-                  {/* <i className='fa-solid fa-user'></i> */}
+                  {!userData ? 'Log in' : userData?.username} <FontAwesome iconName='user' />
                </button>
             </li>
          </ul>

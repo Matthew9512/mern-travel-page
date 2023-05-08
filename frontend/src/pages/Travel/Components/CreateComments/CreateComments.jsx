@@ -3,7 +3,6 @@ import { AuthContext } from '../../../../context/AuthContext';
 import { useFetch } from '../../../../api/useFetch';
 import { LoadingButton } from '../../../../components/LoadingButton';
 import { FontAwesome } from '../../../../utils/icons';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const CreateComments = ({ id, setCommentList }) => {
    const { userData } = useContext(AuthContext);
@@ -13,7 +12,7 @@ export const CreateComments = ({ id, setCommentList }) => {
    const sendComment = async () => {
       const body = {
          id,
-         username: userData.at(0).username,
+         username: userData?.username,
          post: commentRef.current.value,
       };
 
@@ -33,11 +32,9 @@ export const CreateComments = ({ id, setCommentList }) => {
          <textarea ref={commentRef} className='user-comment' id='user-comment' placeholder='add a comment' maxLength={250}></textarea>
          <div className='create__comment-wrapper'>
             <div className='user-avatar'>
-               <FontAwesome iconName='user' className='user-img' />
-               {/* <FontAwesomeIcon icon='user' className='user-img' /> */}
-               {/* <i className='fa-solid fa-user user-img'></i> */}
+               <FontAwesome iconName='user' classType='user-img' />
             </div>
-            <button onClick={sendComment} disabled={!userData.length} className={`btn btn-send ${!userData.length ? 'disabled' : ''} `}>
+            <button onClick={sendComment} disabled={!userData} className={`btn btn-send ${!userData ? 'disabled' : ''} `}>
                {loading ? <LoadingButton /> : '+Add'}
             </button>
          </div>

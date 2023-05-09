@@ -12,14 +12,14 @@ const usersModel = require('../models/usersModel');
 // get list on travels based on category
 const getFeaturedTravels = async function (req, res, next) {
    try {
-      const respond = await travelsModel.find({ category: 'most popular' });
+      const travelData = await travelsModel.find({ category: 'most popular' });
 
-      if (!respond.length)
+      if (!travelData.length)
          return res.status(400).json({
             message: `Looks like we can't find any travels at this moment, please try again later ;)`,
          });
 
-      res.status(200).json(respond);
+      res.status(200).json(travelData);
    } catch (error) {
       next(error);
    }
@@ -28,14 +28,14 @@ const getFeaturedTravels = async function (req, res, next) {
 // get full list of travels
 const getAllTravles = async function (req, res, next) {
    try {
-      const respond = await travelsModel.find();
+      const travelData = await travelsModel.find();
 
-      if (!respond.length)
+      if (!travelData.length)
          return res.status(400).json({
             message: `Looks like we can't find any travels at this moment, please try again later ;)`,
          });
 
-      res.status(200).json(respond);
+      res.status(200).json(travelData);
    } catch (error) {
       next(error);
    }
@@ -48,10 +48,11 @@ const getTravelsByID = async function (req, res, next) {
 
       if (!id) return res.status(400).json({ message: `no data provided, pls try again` });
 
-      const respond = await travelsModel.findById({ _id: id });
+      const travelData = await travelsModel.findById({ _id: id });
 
-      if (!respond) return res.status(404).json({ message: `Can't find travel` });
-      else res.status(200).json(respond);
+      if (!travelData) return res.status(404).json({ message: `Can't find travel` });
+
+      res.status(200).json(travelData);
    } catch (error) {
       next(error);
    }
@@ -68,17 +69,17 @@ const getSearchedTravels = async function (req, res, next) {
    const reqCity = city || { $ne: null };
 
    try {
-      const respond = await travelsModel.find({
+      const travelData = await travelsModel.find({
          startDate: { $gte: reqStartDate, $lte: reqEndDate },
          price: { $lte: reqPrice },
          city: reqCity,
       });
-      if (!respond.length)
+      if (!travelData.length)
          return res.status(400).json({
             message: `Looks like we can't find places that you are looking for, please change your criteria or see our full offer ;)`,
          });
 
-      res.status(200).json(respond);
+      res.status(200).json(travelData);
    } catch (error) {
       next(error);
    }

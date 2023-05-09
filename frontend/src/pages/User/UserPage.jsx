@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
-import './UserPage.css';
 import { AuthContext } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { UserPageNav } from './Components/UserPageNav/UserPageNav';
-import { removeToken } from '../../api/authUser';
+import { removeToken } from '../../api/jwtAuth';
+import './UserPage.css';
 
 export const UserPage = () => {
    const { userData, setUserData } = useContext(AuthContext);

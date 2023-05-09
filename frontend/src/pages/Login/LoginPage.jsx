@@ -1,52 +1,43 @@
 import React, { useContext, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { API, useFetch } from '../../api/useFetch';
+import { useAxios } from '../../api/useAxios';
 import { AuthContext } from '../../context/AuthContext';
 import { FontAwesome } from '../../utils/icons';
 import './LoginPage.css';
 import '../../assets/App.css';
 
-import axios from 'axios';
-/**
- * @todo fetch user in context
- */
-
 export const LoginPage = () => {
    const emailRef = useRef();
    const passwordRef = useRef();
-   const { userData, setUserData, setFetchUser } = useContext(AuthContext);
+   const { setFetchUser } = useContext(AuthContext);
    const navigate = useNavigate();
 
-   const { fetchData, data, ready, contextHolder } = useFetch();
+   const { fetchData, data, ready, contextHolder } = useAxios();
 
    const authUser = async (e) => {
       e.preventDefault();
 
       if (passwordRef.current?.value.length < 3 || !emailRef.current.value) return;
 
-      // await fetchData(`/user/login`, 'POST', body);
-      const res = await axios.post(`${API}/user/login`, {
-         email: emailRef.current?.value,
-         password: passwordRef.current?.value,
+      await fetchData({
+         method: `POST`,
+         url: `/user/login`,
+         data: { email: emailRef.current?.value, password: passwordRef.current?.value },
       });
-
-      const accessToken = JSON.stringify(res.data.accessToken);
-      localStorage.setItem('access__token', accessToken);
-      setFetchUser(res.data.accessToken);
    };
 
    // wait for fulfilled respond then save user in ls and change auth user state
    useEffect(() => {
       if (!ready) return;
-      /**
-       * save token and data if res is git
-       */
+      const accessToken = JSON.stringify(data.accessToken);
+      localStorage.setItem('access__token', accessToken);
+      setFetchUser(data.accessToken);
    }, [ready]);
 
    return (
       <div className='auth__container'>
          {contextHolder}
-         <video className='hero__video' src='../hero4.mp4' muted loop></video>
+         <video className='hero__video' src='../public/hero4.mp4' muted loop></video>
          <div className='login'>
             <p className='auth__header'>
                <span>

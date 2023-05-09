@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { useFetch } from '../../api/useFetch';
+import { useAxios } from '../../api/useAxios';
 import { CommentsSection } from './Components/CommentsSection/CommentsSection';
 import { BookingSection } from './Components/BookingSection/BookingSection';
 import { RatingStarsSection } from './Components/RatingStarsSection/RatingStarsSection';
@@ -11,11 +11,14 @@ import '../../assets/App.css';
 
 export const TravelPage = () => {
    const { id } = useParams();
-   const { fetchData, data, errors, loading } = useFetch();
+   const { fetchData, data, errors, loading } = useAxios();
 
    useEffect(() => {
       console.log(`travelsection effect`);
-      fetchData(`/search/${id}`);
+      fetchData({
+         method: `GET`,
+         url: `/search/${id}`,
+      });
    }, []);
 
    if (errors) return <p>{errors}</p>;

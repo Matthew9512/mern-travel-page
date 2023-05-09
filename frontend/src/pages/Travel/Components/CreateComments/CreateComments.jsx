@@ -1,22 +1,20 @@
 import React, { useContext, useEffect, useRef } from 'react';
 import { AuthContext } from '../../../../context/AuthContext';
-import { useFetch } from '../../../../api/useFetch';
+import { useAuthUser } from '../../../../api/useAuthUser';
 import { LoadingButton } from '../../../../components/LoadingButton';
 import { FontAwesome } from '../../../../utils/icons';
 
 export const CreateComments = ({ id, setCommentList }) => {
    const { userData } = useContext(AuthContext);
-   const { fetchData, data, loading, ready, contextHolder } = useFetch();
+   const { authUser, data, loading, ready, contextHolder } = useAuthUser();
    const commentRef = useRef();
 
    const sendComment = async () => {
-      const body = {
-         id,
-         username: userData?.username,
-         post: commentRef.current.value,
-      };
-
-      await fetchData(`/comments/${id}`, 'POST', body);
+      await authUser({
+         method: `POST`,
+         url: `/comments/${id}`,
+         data: { id, username: userData?.username, post: commentRef.current.value },
+      });
       commentRef.current.value = '';
    };
 

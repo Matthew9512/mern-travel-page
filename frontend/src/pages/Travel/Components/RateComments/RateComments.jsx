@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { useFetch } from '../../../../api/useFetch';
+import { useAuthUser } from '../../../../api/useAuthUser';
 import { AuthContext } from '../../../../context/AuthContext';
 import { FontAwesome } from '../../../../utils/icons';
 
 export const RateComments = ({ resData }) => {
    const { userData } = useContext(AuthContext);
    const likesAmount = useRef();
-   const { fetchData, contextHolder } = useFetch();
+   const { authUser, contextHolder } = useAuthUser();
    const [likes, setLikes] = useState(resData.likes);
    //
    const [icons, setIcons] = useState(() => {
@@ -28,15 +28,20 @@ export const RateComments = ({ resData }) => {
    const updateLikes = async (click, value) => {
       const id = click.closest('.post').id;
 
-      await fetchData(`/comments/likes/rate`, 'PATCH', {
-         id,
-         likes: value,
+      await authUser({
+         method: `PATCH`,
+         url: `comments/likes/rate`,
+         data: { id, likes: value },
       });
-      await fetchData(`/user/likes/rate/update`, 'PATCH', {
-         id: userData?._id,
-         userLikes: {
-            postID: id,
-            rateType: click.dataset.icon,
+      await authUser({
+         method: `PATCH`,
+         url: `/user/likes/rate/update`,
+         data: {
+            id: userData?._id,
+            userLikes: {
+               postID: id,
+               rateType: click.dataset.icon,
+            },
          },
       });
    };

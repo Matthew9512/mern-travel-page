@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API } from './useFetch';
+import { API } from './useAxios';
 import jwtDecode from 'jwt-decode';
 
 axios.defaults.withCredentials = true;

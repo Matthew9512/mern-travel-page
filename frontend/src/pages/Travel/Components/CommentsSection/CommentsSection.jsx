@@ -1,16 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import '../../TravelPage.css';
 import { DisplayComments } from '../DisplayComments/DisplayComments';
 import { CreateComments } from '../CreateComments/CreateComments';
-import { useFetch } from '../../../../api/useFetch';
+import { useAxios } from '../../../../api/useAxios';
+import '../../TravelPage.css';
+
+/**
+ * @todo loading
+ */
 
 export const CommentsSection = ({ id }) => {
-   const { fetchData, data } = useFetch();
+   const { fetchData, data } = useAxios();
    const [commentList, setCommentList] = useState([]);
 
    useEffect(() => {
       console.log(`CommentsSection effect`);
-      fetchData(`/comments/${id}`);
+      fetchData({
+         method: `GET`,
+         url: `/comments/${id}`,
+      });
    }, []);
 
    useEffect(() => {

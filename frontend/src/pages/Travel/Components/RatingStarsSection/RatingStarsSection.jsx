@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
-import './RatingStarsSection.css';
 import { AuthContext } from '../../../../context/AuthContext';
 import { RatingStars } from '../RatingStars/RatingStars';
+import './RatingStarsSection.css';
 
 export const RatingStarsSection = ({ data }) => {
    const { userData } = useContext(AuthContext);

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { useFetch } from '../../../../api/useFetch';
+import { useAuthUser } from '../../../../api/useAuthUser';
 import '../RatingStarsSection/RatingStarsSection.css';
 
 export const RatingStars = ({ travelID, userData }) => {
    const [travelRate, setTravelRate] = useState(0);
    const [hover, setHover] = useState(0);
-   const { fetchData, contextHolder } = useFetch();
+   const { authUser, contextHolder } = useAuthUser();
 
    return (
       <>
@@ -21,7 +21,11 @@ export const RatingStars = ({ travelID, userData }) => {
                      className={index <= (hover || travelRate) ? 'on' : 'off'}
                      onClick={() => {
                         setTravelRate(index);
-                        fetchData(`/places/rate`, 'PUT', { id: travelID, travelRate: index, userID: userData?._id });
+                        authUser({
+                           method: `PUT`,
+                           url: `/places/rate`,
+                           data: { id: travelID, travelRate: index, userID: userData?._id },
+                        });
                      }}
                      onMouseEnter={() => setHover(index)}
                      onMouseLeave={() => setHover(travelRate)}

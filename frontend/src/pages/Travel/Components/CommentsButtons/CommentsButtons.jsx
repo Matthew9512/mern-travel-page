@@ -1,36 +1,27 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useFetch } from '../../../../api/useFetch';
 import { LoadingButton } from '../../../../components/LoadingButton';
 import { FontAwesome } from '../../../../utils/icons';
-import { axiosInstance } from '../../../../api/authUser';
 import { useAuthUser } from '../../../../api/useAuthUser';
 
 /**
  * @todo width of active edit textfield !!!
  * @todo state for disabling textfield and style?
+ * @todo error
  */
 
 export const CommentsButtons = ({ setCommentList }) => {
    const [icon, setIcon] = useState(false);
-   const { fetchData, ready, contextHolder } = useFetch();
-   const { authUser } = useAuthUser();
-
-   // ref for storing ID of clicked element used when promise was successful
-   const deleteIDRef = useRef();
-
+   const { authUser, ready, error, contextHolder } = useAuthUser();
    const [btnLoad, setBtnLoad] = useState(<FontAwesome iconName='check' />);
    const [btnDelete, setBtnDelete] = useState(<FontAwesome iconName='trash' />);
+   // ref for storing ID of clicked element used when promise was successful
+   const deleteIDRef = useRef();
 
    // edit comment
    const changeComment = async (e) => {
       const parent = e.target.closest('.post');
       const id = parent.id;
       const textField = parent.querySelector('.text');
-
-      const body = {
-         post: textField.value,
-         id,
-      };
 
       if (!icon) {
          setIcon(true);
@@ -40,17 +31,13 @@ export const CommentsButtons = ({ setCommentList }) => {
          setBtnLoad(<LoadingButton />);
          textField.disabled = true;
          textField.classList.remove('active');
-         await axiosInstance.patch(`/comments/:id`, body);
-         // await authUser({
-         // method: 'PATCH',
-         // url: `/comments/:id`,
-         // body: {
-         //    post: textField.value,
-         //    id,
-         // },
-         // });
 
-         // await fetchData(`/comments/:id`, 'PATCH', body);
+         await authUser({
+            method: 'PATCH',
+            url: `/comments/${id}`,
+            data: { post: textField.value, id },
+         });
+
          setBtnLoad(<FontAwesome iconName='check' />);
       }
    };
@@ -60,14 +47,15 @@ export const CommentsButtons = ({ setCommentList }) => {
       setBtnDelete(<LoadingButton />);
       const id = e.target.closest('.post').id;
 
-      // ID of clicked element
+      // ID of clicked element for filter array
       deleteIDRef.current = id;
 
-      const body = {
-         id,
-      };
+      await authUser({
+         method: 'DELETE',
+         url: `/comments/delete`,
+         data: { id },
+      });
 
-      await fetchData(`/comments/delete`, 'DELETE', body);
       setBtnDelete(<FontAwesome iconName='trash' />);
    };
 

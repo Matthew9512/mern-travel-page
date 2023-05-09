@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { UserPageNav } from '../UserPageNav/UserPageNav';
 import { AuthContext } from '../../../../context/AuthContext';
-import { API } from '../../../../api/useFetch';
+import { API } from '../../../../api/useAxios';
 import { LoadingSpinner } from '../../../../components/LoadingSpinner/LoadingSpinner';
 import { FontAwesome } from '../../../../utils/icons';
 
@@ -14,8 +14,6 @@ export const UserBookings = () => {
    const [bookingList, setBookingList] = useState([]);
    const [loading, setLoading] = useState(false);
    const [error, setError] = useState(false);
-
-   // useEffect
 
    useEffect(() => {
       fetchUserBookings();

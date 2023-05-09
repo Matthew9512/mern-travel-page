@@ -1,9 +1,6 @@
 import { createContext, useEffect, useState } from 'react';
 import jwtDecode from 'jwt-decode';
-import { axiosInstance } from '../api/authUser';
-/**
- * @todo fetch user here on useEffect then save in ls when state change
- */
+import { axiosInstance } from '../api/jwtAuth';
 
 export const AuthContext = createContext({});
 

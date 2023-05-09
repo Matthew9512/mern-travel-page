@@ -9,7 +9,6 @@ const { format } = require('date-fns');
 
 // get user data
 const getUser = async (req, res, next) => {
-   console.log(`getUser`);
    try {
       const { id } = req.params;
 

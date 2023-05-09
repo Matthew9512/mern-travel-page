@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { AuthContext } from '../../../../context/AuthContext';
-import { useFetch } from '../../../../api/useFetch';
+import { useAuthUser } from '../../../../api/useAuthUser';
 import { LoadingSpinner } from '../../../../components/LoadingSpinner/LoadingSpinner';
 import { FontAwesome } from '../../../../utils/icons';
 import './BookingSection.css';
@@ -9,7 +9,7 @@ export const BookingSection = ({ travelData }) => {
    const { userData } = useContext(AuthContext);
    const [personsAmount, setPersonsAmount] = useState(1);
    const [totalCost, setTotalCost] = useState(travelData?.price);
-   const { fetchData, loading, ready, contextHolder } = useFetch();
+   const { authUser, loading, ready, contextHolder } = useAuthUser();
    const inpRef = useRef();
    const [bookedButton, setBookedButton] = useState(false);
 
@@ -26,12 +26,16 @@ export const BookingSection = ({ travelData }) => {
       setPersonsAmount(personsAmountRef);
 
       if (!personsAmountRef || personsAmountRef < 0) return alert(`Number of people can't be empty or negative`);
-      const body = {
-         places: personsAmountRef,
-         travelID: travelData._id,
-         userID: userData._id,
-      };
-      await fetchData('/bookings', 'PATCH', body);
+
+      await authUser({
+         method: `PATCH`,
+         url: `/bookings`,
+         data: {
+            places: personsAmountRef,
+            travelID: travelData._id,
+            userID: userData._id,
+         },
+      });
    };
 
    // wait for fulfilled respond then calc and display updated total price and

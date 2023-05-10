@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from 'react';
 import jwtDecode from 'jwt-decode';
-import { axiosInstance } from '../api/jwtAuth';
+import { axiosInstance } from '../api/useAxios';
 
 export const AuthContext = createContext({});
 
@@ -9,6 +9,7 @@ export const AuthContextProvider = ({ children }) => {
    const [fetchUser, setFetchUser] = useState();
 
    useEffect(() => {
+      console.log(`userAuthEffect`);
       const token = JSON.parse(localStorage.getItem('access__token')) || '';
       if (!token) return;
       const { userID } = jwtDecode(token);

@@ -15,7 +15,6 @@ export const CommentsSection = ({ id }) => {
    useEffect(() => {
       console.log(`CommentsSection effect`);
       fetchData({
-         method: `GET`,
          url: `/comments/${id}`,
       });
    }, []);

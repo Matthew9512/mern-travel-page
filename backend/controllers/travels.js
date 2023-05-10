@@ -1,5 +1,5 @@
 const travelsModel = require('../models/travelsModel');
-const { format } = require('date-fns');
+// const { format } = require('date-fns');
 const usersModel = require('../models/usersModel');
 
 /**
@@ -63,8 +63,12 @@ const getSearchedTravels = async function (req, res, next) {
    const futureData = new Date().getFullYear() + 1;
 
    const { startDate, endDate, price, city } = req.query;
-   const reqStartDate = startDate ? startDate : format(new Date(2022, 00, 01), 'dd/MM/yyyy');
-   const reqEndDate = endDate ? endDate : format(new Date(futureData, 12, 29), 'dd/MM/yyyy');
+
+   const reqStartDate = startDate ? startDate : new Date(2022, 00, 01).toLocaleDateString('en-GB');
+   const reqEndDate = endDate ? endDate : new Date(futureData, 12, 29).toLocaleDateString('en-GB');
+   // const reqStartDate = startDate ? startDate : format(new Date(2022, 00, 01), 'dd/MM/yyyy');
+   // const reqEndDate = endDate ? endDate : format(new Date(futureData, 12, 29), 'dd/MM/yyyy');
+
    const reqPrice = +price || 10_000;
    const reqCity = city || { $ne: null };
 
@@ -81,6 +85,7 @@ const getSearchedTravels = async function (req, res, next) {
 
       res.status(200).json(travelData);
    } catch (error) {
+      console.log(error);
       next(error);
    }
 };
@@ -144,7 +149,8 @@ const bookTravel = async function (req, res, next) {
             email: userData.email,
             username: userData.username,
             id: userData._id,
-            createdAt: format(new Date(userData.createdAt), 'dd/MM/yyyy'),
+            createdAt: new Date(userData.createdAt).toLocaleDateString('en-GB'),
+            // createdAt: format(new Date(userData.createdAt), 'dd/MM/yyyy'),
             bookings: userData.bookings,
             likes: userData.userLikes,
          },

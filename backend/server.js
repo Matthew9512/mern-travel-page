@@ -2,26 +2,19 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 const PORT = process.env.PORT || 8000;
+
 const corsOptions = require('./config/corsOptions');
 const connectDB = require('./config/connectDB');
 const errorHandler = require('./middleware/errorHandler');
 const cacheControl = require('./middleware/cacheControl');
-const cookieParser = require('cookie-parser');
 
 /**
- * @todo error
- * @todo cookie parser
- * @todo what if DB is down
+ * // FINISH ERROR !!!!
  */
-
-// app.use(
-//    cors({
-//       credentials: true,
-//    })
-// );
 
 app.use(cors(corsOptions));
 
@@ -31,7 +24,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(cookieParser());
 
-// app.use(cacheControl);
+app.use(cacheControl);
 
 // connect to DB
 connectDB();

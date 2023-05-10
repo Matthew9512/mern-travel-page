@@ -1,16 +1,6 @@
 import axios from 'axios';
-import { API } from './useAxios';
+import { API, axiosInstance } from './useAxios';
 import jwtDecode from 'jwt-decode';
-
-axios.defaults.withCredentials = true;
-axios.defaults.baseURL = 'http://localhost:8000';
-
-export const axiosInstance = axios.create({
-   headers: {
-      //   Accept: 'application/json',
-      'Content-Type': 'application/json',
-   },
-});
 
 axiosInstance.interceptors.request.use(
    async (config) => {

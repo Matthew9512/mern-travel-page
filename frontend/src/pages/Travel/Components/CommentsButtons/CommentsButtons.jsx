@@ -69,7 +69,7 @@ export const CommentsButtons = ({ setCommentList }) => {
       // ==
       setTimeout(() => {
          setCommentList((prev) => prev.filter((value) => value.postID !== deleteIDRef.current));
-      }, 1000);
+      }, 1500);
       // ==
 
       // without message

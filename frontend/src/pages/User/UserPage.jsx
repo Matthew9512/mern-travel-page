@@ -22,7 +22,7 @@ export const UserPage = () => {
          <div className='user__bookings'>
             <p>username: {userData?.username}</p>
             <p>active email: {userData?.email}</p>
-            <p>joined: {userData?.createdAt}</p>
+            <p>joined: {new Date(userData?.createdAt).toLocaleDateString('en-GB')}</p>
             <button onClick={logOut} className='btn'>
                Log Out
             </button>

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useAxios } from '../../api/useAxios';
+import { usePersist } from '../../api/usePersist';
 import { CommentsSection } from './Components/CommentsSection/CommentsSection';
 import { BookingSection } from './Components/BookingSection/BookingSection';
 import { RatingStarsSection } from './Components/RatingStarsSection/RatingStarsSection';
@@ -11,15 +12,24 @@ import '../../assets/App.css';
 
 export const TravelPage = () => {
    const { id } = useParams();
-   const { fetchData, data, errors, loading } = useAxios();
+   const { fetchData, data, setData, errors, loading, ready } = useAxios();
+   const { persistData, setPersistData } = usePersist('travel__item');
 
    useEffect(() => {
       console.log(`travelsection effect`);
-      fetchData({
-         method: `GET`,
-         url: `/search/${id}`,
-      });
+      // if there is 'travel__item' inside LS then display this data else fetch data
+      if (!persistData)
+         fetchData({
+            url: `/search/${id}`,
+         });
+      setData(persistData);
    }, []);
+
+   useEffect(() => {
+      if (!ready) return;
+      // save fetch data inside LS
+      setPersistData(data);
+   }, [data]);
 
    if (errors) return <p>{errors}</p>;
    if (data.length === 0) return <LoadingSpinner loading={loading} />;

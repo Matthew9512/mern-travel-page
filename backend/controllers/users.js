@@ -1,7 +1,6 @@
 const usersModel = require('../models/usersModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { format } = require('date-fns');
 
 /**
  * @todo remove format
@@ -65,7 +64,7 @@ const logIn = async function (req, res, next) {
 
       const bcryptPassword = await bcrypt.compare(password, user.password);
 
-      if (!bcryptPassword) return res.status(401).json({ message: `incorrect password` });
+      if (!bcryptPassword) return res.status(401).json({ message: `wrong email or password` });
 
       const accessToken = jwt.sign({ email, userID: user.id }, process.env.ACCESS_TOKEN, { expiresIn: '10s' });
 
@@ -78,7 +77,7 @@ const logIn = async function (req, res, next) {
          maxAge: 7 * 24 * 60 * 60 * 1000, //cookie expiry: set to match rT
       });
 
-      res.status(200).json({ accessToken });
+      res.status(200).json({ accessToken, message: `login successful, welcome back ${user.username}` });
    } catch (error) {
       next(error);
    }

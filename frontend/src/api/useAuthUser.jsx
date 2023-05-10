@@ -1,14 +1,7 @@
 import { useState } from 'react';
 import { usePopupMessage } from './usePopupMessage';
-import { axiosInstance } from './jwtAuth';
-import axios from 'axios';
-import { API } from './useAxios';
+import { axiosInstance } from './useAxios';
 
-// axios defaults settings
-axios.defaults.withCredentials = true;
-axios.defaults.baseURL = `${API}`;
-
-//
 export const useAuthUser = () => {
    const [data, setData] = useState([]);
    const [error, setError] = useState(null);
@@ -17,7 +10,6 @@ export const useAuthUser = () => {
    const { contextHolder, successMsg, errorMsg } = usePopupMessage();
 
    const authUser = async (method) => {
-      console.log(method);
       setLoading(true);
       setReady(false);
       setError(null);

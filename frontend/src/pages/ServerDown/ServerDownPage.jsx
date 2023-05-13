@@ -1,25 +1,25 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './ErrorPage.css';
+import '../Error/ErrorPage.css';
 
-export const ErrorPage = () => {
+export const ServerDownPage = () => {
    return (
       <section className='error__page'>
-         <img className='error-img' src='../../../public/404-robot.jpg' alt='' />
+         <img className='error-img' src='../../../public/500.jpg' alt='' />
          <div className='error-text-wrapper'>
             <Link className='btn error-btn' to={'/'}>
                Go Back
             </Link>
             <p className='error-text'>
-               We have a little problem called 404.
+               We have a little problem.
                <br />
-               Looks like the page that you are were looking for doesn't exist.
+               Looks like our server is currently down...
                <br />
-               You may have mistyped the address or page may have moved.
+               We are working to fix this problem, please come back later.
             </p>
          </div>
          <p className='attribution'>
-            <a href='https://www.freepik.com/free-vector/oops-404-error-with-broken-robot-concept-illustration_7906233.htm#page=2&query=404%20error&position=24&from_view=search&track=ais'>
+            <a href='https://www.freepik.com/free-vector/500-internal-server-error-concept-illustration_7906229.htm#query=server%20down&position=4&from_view=keyword&track=ais'>
                Image by storyset
             </a>{' '}
             on Freepik

@@ -6,6 +6,5 @@ const verifyJwt = require('../middleware/verifyJwt');
 router.route('/:id').post(verifyJwt, comments.createComments).get(comments.getComments).patch(verifyJwt, comments.updateComments);
 router.delete('/delete', verifyJwt, comments.deleteComments);
 router.patch('/likes/rate', comments.amountOfCommentLikes);
-// router.patch('/likes/rate/update', comments.updateLikesOnComments);
 
 module.exports = router;

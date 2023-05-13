@@ -40,7 +40,6 @@ export const BookingSection = ({ travelData }) => {
 
    // wait for fulfilled respond then calc and display updated total price and
    useEffect(() => {
-      console.log(`BookingSection effect`);
       if (!ready) return;
       setTotalCost(travelData?.price * personsAmount);
       setBookedButton(true);

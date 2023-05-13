@@ -11,15 +11,6 @@ export const DisplayComments = ({ commentList, setCommentList }) => {
    if (!commentList.length)
       return <p className='error-message'>Nobody responded to this post yet. Add your thoughts and get the conversation going.</p>;
 
-   // display buttons only for user that is logged in
-   // const properBtns = (value) => {
-   //    if (!userData) return '';
-   //    else {
-   //       if (value.username === userData?.username) return <CommentsButtons setCommentList={setCommentList} />;
-   //       else return '';
-   //    }
-   // };
-
    return (
       <article className='posts__wrapper'>
          {commentList.map((value) => {

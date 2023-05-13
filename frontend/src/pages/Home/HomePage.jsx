@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { Hero } from './Components/Hero/Hero';
 import { Inputs } from './Components/Inputs/Inputs';
+import { FeaturedTravels } from './Components/FeaturedTravels/FeaturedTravels';
 import { useAxios } from '../../api/useAxios';
 import { usePersist } from '../../api/usePersist';
-import { FeaturedTravels } from './Components/FeaturedTravels/FeaturedTravels';
 import { Footer } from '../../components/Footer/Footer';
 import { LoadingSpinner } from '../../components/LoadingSpinner/LoadingSpinner';
 import '../../assets/App.css';
@@ -13,12 +13,12 @@ export const HomePage = () => {
    const { persistData, setPersistData } = usePersist('travel__list');
 
    useEffect(() => {
-      console.log('Home page effect');
       // if there is 'travel__list' inside LS then display this data else fetch data
-      if (!persistData)
+      if (!persistData) {
          fetchData({
             url: `/featured`,
          });
+      }
       setData(persistData);
    }, []);
 
@@ -37,7 +37,7 @@ export const HomePage = () => {
       else await fetchData('/search');
    };
 
-   if (!data.length) return <LoadingSpinner loading={loading} />;
+   // if (!data.length) return <LoadingSpinner loading={loading} />;
 
    return (
       <main className='container'>

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import { AuthContext } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext';
 import { UserPageNav } from './Components/UserPageNav/UserPageNav';
 import { removeToken } from '../../api/jwtAuth';
 import './UserPage.css';
@@ -12,8 +12,7 @@ export const UserPage = () => {
    const logOut = () => {
       setUserData(null);
       removeToken();
-      // go back to previous page
-      navigate(-1);
+      navigate('/');
    };
 
    return (

@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import { FontAwesome } from '../../utils/icons';
 import './Navbar.css';
+import { LoadingButton } from '../LoadingButton';
 
 export const Navbar = () => {
-   const { userData } = useContext(AuthContext);
+   const { userData, loading } = useContext(AuthContext);
    const navigate = useNavigate();
    const navBtn = useRef();
    const navRef = useRef();
@@ -60,9 +61,17 @@ export const Navbar = () => {
                </a>
             </li>
             <li>
-               <button onClick={handleAuth} className='navbar__btn'>
+               {/* <button onClick={handleAuth} className='navbar__btn'>
                   {!userData ? 'Log in' : userData?.username} <FontAwesome iconName='user' />
-               </button>
+               </button> */}
+
+               {loading ? (
+                  <LoadingButton />
+               ) : (
+                  <button onClick={handleAuth} className='navbar__btn'>
+                     {!userData ? 'Log in' : userData?.username} <FontAwesome iconName='user' />
+                  </button>
+               )}
             </li>
          </ul>
       </nav>

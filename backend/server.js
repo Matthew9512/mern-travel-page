@@ -12,10 +12,6 @@ const connectDB = require('./config/connectDB');
 const errorHandler = require('./middleware/errorHandler');
 const cacheControl = require('./middleware/cacheControl');
 
-/**
- * // FINISH ERROR !!!!
- */
-
 app.use(cors(corsOptions));
 
 app.use(express.json());
@@ -35,11 +31,6 @@ app.use('/', require('./routes/travelsRouter'));
 app.use('/user', require('./routes/usersRouter'));
 
 app.use('/comments', require('./routes/commentsRouter'));
-
-// FINISH ERROR !!!!
-app.get('*', (req, res) => {
-   res.send('erorr');
-});
 
 app.use(errorHandler);
 

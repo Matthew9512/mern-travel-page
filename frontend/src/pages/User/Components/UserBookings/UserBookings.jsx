@@ -4,7 +4,7 @@ import { AuthContext } from '../../../../context/AuthContext';
 import { API } from '../../../../api/useAxios';
 import { LoadingSpinner } from '../../../../components/LoadingSpinner/LoadingSpinner';
 import { FontAwesome } from '../../../../utils/icons';
-
+import '../../../../components/LoadingSpinner/LoadingSpinner';
 /**
  * @todo error handling
  */
@@ -29,7 +29,6 @@ export const UserBookings = () => {
             fetch(`${API}/search/${value}`)
                .then((res) => res.json())
                .then((bookings) => {
-                  console.log(bookings);
                   setBookingList((prev) => [...prev, bookings]);
                   if (!res.ok) throw new Error('wrong path');
                   else setBookingList((prev) => [...prev, bookings]);

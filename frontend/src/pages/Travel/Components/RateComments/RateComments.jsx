@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { useAuthUser } from '../../../../api/useAuthUser';
 import { AuthContext } from '../../../../context/AuthContext';
+import { useAuthUser } from '../../../../api/useAuthUser';
 import { FontAwesome } from '../../../../utils/icons';
 
 export const RateComments = ({ resData }) => {

@@ -29,9 +29,7 @@ export const RegisterPage = () => {
       // navigate after message ends
       setTimeout(() => {
          navigate('/login');
-      }, 1500);
-
-      // clear inp here after created user
+      }, 2000);
    }, [ready]);
 
    return (

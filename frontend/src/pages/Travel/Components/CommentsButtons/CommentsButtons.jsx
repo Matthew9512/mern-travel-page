@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useAuthUser } from '../../../../api/useAuthUser';
 import { LoadingButton } from '../../../../components/LoadingButton';
 import { FontAwesome } from '../../../../utils/icons';
-import { useAuthUser } from '../../../../api/useAuthUser';
 
 /**
  * @todo width of active edit textfield !!!
@@ -62,19 +62,11 @@ export const CommentsButtons = ({ setCommentList }) => {
    // wait for fulfilled respond then rerender the component
    useEffect(() => {
       if (!ready) return;
-      console.log('CommentsButtons effect');
       setIcon(false);
-
-      // with message
-      // ==
+      // remove from state arr comment that do not match ID of clicked element
       setTimeout(() => {
          setCommentList((prev) => prev.filter((value) => value.postID !== deleteIDRef.current));
-      }, 1500);
-      // ==
-
-      // without message
-      // remove from state arr comment that do not match ID of clicked element
-      // setCommentList((prev) => prev.filter((value) => value.postID !== deleteIDRef.current));
+      }, 1700);
    }, [ready]);
 
    return (

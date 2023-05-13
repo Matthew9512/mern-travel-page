@@ -8,10 +8,6 @@
    position: absolute;
    top: 0;
    width: 100%;
-   /* position: absolute;
-   top: 0;
-   left: 0;
-   right: 0; */
    margin-inline: auto;
    max-width: 1920px;
    color: #ffffff;
@@ -105,11 +101,4 @@
       overflow: hidden;
       z-index: 5;
    }
-   /* #navbar-check:not(:checked) ~ .navbar__items-wrapper {
-      height: 0;
-   }
-   #navbar-check:checked ~ .navbar__items-wrapper {
-      height: 30vh;
-      height: calc(100vh - 50px);
-   } */
 }

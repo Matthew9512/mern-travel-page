@@ -1,4 +1,3 @@
-// setting cors options
 const whitelist = ['https://mysite.com', 'http://127.0.0.1:5173', 'http://localhost:8000'];
 const corsOptions = {
    credentials: true,

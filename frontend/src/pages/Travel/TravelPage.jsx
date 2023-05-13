@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useAxios } from '../../api/useAxios';
 import { usePersist } from '../../api/usePersist';
 import { CommentsSection } from './Components/CommentsSection/CommentsSection';
@@ -12,17 +12,19 @@ import '../../assets/App.css';
 
 export const TravelPage = () => {
    const { id } = useParams();
-   const { fetchData, data, setData, errors, loading, ready } = useAxios();
+   const navigate = useNavigate();
+   const { fetchData, data, setData, error, loading, ready } = useAxios();
    const { persistData, setPersistData } = usePersist('travel__item');
 
    useEffect(() => {
-      console.log(`travelsection effect`);
-      // if there is 'travel__item' inside LS then display this data else fetch data
-      if (!persistData)
+      // if id is NOT correct then redirect to error page
+      if (!id.match(/^[0-9a-fA-F]{24}$/)) return navigate('*');
+      // if there is nothing inside LS with key 'travel__item' OR id of stored item don't match id from params
+      if (!persistData || persistData._id != id) {
          fetchData({
             url: `/search/${id}`,
          });
-      setData(persistData);
+      } else setData(persistData);
    }, []);
 
    useEffect(() => {
@@ -31,7 +33,7 @@ export const TravelPage = () => {
       setPersistData(data);
    }, [data]);
 
-   if (errors) return <p>{errors}</p>;
+   // if (error) return <div className='error-message featured'>{error}</div>;
    if (data.length === 0) return <LoadingSpinner loading={loading} />;
 
    return (

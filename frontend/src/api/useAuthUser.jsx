@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { usePopupMessage } from './usePopupMessage';
 import { axiosInstance } from './useAxios';
+import { usePopupMessage } from './usePopupMessage';
 
 export const useAuthUser = () => {
    const [data, setData] = useState([]);
@@ -22,7 +22,6 @@ export const useAuthUser = () => {
       } catch (error) {
          setError(error.response.data.message);
          errorMsg(error.response.data.message);
-         console.log(error.response.data.message);
       } finally {
          setLoading(false);
       }

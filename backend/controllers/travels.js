@@ -1,9 +1,7 @@
 const travelsModel = require('../models/travelsModel');
-// const { format } = require('date-fns');
 const usersModel = require('../models/usersModel');
 
 /**
- * @todo remove format
  * @todo if/eles
  * @todo check json responses
  * @todo change number of places to true/false
@@ -66,8 +64,6 @@ const getSearchedTravels = async function (req, res, next) {
 
    const reqStartDate = startDate ? startDate : new Date(2022, 00, 01).toLocaleDateString('en-GB');
    const reqEndDate = endDate ? endDate : new Date(futureData, 12, 29).toLocaleDateString('en-GB');
-   // const reqStartDate = startDate ? startDate : format(new Date(2022, 00, 01), 'dd/MM/yyyy');
-   // const reqEndDate = endDate ? endDate : format(new Date(futureData, 12, 29), 'dd/MM/yyyy');
 
    const reqPrice = +price || 10_000;
    const reqCity = city || { $ne: null };
@@ -124,12 +120,11 @@ const bookTravel = async function (req, res, next) {
 
       const update = await travelsModel.findOne({ _id: travelID });
 
-      // return if theres no available places left
-      if (!update.availablePlaces) return res.status(404).json({ message: `There's no places left for this travel` });
-
       // return if number of requested places if bigger than available places
       if (places > update.availablePlaces)
-         return res.status(404).json({ message: `You can't bookmark ${places} places, there's only ${update.availablePlaces} left` });
+         return res
+            .status(404)
+            .json({ message: `You can't bookmark ${places} places for this travel, there's only ${update.availablePlaces} left` });
 
       // calc how many places will stay after booking
       const verPlaces = update.availablePlaces - +places;
@@ -139,21 +134,14 @@ const bookTravel = async function (req, res, next) {
       const saveBookings = await usersModel.updateOne({ _id: userID }, { $addToSet: { bookings: travelID } }).orFail();
 
       const userData = await usersModel.findOne({ _id: userID });
-      // const userData = await usersModel.findOneAndUpdate({ _id: userID });
 
       if (!updatePlaces || !saveBookings) return res.status(404).json({ message: `Something went wrong, please try again` });
 
+      const { password, updatedAt, __v, ...user } = userData._doc;
+
       res.status(200).json({
          message: `You have succesfully bookmarked travel`,
-         user: {
-            email: userData.email,
-            username: userData.username,
-            id: userData._id,
-            createdAt: new Date(userData.createdAt).toLocaleDateString('en-GB'),
-            // createdAt: format(new Date(userData.createdAt), 'dd/MM/yyyy'),
-            bookings: userData.bookings,
-            likes: userData.userLikes,
-         },
+         user,
       });
    } catch (error) {
       next(error);

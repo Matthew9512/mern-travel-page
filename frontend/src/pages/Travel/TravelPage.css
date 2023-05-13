@@ -30,7 +30,6 @@
    resize: none;
    background-color: #e5e5e5;
    border: none;
-   /* width: 35em; */
 }
 .details__wrapper {
    display: flex;
@@ -141,7 +140,6 @@
    display: flex;
    justify-content: center;
    align-items: top;
-   /* padding: 2em 2em 2em 2em; */
    padding: 4em 2em 2em 2em;
    gap: 2em;
    margin-inline: auto;

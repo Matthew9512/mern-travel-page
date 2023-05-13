@@ -11,7 +11,6 @@
    top: 50%;
    left: 45%;
    transform: translate(-50%, -50%);
-   /* color: #563c3a; */
    color: var(--white);
    font-size: 3rem;
    line-height: 1.2;

@@ -11,7 +11,6 @@ axios.defaults.timeout = 6000;
 
 export const axiosInstance = axios.create({
    headers: {
-      //   Accept: 'application/json',
       'Content-Type': 'application/json',
    },
 });
@@ -22,7 +21,6 @@ export const useAxios = () => {
    const [loading, setLoading] = useState(false);
    const [ready, setReady] = useState(false);
    const { contextHolder, successMsg, errorMsg } = usePopupMessage();
-
    const navigate = useNavigate();
 
    const fetchData = async (method) => {
@@ -36,8 +34,7 @@ export const useAxios = () => {
          successMsg(res.data.message);
          console.log(res.data);
       } catch (error) {
-         if (error.request.status === 0) navigate('*');
-         console.log(error.response);
+         if (error.request.status === 0) return navigate('/server-down');
          setError(error.response.data.message);
          errorMsg(error.response.data.message);
       } finally {

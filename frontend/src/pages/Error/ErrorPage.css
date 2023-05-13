@@ -1,7 +1,43 @@
 .error__page {
    display: flex;
-   align-items: center;
    justify-content: center;
-   margin-inline: auto;
+   align-items: center;
    height: 100vh;
+   padding: 1.5em;
+   position: relative;
+}
+.error-img {
+   height: 100%;
+   mix-blend-mode: multiply;
+   object-fit: cover;
+}
+.error-text-wrapper {
+   width: 17em;
+   text-align: center;
+   font-size: 1.2rem;
+}
+.error-btn {
+   padding: 0.4em 1em;
+   margin-bottom: 1em;
+}
+.error-text {
+   margin-block: 1em;
+}
+.attribution {
+   position: absolute;
+   bottom: 1%;
+   left: 50%;
+   transform: translate(-50%);
+}
+.attribution a {
+   text-decoration: underline;
+}
+
+@media screen and (max-width: 1000px) {
+   .error__page {
+      flex-direction: column;
+   }
+   .error-img {
+      height: 70%;
+   }
 }

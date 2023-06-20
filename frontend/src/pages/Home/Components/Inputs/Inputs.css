@@ -96,6 +96,7 @@
 .input::placeholder {
    font-style: italic;
    opacity: 0.7;
+   font-weight: 400;
 }
 .icon {
    position: absolute;

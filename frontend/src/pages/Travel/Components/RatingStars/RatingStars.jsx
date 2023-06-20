@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { useAuthUser } from '../../../../api/useAuthUser';
+import { useState } from 'react';
+import { useAxios } from '../../../../api/useAxios';
 import '../RatingStarsSection/RatingStarsSection.css';
 
 export const RatingStars = ({ travelID, userData }) => {
    const [travelRate, setTravelRate] = useState(0);
    const [hover, setHover] = useState(0);
-   const { authUser, contextHolder } = useAuthUser();
+   const { fetchData, contextHolder } = useAxios(false);
 
    return (
       <>
@@ -21,7 +21,7 @@ export const RatingStars = ({ travelID, userData }) => {
                      className={index <= (hover || travelRate) ? 'on' : 'off'}
                      onClick={() => {
                         setTravelRate(index);
-                        authUser({
+                        fetchData({
                            method: `PUT`,
                            url: `/places/rate`,
                            data: { id: travelID, travelRate: index, userID: userData?._id },

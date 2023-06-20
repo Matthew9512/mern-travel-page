@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { API, axiosInstance } from './useAxios';
 import jwtDecode from 'jwt-decode';
+import { _API, axiosInstance } from './useAxios';
 
 axiosInstance.interceptors.request.use(
    async (config) => {
@@ -22,7 +22,7 @@ axiosInstance.interceptors.request.use(
 
 const refreshAccessToken = async () => {
    try {
-      const response = await axios.post(`${API}/user/refresh`);
+      const response = await axios.post(`${_API}/user/refresh`);
       const newToken = response.data.accessToken;
       localStorage.setItem('access__token', JSON.stringify(newToken));
       return newToken;

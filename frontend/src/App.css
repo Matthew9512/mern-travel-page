@@ -118,6 +118,7 @@ body {
 }
 .container {
    max-width: 1920px;
+   min-height: 100vh;
    margin-inline: auto;
    position: relative;
 }
@@ -129,4 +130,8 @@ body {
 .featured {
    padding-bottom: 3em;
    font-weight: 500;
+}
+.disabled {
+   opacity: 0.3;
+   cursor: not-allowed !important;
 }

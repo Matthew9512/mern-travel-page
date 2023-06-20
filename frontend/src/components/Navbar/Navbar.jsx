@@ -1,13 +1,14 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import { FontAwesome } from '../../utils/icons';
-import './Navbar.css';
 import { LoadingButton } from '../LoadingButton';
+import './Navbar.css';
 
 export const Navbar = () => {
    const { userData, loading } = useContext(AuthContext);
    const navigate = useNavigate();
+   const pathname = location.pathname;
    const navBtn = useRef();
    const navRef = useRef();
    const [navbarVis, setNavbarVis] = useState(false);
@@ -46,25 +47,24 @@ export const Navbar = () => {
          </div>
          <ul className={`navbar__items-wrapper ${navbarVis ? 'show' : 'hide'}`}>
             <li>
-               <a href='/'>
+               <a href={pathname === '/' ? '#start' : '/'}>
                   <button className='navbar__btn'>Start</button>
                </a>
             </li>
             <li>
-               <a href='#contact'>
-                  <button className='navbar__btn'>Contact</button>
+               <a href={pathname === '/' ? '#offer' : '/'}>
+                  <button className='navbar__btn'>Offer</button>
                </a>
             </li>
-            <li>
-               <a href='#contact'>
+            {/* <li>
+               <a href={pathname === '/' ? '#start' : '/'}>
                   <button className='navbar__btn'>About</button>
                </a>
-            </li>
+            </li> */}
             <li>
                {/* <button onClick={handleAuth} className='navbar__btn'>
                   {!userData ? 'Log in' : userData?.username} <FontAwesome iconName='user' />
                </button> */}
-
                {loading ? (
                   <LoadingButton />
                ) : (

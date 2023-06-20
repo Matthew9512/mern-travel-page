@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-// const { format } = require('date-fns');
 
 const UsersSchema = new Schema(
    {

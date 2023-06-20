@@ -1,13 +1,12 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import './ErrorPage.css';
 
 export const ErrorPage = () => {
    return (
       <section className='error__page'>
-         <img className='error-img' src='../../../public/404-robot.jpg' alt='' />
+         <img className='error-img' src='/404-robot.jpg' alt='error-page-img' />
          <div className='error-text-wrapper'>
-            <Link className='btn error-btn' to={'/'}>
+            <Link className='btn error-btn' to='/'>
                Go Back
             </Link>
             <p className='error-text'>

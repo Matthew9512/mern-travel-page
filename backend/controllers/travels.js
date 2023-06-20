@@ -1,12 +1,6 @@
 const travelsModel = require('../models/travelsModel');
 const usersModel = require('../models/usersModel');
 
-/**
- * @todo if/eles
- * @todo check json responses
- * @todo change number of places to true/false
- */
-
 // get list on travels based on category
 const getFeaturedTravels = async function (req, res, next) {
    try {
@@ -44,7 +38,7 @@ const getTravelsByID = async function (req, res, next) {
    try {
       const { id } = req.params;
 
-      if (!id) return res.status(400).json({ message: `no data provided, pls try again` });
+      if (!id) return res.status(400).json({ message: `No data provided, pls try again` });
 
       const travelData = await travelsModel.findById({ _id: id });
 
@@ -59,10 +53,11 @@ const getTravelsByID = async function (req, res, next) {
 // search based on user inputs data
 const getSearchedTravels = async function (req, res, next) {
    const futureData = new Date().getFullYear() + 1;
+   const prevData = new Date().getFullYear() - 1;
 
    const { startDate, endDate, price, city } = req.query;
 
-   const reqStartDate = startDate ? startDate : new Date(2022, 00, 01).toLocaleDateString('en-GB');
+   const reqStartDate = startDate ? startDate : new Date(prevData, 00, 01).toLocaleDateString('en-GB');
    const reqEndDate = endDate ? endDate : new Date(futureData, 12, 29).toLocaleDateString('en-GB');
 
    const reqPrice = +price || 10_000;
@@ -122,9 +117,9 @@ const bookTravel = async function (req, res, next) {
 
       // return if number of requested places if bigger than available places
       if (places > update.availablePlaces)
-         return res
-            .status(404)
-            .json({ message: `You can't bookmark ${places} places for this travel, there's only ${update.availablePlaces} left` });
+         return res.status(404).json({
+            message: `You can't bookmark ${places} places for this travel, there's only ${update.availablePlaces} left`,
+         });
 
       // calc how many places will stay after booking
       const verPlaces = update.availablePlaces - +places;
@@ -135,7 +130,8 @@ const bookTravel = async function (req, res, next) {
 
       const userData = await usersModel.findOne({ _id: userID });
 
-      if (!updatePlaces || !saveBookings) return res.status(404).json({ message: `Something went wrong, please try again` });
+      if (!updatePlaces || !saveBookings)
+         return res.status(404).json({ message: `Something went wrong, please try again` });
 
       const { password, updatedAt, __v, ...user } = userData._doc;
 
@@ -148,4 +144,11 @@ const bookTravel = async function (req, res, next) {
    }
 };
 
-module.exports = { getFeaturedTravels, getAllTravles, getTravelsByID, getSearchedTravels, updateTravelRate, bookTravel };
+module.exports = {
+   getFeaturedTravels,
+   getAllTravles,
+   getTravelsByID,
+   getSearchedTravels,
+   updateTravelRate,
+   bookTravel,
+};

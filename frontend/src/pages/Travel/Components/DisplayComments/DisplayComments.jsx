@@ -1,23 +1,31 @@
-import React, { useContext } from 'react';
-import { dateFormat } from '../../../../utils/dateFormat';
+import { useContext } from 'react';
+import { formatDistanceStrict } from 'date-fns';
 import { AuthContext } from '../../../../context/AuthContext';
 import { CommentsButtons } from '../CommentsButtons/CommentsButtons';
 import { RateComments } from '../RateComments/RateComments';
 import { FontAwesome } from '../../../../utils/icons';
+import { LoadingSpinner } from '../../../../components/LoadingSpinner/LoadingSpinner';
 
-export const DisplayComments = ({ commentList, setCommentList }) => {
+export const DisplayComments = ({ data, loading, setData }) => {
    const { userData } = useContext(AuthContext);
+   /**
+    * @todo key!!!
+    */
 
-   if (!commentList.length)
-      return <p className='error-message'>Nobody responded to this post yet. Add your thoughts and get the conversation going.</p>;
+   if (!data?.comments.length)
+      return (
+         <p className='error-message'>
+            Nobody responded to this post yet. Add your thoughts and get the conversation going.
+         </p>
+      );
 
    return (
       <article className='posts__wrapper'>
-         {commentList.map((value) => {
-            // format dates of submiting post
-            const formatedDate = dateFormat(value.createdAt);
+         <LoadingSpinner loading={loading} />
+         {data?.comments.map((value) => {
             return (
-               <div key={value.postID} data-user={value.username} id={value.postID} className='post'>
+               <div key={value._id} data-user={value.username} id={value._id} className='post'>
+                  {/* <div key={value.postID} data-user={value.username} id={value.postID} className='post'> */}
                   <RateComments resData={value} />
                   <div>
                      <div className='details__wrapper'>
@@ -26,10 +34,18 @@ export const DisplayComments = ({ commentList, setCommentList }) => {
                               <FontAwesome iconName='user' classType='user-img' />
                            </div>
                            <p className='username'>{value.username}</p>
-                           <p className='date'>{formatedDate}</p>
+                           <p className='date'>
+                              {formatDistanceStrict(new Date(value.createdAt), new Date(), { addSuffix: true })}
+                           </p>
                         </div>
                         {/* display buttons only for user that is logged in */}
-                        {!userData ? '' : value.username === userData?.username ? <CommentsButtons setCommentList={setCommentList} /> : ''}
+                        {!userData ? (
+                           ''
+                        ) : value.username === userData?.username ? (
+                           <CommentsButtons setData={setData} />
+                        ) : (
+                           ''
+                        )}
                      </div>
                      <div className='user__post'>
                         <textarea disabled={true} className='text' defaultValue={value.post}></textarea>

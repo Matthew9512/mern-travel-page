@@ -1,24 +1,19 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { AuthContext } from '../../../../context/AuthContext';
-import { useAuthUser } from '../../../../api/useAuthUser';
+import { useAxios } from '../../../../api/useAxios';
 import { FontAwesome } from '../../../../utils/icons';
 
 export const RateComments = ({ resData }) => {
    const { userData } = useContext(AuthContext);
    const likesAmount = useRef();
-   const { authUser, contextHolder } = useAuthUser();
+   const { fetchData, contextHolder } = useAxios(true);
    const [likes, setLikes] = useState(resData.likes);
    //
-   const [icons, setIcons] = useState(() => {
-      // if (!userData) return '';
-      // const postIDs = userData?.userLikes.filter((value) => value.postID === resData.postID);
-      // const rateTypes = postIDs.map((post) => post.rateType);
-      // return rateTypes.length > 0 ? rateTypes[0] : '';
-   });
+   const [icons, setIcons] = useState();
 
    useEffect(() => {
       if (!userData) return setIcons('');
-      const postIDs = userData?.userLikes.filter((value) => value.postID === resData.postID);
+      const postIDs = userData?.userLikes.filter((value) => value.postID === resData._id);
 
       const rateTypes = postIDs.map((post) => post.rateType);
       return rateTypes.length > 0 ? setIcons(rateTypes[0]) : setIcons('');
@@ -28,12 +23,12 @@ export const RateComments = ({ resData }) => {
    const updateLikes = async (click, value) => {
       const id = click.closest('.post').id;
 
-      await authUser({
+      await fetchData({
          method: `PATCH`,
          url: `comments/likes/rate`,
          data: { id, likes: value },
       });
-      await authUser({
+      await fetchData({
          method: `PATCH`,
          url: `/user/likes/rate/update`,
          data: {

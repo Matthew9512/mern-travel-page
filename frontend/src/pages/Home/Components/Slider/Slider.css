@@ -1,0 +1,9 @@
+.carousel {
+   background: red;
+   max-width: 80%;
+   margin-inline: auto;
+}
+.carousel__item {
+   background-color: rgb(178, 178, 178);
+   height: 20em;
+}

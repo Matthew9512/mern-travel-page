@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 export const PriceInput = ({ priceRef }) => {
    const [price, setPrice] = useState(9000);

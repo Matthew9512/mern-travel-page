@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../../../context/AuthContext';
 import { RatingStars } from '../RatingStars/RatingStars';
 import './RatingStarsSection.css';

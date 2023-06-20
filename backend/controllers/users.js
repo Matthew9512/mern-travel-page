@@ -1,9 +1,9 @@
+const jwt = require('jsonwebtoken');
 const usersModel = require('../models/usersModel');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 
 /**
- * @todo remove format
+ * @todo updateLikeMsg
  */
 
 // get user data
@@ -45,7 +45,9 @@ const refreshJwt = (req, res) => {
       const user = await usersModel.findOne({ _id: decodedInfo.userID });
       if (!user) return res.status(401).json({ message: 'User not found, refresh' });
 
-      const accessToken = jwt.sign({ email: user.email, userID: user.id }, process.env.ACCESS_TOKEN, { expiresIn: '10s' });
+      const accessToken = jwt.sign({ email: user.email, userID: user.id }, process.env.ACCESS_TOKEN, {
+         expiresIn: '15m',
+      });
 
       res.json({ accessToken });
    });
@@ -66,7 +68,7 @@ const logIn = async function (req, res, next) {
 
       if (!bcryptPassword) return res.status(401).json({ message: `wrong email or password` });
 
-      const accessToken = jwt.sign({ email, userID: user.id }, process.env.ACCESS_TOKEN, { expiresIn: '10s' });
+      const accessToken = jwt.sign({ email, userID: user.id }, process.env.ACCESS_TOKEN, { expiresIn: '15m' });
 
       const refreshToken = jwt.sign({ email, userID: user.id }, process.env.REFRESH_TOKEN, { expiresIn: '1d' });
 
@@ -114,7 +116,7 @@ const signIn = async function (req, res, next) {
 const updateLikesType = async function (req, res, next) {
    try {
       const { id, userLikes } = req.body;
-
+      console.log(req.body);
       if (!id || !userLikes) return res.status(404).json({ message: `No data provided` });
 
       const respond = await usersModel.findById({ _id: id });
@@ -126,7 +128,10 @@ const updateLikesType = async function (req, res, next) {
 
       if (!checkIfLikeWasSaved) {
          await usersModel
-            .updateOne({ _id: id }, { $addToSet: { userLikes: { postID: userLikes.postID, rateType: userLikes.rateType } } })
+            .updateOne(
+               { _id: id },
+               { $addToSet: { userLikes: { postID: userLikes.postID, rateType: userLikes.rateType } } }
+            )
             .orFail();
       } else {
          await usersModel.updateOne(
@@ -134,12 +139,8 @@ const updateLikesType = async function (req, res, next) {
             { $set: { 'userLikes.$.rateType': userLikes.rateType } }
          );
       }
-      // == foe development == //
-      const respond2 = await usersModel.findOne({ _id: id });
-      // == foe development == //
 
-      res.status(200).json(respond2.userLikes);
-      // res.status(200).json({ message: `Thank you for updating your likes`, data: respond2.userLikes });
+      res.status(200).end();
    } catch (error) {
       next(error);
    }

@@ -1,16 +1,16 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import { AuthContext } from '../../../../context/AuthContext';
-import { useAuthUser } from '../../../../api/useAuthUser';
+import { useAxios } from '../../../../api/useAxios';
 import { LoadingButton } from '../../../../components/LoadingButton';
 import { FontAwesome } from '../../../../utils/icons';
 
-export const CreateComments = ({ id, setCommentList }) => {
+export const CreateComments = ({ id, setData }) => {
    const { userData } = useContext(AuthContext);
-   const { authUser, data, loading, ready, contextHolder } = useAuthUser();
    const commentRef = useRef();
+   const { fetchData, data, loading, ready, contextHolder } = useAxios(true);
 
    const sendComment = async () => {
-      await authUser({
+      await fetchData({
          method: `POST`,
          url: `/comments/${id}`,
          data: { id, username: userData?.username, post: commentRef.current.value },
@@ -18,24 +18,34 @@ export const CreateComments = ({ id, setCommentList }) => {
       commentRef.current.value = '';
    };
 
-   // wait for fulfilled respond then save user in ls and change auth user state
+   // if comment was succesfully created then update comments list
    useEffect(() => {
       if (!ready) return;
-      setCommentList(data.sendComments);
-   }, [ready]);
+      setData(data);
+   }, [data]);
 
    return (
-      <div className='create__comment'>
+      <article className='create__comment'>
          {contextHolder}
-         <textarea ref={commentRef} className='user-comment' id='user-comment' placeholder='add a comment' maxLength={250}></textarea>
+         <textarea
+            ref={commentRef}
+            className='user-comment'
+            id='user-comment'
+            placeholder='add a comment'
+            maxLength={250}
+         ></textarea>
          <div className='create__comment-wrapper'>
             <div className='user-avatar'>
                <FontAwesome iconName='user' classType='user-img' />
             </div>
-            <button onClick={sendComment} disabled={!userData} className={`btn btn-send ${!userData ? 'disabled' : ''} `}>
+            <button
+               onClick={sendComment}
+               disabled={!userData}
+               className={`btn btn-send ${!userData ? 'disabled' : ''} `}
+            >
                {loading ? <LoadingButton /> : '+Add'}
             </button>
          </div>
-      </div>
+      </article>
    );
 };

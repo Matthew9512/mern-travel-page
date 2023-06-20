@@ -1,20 +1,7 @@
 const commentsModel = require('../models/commentsModel');
 
-// helper for getting only required data from comments
-const findComments = function (comments) {
-   return comments.map((value) => {
-      return {
-         createdAt: value.createdAt,
-         updatedAt: value.updatedAt,
-         post: value.post,
-         username: value.username,
-         id: value.id,
-         postID: value._id,
-         likes: value.likes,
-         userLikes: value.userLikes,
-      };
-   });
-};
+// limit of items in response
+const _resLimit = 3;
 
 // create new comment
 const createComments = async function (req, res, next) {
@@ -31,12 +18,15 @@ const createComments = async function (req, res, next) {
 
       if (!newComment) return res.status(404).json({ message: `Something went wrong, can't create new comment` });
 
-      const comments = await commentsModel.find({ id });
+      const numberOfResults = await commentsModel.find({ id }).countDocuments();
+      const comments = await commentsModel
+         .find({ id })
+         .sort({ createdAt: -1 })
+         .limit(_resLimit)
+         .skip(0 * _resLimit);
 
-      // function thats returns comments
-      const sendComments = findComments(comments);
-
-      if (comments) res.status(201).json({ message: `Comment successfully created`, sendComments });
+      res.status(200).json({ comments, numberOfResults, message: `Comment successfully created` });
+      return;
    } catch (error) {
       next(error);
    }
@@ -46,15 +36,18 @@ const createComments = async function (req, res, next) {
 const getComments = async function (req, res, next) {
    try {
       const { id } = req.params;
+      const { page } = req.query;
 
       if (!id) return res.status(400).json({ message: `No data provided` });
+      const numberOfResults = await commentsModel.find({ id }).countDocuments();
 
-      const comments = await commentsModel.find({ id });
+      const comments = await commentsModel
+         .find({ id })
+         .sort({ createdAt: -1 })
+         .limit(_resLimit)
+         .skip(page * _resLimit);
 
-      // function thats returns comments
-      const sendComments = findComments(comments);
-
-      if (comments) res.status(200).json(sendComments);
+      res.status(200).json({ comments, numberOfResults });
    } catch (error) {
       next(error);
    }

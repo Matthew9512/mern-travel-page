@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { AuthContext } from '../../../../context/AuthContext';
-import { useAuthUser } from '../../../../api/useAuthUser';
+import { useAxios } from '../../../../api/useAxios';
 import { LoadingSpinner } from '../../../../components/LoadingSpinner/LoadingSpinner';
 import { FontAwesome } from '../../../../utils/icons';
 import './BookingSection.css';
@@ -9,7 +9,7 @@ export const BookingSection = ({ travelData }) => {
    const { userData } = useContext(AuthContext);
    const [personsAmount, setPersonsAmount] = useState(1);
    const [totalCost, setTotalCost] = useState(travelData?.price);
-   const { authUser, loading, ready, contextHolder } = useAuthUser();
+   const { fetchData, loading, ready, contextHolder } = useAxios(true);
    const inpRef = useRef();
    const [bookedButton, setBookedButton] = useState(false);
 
@@ -27,7 +27,7 @@ export const BookingSection = ({ travelData }) => {
 
       if (!personsAmountRef || personsAmountRef < 0) return alert(`Number of people can't be empty or negative`);
 
-      await authUser({
+      await fetchData({
          method: `PATCH`,
          url: `/bookings`,
          data: {
@@ -53,7 +53,13 @@ export const BookingSection = ({ travelData }) => {
          <label htmlFor='peoples-number'>Choose number of people:</label>
          <div className='group'>
             <FontAwesome iconName='user' classType='icon' />
-            <input ref={inpRef} disabled={bookedButton} type='number' className='input' placeholder='e.g. 1' />
+            <input
+               ref={inpRef}
+               disabled={bookedButton || !userData?.username}
+               type='number'
+               className='input'
+               placeholder='e.g. 1'
+            />
          </div>
          <div className='destinations-date'>
             <FontAwesome iconName='plane' />
@@ -76,7 +82,10 @@ export const BookingSection = ({ travelData }) => {
                <p>Travel booked</p>
             </div>
          ) : (
-            <button onClick={calcPrice} className={`btn ${!travelData?.availablePlaces || !userData ? 'disabled' : ''}`}>
+            <button
+               onClick={calcPrice}
+               className={`btn ${!travelData?.availablePlaces || !userData ? 'disabled' : ''}`}
+            >
                {!travelData?.availablePlaces ? 'Temporary unavailable' : 'Book'}
             </button>
          )}

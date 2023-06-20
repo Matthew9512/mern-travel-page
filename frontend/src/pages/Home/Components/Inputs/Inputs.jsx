@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { DatePicker } from 'antd';
 import { PriceInput } from '../PriceInput/PriceInput';
 import { FontAwesome } from '../../../../utils/icons';
@@ -23,7 +23,7 @@ export const Inputs = ({ fetchTravelData }) => {
    };
 
    return (
-      <section className='input__wrapper'>
+      <section className='input__wrapper' id='start'>
          <form className='inputs__form'>
             <div className='inp__wrapper'>
                <label htmlFor='city'>Search by destination:</label>

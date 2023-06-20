@@ -1,9 +1,7 @@
-import React from 'react';
-
-export const LoadingButton = () => {
+export const LoadingButton = ({ customClass }) => {
    return (
-      <span className='loading-button'>
+      <div className={`loading-button ${customClass}`}>
          <span className='spinner'></span> Loading...
-      </span>
+      </div>
    );
 };

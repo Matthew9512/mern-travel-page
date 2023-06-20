@@ -28,5 +28,7 @@ export const AuthContextProvider = ({ children }) => {
       getUser(userID);
    }, [fetchUser]);
 
-   return <AuthContext.Provider value={{ userData, setUserData, setFetchUser, loading }}>{children}</AuthContext.Provider>;
+   return (
+      <AuthContext.Provider value={{ userData, setUserData, setFetchUser, loading }}>{children}</AuthContext.Provider>
+   );
 };

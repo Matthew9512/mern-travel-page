@@ -1,0 +1,22 @@
+.pagination {
+   display: flex;
+   justify-content: space-around;
+   align-items: center;
+   width: 60%;
+   margin: 2em auto;
+}
+.pagination__page {
+   font-weight: bold;
+   font-size: 1.2rem;
+}
+.pagIcon {
+   border-radius: 50%;
+   width: 2.5em;
+   height: 2.5em;
+   border: 1px solid #01b2c9;
+   outline: none;
+   color: #505050;
+}
+.pagIcon:hover {
+   cursor: pointer;
+}

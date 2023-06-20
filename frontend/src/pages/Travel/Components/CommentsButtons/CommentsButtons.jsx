@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useAuthUser } from '../../../../api/useAuthUser';
+import { useEffect, useRef, useState } from 'react';
+import { useAxios } from '../../../../api/useAxios';
 import { LoadingButton } from '../../../../components/LoadingButton';
 import { FontAwesome } from '../../../../utils/icons';
 
@@ -9,9 +9,9 @@ import { FontAwesome } from '../../../../utils/icons';
  * @todo error
  */
 
-export const CommentsButtons = ({ setCommentList }) => {
+export const CommentsButtons = ({ setData }) => {
    const [icon, setIcon] = useState(false);
-   const { authUser, ready, error, contextHolder } = useAuthUser();
+   const { fetchData, ready, error, contextHolder } = useAxios(true);
    const [btnLoad, setBtnLoad] = useState(<FontAwesome iconName='check' />);
    const [btnDelete, setBtnDelete] = useState(<FontAwesome iconName='trash' />);
    // ref for storing ID of clicked element used when promise was successful
@@ -32,7 +32,7 @@ export const CommentsButtons = ({ setCommentList }) => {
          textField.disabled = true;
          textField.classList.remove('active');
 
-         await authUser({
+         await fetchData({
             method: 'PATCH',
             url: `/comments/${id}`,
             data: { post: textField.value, id },
@@ -50,7 +50,7 @@ export const CommentsButtons = ({ setCommentList }) => {
       // ID of clicked element for filter array
       deleteIDRef.current = id;
 
-      await authUser({
+      await fetchData({
          method: 'DELETE',
          url: `/comments/delete`,
          data: { id },
@@ -63,9 +63,11 @@ export const CommentsButtons = ({ setCommentList }) => {
    useEffect(() => {
       if (!ready) return;
       setIcon(false);
+      console.log(deleteIDRef.current);
       // remove from state arr comment that do not match ID of clicked element
       setTimeout(() => {
-         setCommentList((prev) => prev.filter((value) => value.postID !== deleteIDRef.current));
+         setData((prev) => prev?.comments.filter((value) => value._id != deleteIDRef.current));
+         // setData((prev) => prev.filter((value) => value._id !== deleteIDRef.current));
       }, 1700);
    }, [ready]);
 

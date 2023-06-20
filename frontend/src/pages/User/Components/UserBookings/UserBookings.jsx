@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { UserPageNav } from '../UserPageNav/UserPageNav';
 import { AuthContext } from '../../../../context/AuthContext';
-import { API } from '../../../../api/useAxios';
+import { _API } from '../../../../api/useAxios';
 import { LoadingSpinner } from '../../../../components/LoadingSpinner/LoadingSpinner';
 import { FontAwesome } from '../../../../utils/icons';
 import '../../../../components/LoadingSpinner/LoadingSpinner';
@@ -26,7 +26,7 @@ export const UserBookings = () => {
       setLoading(true);
       Promise.all(
          userData?.bookings.map((value) => {
-            fetch(`${API}/search/${value}`)
+            fetch(`${_API}/search/${value}`)
                .then((res) => res.json())
                .then((bookings) => {
                   setBookingList((prev) => [...prev, bookings]);

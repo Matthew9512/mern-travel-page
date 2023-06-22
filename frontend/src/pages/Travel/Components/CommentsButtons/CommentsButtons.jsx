@@ -3,15 +3,9 @@ import { useAxios } from '../../../../api/useAxios';
 import { LoadingButton } from '../../../../components/LoadingButton';
 import { FontAwesome } from '../../../../utils/icons';
 
-/**
- * @todo width of active edit textfield !!!
- * @todo state for disabling textfield and style?
- * @todo error
- */
-
 export const CommentsButtons = ({ setData }) => {
    const [icon, setIcon] = useState(false);
-   const { fetchData, ready, error, contextHolder } = useAxios(true);
+   const { fetchData, ready, contextHolder } = useAxios(true);
    const [btnLoad, setBtnLoad] = useState(<FontAwesome iconName='check' />);
    const [btnDelete, setBtnDelete] = useState(<FontAwesome iconName='trash' />);
    // ref for storing ID of clicked element used when promise was successful
@@ -37,7 +31,6 @@ export const CommentsButtons = ({ setData }) => {
             url: `/comments/${id}`,
             data: { post: textField.value, id },
          });
-
          setBtnLoad(<FontAwesome iconName='check' />);
       }
    };
@@ -63,11 +56,14 @@ export const CommentsButtons = ({ setData }) => {
    useEffect(() => {
       if (!ready) return;
       setIcon(false);
-      console.log(deleteIDRef.current);
       // remove from state arr comment that do not match ID of clicked element
       setTimeout(() => {
-         setData((prev) => prev?.comments.filter((value) => value._id != deleteIDRef.current));
-         // setData((prev) => prev.filter((value) => value._id !== deleteIDRef.current));
+         setData((prev) => {
+            return {
+               comments: [...prev?.comments.filter((value) => value._id !== deleteIDRef.current)],
+               numberOfResults: prev?.numberOfResults - 1,
+            };
+         });
       }, 1700);
    }, [ready]);
 

@@ -12,7 +12,7 @@ export const Footer = () => {
                <FontAwesome iconName='fa-brands fa-linkedin' classType='fa-brands' />
             </a>
          </div>
-         <p>&copy; 2023 by Matthew, All right reserved.</p>
+         <p>&copy; 2023 by Matthew</p>
       </footer>
    );
 };

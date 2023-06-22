@@ -43,6 +43,8 @@ export const BookingSection = ({ travelData }) => {
       if (!ready) return;
       setTotalCost(travelData?.price * personsAmount);
       setBookedButton(true);
+      sessionStorage.removeItem('travel__list');
+      sessionStorage.removeItem('travel__item');
    }, [ready]);
 
    return (

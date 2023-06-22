@@ -28,6 +28,7 @@
 }
 .text {
    resize: none;
+   width: 20em;
    background-color: #e5e5e5;
    border: none;
    text-align: start;
@@ -38,11 +39,12 @@
 }
 .post__btns {
    position: absolute;
+   display: flex;
    top: 1em;
    right: 1em;
 }
 .btn-delete {
-   margin-left: 1em;
+   margin-left: 0.5em;
 }
 .user__info {
    display: flex;

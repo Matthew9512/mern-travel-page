@@ -8,7 +8,6 @@ export const RateComments = ({ resData }) => {
    const likesAmount = useRef();
    const { fetchData, contextHolder } = useAxios(true);
    const [likes, setLikes] = useState(resData.likes);
-   //
    const [icons, setIcons] = useState();
 
    useEffect(() => {

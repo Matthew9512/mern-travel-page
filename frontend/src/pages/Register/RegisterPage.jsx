@@ -47,7 +47,7 @@ export const RegisterPage = () => {
 
    return (
       <section className='auth__container'>
-         <video className='hero__video' src='../public/hero4.mp4' muted loop></video>
+         <video className='hero__video' src='/hero4.mp4' autoPlay muted loop></video>
          <div className='login'>
             {contextHolder}
             <p className='auth__header'>

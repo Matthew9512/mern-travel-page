@@ -9,12 +9,10 @@ export const FeaturedTravels = ({ data, error, loading }) => {
    return (
       <>
          <h2 className='destinations__header' id='offer'>
-            Featured travels:
+            List of travels:
          </h2>
          <article className='destinations'>
-            {/* {loading ? ( */}
             <LoadingSpinner loading={loading} />
-            {/* ) : ( */}
             {data.map((value) => {
                return (
                   <div key={value?._id} className='destinations__wrapper'>

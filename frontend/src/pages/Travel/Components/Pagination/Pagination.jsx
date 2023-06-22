@@ -4,6 +4,9 @@ import { FontAwesome } from '../../../../utils/icons';
 import './Pagination.css';
 
 export const Pagination = ({ fetchData, data, setLoading, ready }) => {
+   // limit of items in response
+   const _resLimit = 5;
+
    const { id } = useParams();
    const [currentPage, setCurrentPage] = useState(1);
    let currentPageRef = useRef(1);
@@ -23,8 +26,6 @@ export const Pagination = ({ fetchData, data, setLoading, ready }) => {
       });
    };
 
-   console.log(data?.numberOfResults);
-   console.log(Math.ceil(data?.numberOfResults / 3));
    useEffect(() => {
       if (!ready) return;
       setCurrentPage(currentPageRef.current);
@@ -42,8 +43,8 @@ export const Pagination = ({ fetchData, data, setLoading, ready }) => {
          </button>
          <p className='pagination__page'>{currentPage}</p>
          <button
-            className={`pagIcon ${currentPage === Math.ceil(data?.numberOfResults / 3) ? 'disabled' : ''}`}
-            disabled={currentPage === Math.ceil(data?.numberOfResults / 3)}
+            className={`pagIcon ${currentPage === Math.ceil(data?.numberOfResults / _resLimit) ? 'disabled' : ''}`}
+            disabled={currentPage === Math.ceil(data?.numberOfResults / _resLimit)}
             data-action={'next'}
          >
             <FontAwesome iconName={'angle-right'} />

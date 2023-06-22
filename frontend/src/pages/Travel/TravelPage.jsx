@@ -17,7 +17,7 @@ export const TravelPage = () => {
    useEffect(() => {
       // if id is NOT correct then redirect to error page
       if (!id.match(/^[0-9a-fA-F]{24}$/)) return navigate('*');
-      // if there is nothing inside LS with key 'travel__item' OR id of stored item don't match id from params
+      // if there is nothing inside Session with key 'travel__item' OR id of stored item don't match id from params
       if (!persistData || persistData._id != id) {
          fetchData({
             url: `/search/${id}`,
@@ -27,11 +27,10 @@ export const TravelPage = () => {
 
    useEffect(() => {
       if (!ready) return;
-      // save fetch data inside LS
+      // save fetch data inside Session
       setPersistData(data);
    }, [data]);
 
-   // if (error) return <div className='error-message featured'>{error}</div>;
    if (!data) return <LoadingSpinner loading={loading} />;
 
    return (

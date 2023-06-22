@@ -56,15 +56,7 @@ export const Navbar = () => {
                   <button className='navbar__btn'>Offer</button>
                </a>
             </li>
-            {/* <li>
-               <a href={pathname === '/' ? '#start' : '/'}>
-                  <button className='navbar__btn'>About</button>
-               </a>
-            </li> */}
             <li>
-               {/* <button onClick={handleAuth} className='navbar__btn'>
-                  {!userData ? 'Log in' : userData?.username} <FontAwesome iconName='user' />
-               </button> */}
                {loading ? (
                   <LoadingButton />
                ) : (

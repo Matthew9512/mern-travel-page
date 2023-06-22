@@ -1,7 +1,7 @@
 const commentsModel = require('../models/commentsModel');
 
 // limit of items in response
-const _resLimit = 3;
+const _resLimit = 5;
 
 // create new comment
 const createComments = async function (req, res, next) {
@@ -19,6 +19,7 @@ const createComments = async function (req, res, next) {
       if (!newComment) return res.status(404).json({ message: `Something went wrong, can't create new comment` });
 
       const numberOfResults = await commentsModel.find({ id }).countDocuments();
+
       const comments = await commentsModel
          .find({ id })
          .sort({ createdAt: -1 })
@@ -39,13 +40,14 @@ const getComments = async function (req, res, next) {
       const { page } = req.query;
 
       if (!id) return res.status(400).json({ message: `No data provided` });
+
       const numberOfResults = await commentsModel.find({ id }).countDocuments();
 
       const comments = await commentsModel
          .find({ id })
          .sort({ createdAt: -1 })
          .limit(_resLimit)
-         .skip(page * _resLimit);
+         .skip((page - 1) * _resLimit);
 
       res.status(200).json({ comments, numberOfResults });
    } catch (error) {

@@ -8,9 +8,6 @@ import { LoadingSpinner } from '../../../../components/LoadingSpinner/LoadingSpi
 
 export const DisplayComments = ({ data, loading, setData }) => {
    const { userData } = useContext(AuthContext);
-   /**
-    * @todo key!!!
-    */
 
    if (!data?.comments.length)
       return (
@@ -25,7 +22,6 @@ export const DisplayComments = ({ data, loading, setData }) => {
          {data?.comments.map((value) => {
             return (
                <div key={value._id} data-user={value.username} id={value._id} className='post'>
-                  {/* <div key={value.postID} data-user={value.username} id={value.postID} className='post'> */}
                   <RateComments resData={value} />
                   <div>
                      <div className='details__wrapper'>

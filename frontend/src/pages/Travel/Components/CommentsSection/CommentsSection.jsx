@@ -10,14 +10,14 @@ export const CommentsSection = ({ id }) => {
 
    useEffect(() => {
       fetchData({
-         url: `comments/${id}/q?page=0`,
+         url: `comments/${id}/q?page=1`,
       });
    }, []);
 
    return (
       <section className='comment__section'>
          <h2 className='comment__section-header'>
-            {!data || data?.numberOfResults === 0 ? `Comments:` : `${data?.numberOfResults} Comments:`}
+            {!data || data?.numberOfResults <= 1 ? `Comments:` : `${data?.numberOfResults} Comments:`}
          </h2>
          {!data || data?.numberOfResults === 0 ? (
             <p className='error-message'>

@@ -42,7 +42,7 @@ export const LoginPage = () => {
    return (
       <section className='auth__container'>
          {contextHolder}
-         <video className='hero__video' src='/hero4.mp4' muted loop></video>
+         <video className='hero__video' src='/hero4.mp4' autoPlay muted loop></video>
          <div className='login'>
             <p className='auth__header'>
                <span>

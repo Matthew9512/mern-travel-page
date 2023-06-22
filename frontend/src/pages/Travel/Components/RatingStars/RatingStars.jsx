@@ -5,7 +5,7 @@ import '../RatingStarsSection/RatingStarsSection.css';
 export const RatingStars = ({ travelID, userData }) => {
    const [travelRate, setTravelRate] = useState(0);
    const [hover, setHover] = useState(0);
-   const { fetchData, contextHolder } = useAxios(false);
+   const { fetchData, contextHolder } = useAxios(true);
 
    return (
       <>

@@ -5,7 +5,6 @@ import { FeaturedTravels } from './Components/FeaturedTravels/FeaturedTravels';
 import { useAxios } from '../../api/useAxios';
 import { usePersist } from '../../api/usePersist';
 import { LoadingSpinner } from '../../components/LoadingSpinner/LoadingSpinner';
-import { Slider } from './Components/Slider/Slider';
 
 export const HomePage = () => {
    // main loading
@@ -14,8 +13,10 @@ export const HomePage = () => {
    const { persistData, setPersistData } = usePersist('travel__list');
 
    const fetchTravelData = async (inputData, value) => {
+      // data from inputs
       const body = inputData();
-
+      // scroll to travels list
+      document.querySelector('#offer').scrollIntoView({ top: 0 });
       // request full offer
       if (value)
          await fetchData(
@@ -30,7 +31,7 @@ export const HomePage = () => {
       setTimeout(() => {
          setIsLoading(false);
       }, 1000);
-      // if there is 'travel__list' inside LS then display this data else fetch data
+      // if there is 'travel__list' inside session then display this data else fetch data
       if (!persistData) {
          fetchData({
             url: `/featured`,
@@ -41,11 +42,9 @@ export const HomePage = () => {
 
    useEffect(() => {
       if (!ready) return;
-      // save fetch data inside LS
+      // save fetch data inside session
       setPersistData(data);
    }, [data]);
-
-   // if (!data.length) return <LoadingSpinner loading={loading} />;
 
    return (
       <>
@@ -56,7 +55,6 @@ export const HomePage = () => {
                <Hero />
                <Inputs fetchTravelData={fetchTravelData} />
                <FeaturedTravels data={data} error={error} loading={loading} />
-               {/* <Slider /> */}
             </>
          )}
       </>

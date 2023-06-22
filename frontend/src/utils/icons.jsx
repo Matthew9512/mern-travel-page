@@ -15,6 +15,7 @@ import {
    faUser,
    faAngleLeft,
    faAngleRight,
+   faUserMinus,
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -32,7 +33,8 @@ library.add(
    faThumbsDown,
    faThumbsUp,
    faAngleLeft,
-   faAngleRight
+   faAngleRight,
+   faUserMinus
 );
 
 export const FontAwesome = ({ iconName, classType = '' }) => {

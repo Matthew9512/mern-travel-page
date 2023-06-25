@@ -86,6 +86,10 @@ button {
 }
 :root {
    --lightest-navy: #233554;
+   --primary-black: #101010;
+   /*  */
+   --black: #101010;
+   --lightest-navy: #233554;
    --green: #64ffda;
    --white: #f0f0f0;
    --light-grey: #efefef;

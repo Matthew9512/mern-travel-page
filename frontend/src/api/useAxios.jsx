@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { usePopupMessage } from './usePopupMessage';
 
-export const _API = `mern-travel-page-production.up.railway.app`;
+export const _API = `https://mern-travel-page-production.up.railway.app/`;
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = _API;

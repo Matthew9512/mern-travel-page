@@ -33,6 +33,16 @@
    border: none;
    text-align: start;
 }
+@media (max-width: 500px) {
+   .text {
+      width: 18em;
+   }
+}
+@media (max-width: 440px) {
+   .text {
+      width: 100%;
+   }
+}
 .details__wrapper {
    display: flex;
    justify-content: space-between;

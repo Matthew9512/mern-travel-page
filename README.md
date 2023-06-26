@@ -1,5 +1,5 @@
 <div align="center">
-<h1>Fitness Page</h1>
+<h1>Travel Agency</h1>
 
 <a href='https://mern-travel-agency.vercel.app/'>https://mern-travel-agency.vercel.app/</a>
 
@@ -49,7 +49,7 @@ Website made using the MERN (MongoDB, Express.js, React.js, Node.js) stack. It a
     <pre><code>npm install</code></pre>
     <li>Start the development server:</li>
     <pre><code>npm run dev</code></pre>
-    <li>Open your web browser and visit <code>http://localhost:3000</code> to access the MERN Travel Page.</li>
+    <li>Open your web browser and visit <code>http://localhost:8000</code> to access the MERN Travel Page.</li>
   </ol>
   
   <h2>Contributing</h2>

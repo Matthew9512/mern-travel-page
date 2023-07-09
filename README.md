@@ -61,6 +61,3 @@ Website made using the MERN (MongoDB, Express.js, React.js, Node.js) stack. It a
     <li>Push your changes to your forked repository.</li>
     <li>Submit a pull request.</li>
   </ol>
-  
-  <h2>License</h2>
-  <p>The MERN Travel Page project is licensed under the MIT License. See the <a href="https://github.com/Matthew9512/mern-travel-page/blob/main/LICENSE">LICENSE</a> file for more information.</p>

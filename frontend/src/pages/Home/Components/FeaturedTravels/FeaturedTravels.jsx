@@ -5,7 +5,7 @@ import '../FeaturedTravels/FeaturedTravels.css';
 
 export const FeaturedTravels = ({ data, error, loading }) => {
    if (error) return <div className='error-message featured'>{error}</div>;
-   console.log(data);
+
    return (
       <>
          <h2 className='destinations__header' id='offer'>

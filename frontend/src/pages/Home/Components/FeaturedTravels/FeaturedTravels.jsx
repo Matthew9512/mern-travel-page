@@ -13,7 +13,7 @@ export const FeaturedTravels = ({ data, error, loading }) => {
          </h2>
          <article className='destinations'>
             {loading && <LoadingSpinner loading={loading} />}
-            {!data || (!data.length && <p>No travels available at this moment</p>)}
+            {!data && <p>No travels available at this moment</p>}
             {data.map((value) => {
                return (
                   <div key={value?._id} className='destinations__wrapper'>

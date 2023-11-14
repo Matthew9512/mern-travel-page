@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useAxios } from '../../api/useAxios';
-import { usePersist } from '../../api/usePersist';
 import { CommentsSection } from './Components/CommentsSection/CommentsSection';
 import { BookingSection } from './Components/BookingSection/BookingSection';
 import { RatingStarsSection } from './Components/RatingStarsSection/RatingStarsSection';
@@ -11,25 +10,16 @@ import { FontAwesome } from '../../utils/icons';
 export const TravelPage = () => {
    const { id } = useParams();
    const navigate = useNavigate();
-   const { fetchData, data, setData, error, loading, ready } = useAxios(false);
-   const { persistData, setPersistData } = usePersist('travel__item');
+   const { fetchData, data, loading } = useAxios(false);
 
    useEffect(() => {
       // if id is NOT correct then redirect to error page
       if (!id.match(/^[0-9a-fA-F]{24}$/)) return navigate('*');
-      // if there is nothing inside Session with key 'travel__item' OR id of stored item don't match id from params
-      if (!persistData || persistData._id != id) {
-         fetchData({
-            url: `/search/${id}`,
-         });
-      } else setData(persistData);
-   }, []);
 
-   useEffect(() => {
-      if (!ready) return;
-      // save fetch data inside Session
-      setPersistData(data);
-   }, [data]);
+      fetchData({
+         url: `/search/${id}`,
+      });
+   }, []);
 
    if (!data) return <LoadingSpinner loading={loading} />;
 

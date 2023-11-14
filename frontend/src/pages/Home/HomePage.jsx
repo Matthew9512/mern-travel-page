@@ -3,14 +3,12 @@ import { Hero } from './Components/Hero/Hero';
 import { Inputs } from './Components/Inputs/Inputs';
 import { FeaturedTravels } from './Components/FeaturedTravels/FeaturedTravels';
 import { useAxios } from '../../api/useAxios';
-import { usePersist } from '../../api/usePersist';
 import { LoadingSpinner } from '../../components/LoadingSpinner/LoadingSpinner';
 
 export const HomePage = () => {
    // main loading
    const [isLoading, setIsLoading] = useState(true);
-   const { fetchData, data, loading, setData, error, ready } = useAxios(false);
-   const { persistData, setPersistData } = usePersist('travel__list');
+   const { fetchData, data, loading, error } = useAxios(false);
 
    const fetchTravelData = async (inputData, value) => {
       // data from inputs
@@ -30,21 +28,12 @@ export const HomePage = () => {
       // main loading
       setTimeout(() => {
          setIsLoading(false);
-      }, 1000);
-      // if there is 'travel__list' inside session then display this data else fetch data
-      if (!persistData) {
-         fetchData({
-            url: `/featured`,
-         });
-      }
-      setData(persistData);
-   }, []);
+      }, 500);
 
-   useEffect(() => {
-      if (!ready) return;
-      // save fetch data inside session
-      setPersistData(data);
-   }, [data]);
+      fetchData({
+         url: `/featured`,
+      });
+   }, []);
 
    return (
       <>

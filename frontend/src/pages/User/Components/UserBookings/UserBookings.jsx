@@ -15,10 +15,6 @@ export const UserBookings = () => {
    const [loading, setLoading] = useState(false);
    const [error, setError] = useState(false);
 
-   useEffect(() => {
-      fetchUserBookings();
-   }, [userData]);
-
    // fetch all users bookings
    const fetchUserBookings = () => {
       // return if user didnt book any travel
@@ -38,6 +34,10 @@ export const UserBookings = () => {
       );
       setLoading(false);
    };
+
+   useEffect(() => {
+      fetchUserBookings();
+   }, [userData]);
 
    return (
       <section className='user__panel'>

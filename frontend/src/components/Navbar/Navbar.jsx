@@ -36,7 +36,13 @@ export const Navbar = () => {
 
    return (
       <nav ref={navRef} onClick={toggleNavbar} className='navbar'>
-         <FontAwesome iconName='earth-americas' classType='navbar__logo' />
+         <div className=''>
+            <a href='/'>
+               <button className='navbar__btn'>
+                  <FontAwesome iconName='earth-americas' classType='navbar__logo' />
+               </button>
+            </a>
+         </div>
          <input type='checkbox' id='navbar-check' />
          <div className='navbar__btn-wrapper'>
             <label ref={navBtn} htmlFor='navbar-check'>

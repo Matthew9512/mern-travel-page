@@ -4,7 +4,7 @@ import { useAxios } from '../../../../api/useAxios';
 import { FontAwesome } from '../../../../utils/icons';
 
 export const RateComments = ({ resData }) => {
-   const { userData } = useContext(AuthContext);
+   const { userData, setUserData } = useContext(AuthContext);
    const likesAmount = useRef();
    const { fetchData, contextHolder } = useAxios(true);
    const [likes, setLikes] = useState(resData.likes);
@@ -37,6 +37,18 @@ export const RateComments = ({ resData }) => {
                rateType: click.dataset.icon,
             },
          },
+      });
+
+      const newArr = userData.userLikes.map((item) => {
+         if (item.postID == id) return { ...item, rateType: click.dataset.icon };
+         return item;
+      });
+
+      setUserData((prev) => {
+         return {
+            ...prev,
+            userLikes: newArr,
+         };
       });
    };
 

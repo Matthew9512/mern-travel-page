@@ -6,7 +6,7 @@ import { FontAwesome } from '../../../../utils/icons';
 import './BookingSection.css';
 
 export const BookingSection = ({ travelData }) => {
-   const { userData } = useContext(AuthContext);
+   const { userData, setUserData } = useContext(AuthContext);
    const [personsAmount, setPersonsAmount] = useState(1);
    const [totalCost, setTotalCost] = useState(travelData?.price);
    const { fetchData, loading, ready, contextHolder } = useAxios(true);
@@ -43,7 +43,9 @@ export const BookingSection = ({ travelData }) => {
       if (!ready) return;
       setTotalCost(travelData?.price * personsAmount);
       setBookedButton(true);
-      userData?.bookings.push(travelData._id);
+      setUserData((prev) => {
+         return { ...prev, 'prev.bookings': prev?.bookings.push(travelData._id) };
+      });
    }, [ready]);
 
    return (

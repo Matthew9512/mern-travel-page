@@ -22,7 +22,7 @@ export const UserBookings = () => {
       setLoading(true);
       Promise.all(
          userData?.bookings.map((value) => {
-            fetch(`${_API}/search/${value}`)
+            fetch(`${_API}search/${value}`)
                .then((res) => res.json())
                .then((bookings) => {
                   setBookingList((prev) => [...prev, bookings]);
